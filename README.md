@@ -5,7 +5,7 @@ Course site for Proteomics Data Analysis Demo for EuroBioc 2022
 https://statomics.github.io/PDAEuroBioc22
 
 ### Issues
-If you encounter any problems related to the course material (e.g. package installation problems, bugs in the code, typos, ...), please consider [posting an issue on GitHub](https://github.com/statOmics/PDA22EBI/issues).
+If you encounter any problems related to the course material (e.g. package installation problems, bugs in the code, typos, ...), please consider [posting an issue on GitHub](https://github.com/statOmics/PDAEuroBioc22/issues).
 
 ### License
 
