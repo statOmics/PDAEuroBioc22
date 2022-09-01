@@ -1,0 +1,257 @@
+---
+title: "QFeatures Structure"
+author: "Lieven Clement"
+date: "[statOmics](https://statomics.github.io), Ghent University"
+output:
+    html_document:
+      code_download: true
+      theme: flatly
+      toc: true
+      toc_float: true
+      highlight: tango
+      number_sections: true
+    pdf_document:
+      toc: true
+      number_sections: true
+linkcolor: blue
+urlcolor: blue
+citecolor: blue
+
+---
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+# Outline {-}
+
+1. Introduction
+
+2. Preprocessing
+
+    - Log-transformation
+    - Filtering
+    - Normalization
+    - Summarization
+
+---
+
+# Intro: Challenges in Label-Free Quantitative Proteomics
+
+## MS-based workflow
+
+```{r echo=FALSE}
+knitr::include_graphics("./figures/ProteomicsWorkflow.png")
+```
+  
+- Peptide Characteristics
+  
+  - Modifications
+  - Ionisation Efficiency: huge variability
+  - Identification
+    - Misidentification $\rightarrow$ outliers
+    - MS$^2$ selection on peptide abundance
+    - Context depending missingness
+    - Non-random missingness
+
+$\rightarrow$ Unbalanced pepide identifications across samples and messy data
+
+---
+
+## Level of quantification
+
+- MS-based proteomics returns peptides: pieces of proteins
+
+```{r echo=FALSE}
+knitr::include_graphics("./figures/challenges_peptides.png")
+```
+
+- Quantification commonly required on the protein level
+
+```{r echo=FALSE}
+knitr::include_graphics("./figures/challenges_proteins.png")
+```
+
+---
+
+## Label-free Quantitative Proteomics Data Analysis Workflows
+
+```{r echo=FALSE}
+knitr::include_graphics("./figures/proteomicsDataAnalysis.png")
+```
+
+---
+
+## CPTAC Spike-in Study
+
+```{r echo=FALSE, out.width="50%"}
+knitr::include_graphics("./figures/cptacLayoutLudger.png")
+```
+
+- Same trypsin-digested yeast proteome background in each sample
+- Trypsin-digested Sigma UPS1 standard: 48 different human proteins spiked in at 5 different concentrations (treatment A-E) 
+- Samples repeatedly run on different instruments in different labs
+- After MaxQuant search with match between runs option
+
+  - 41\% of all proteins are quantified in all samples
+  - 6.6\% of all peptides are quantified in all samples
+
+$\rightarrow$ vast amount of missingness
+
+
+# Import the data in R 
+
+## Data infrastructure
+
+- We use the `QFeatures` package that provides the infrastructure to
+  - store,  
+  - process, 
+  - manipulate and 
+  - analyse quantitative data/features from mass spectrometry
+experiments. 
+
+- It is based on the `SummarizedExperiment` and
+`MultiAssayExperiment` classes. 
+
+
+
+```{r fig.cap = "Conceptual representation of a `SummarizedExperiment` object.  Assays contain information on the measured omics features (rows) for different samples (columns). The `rowData` contains information on the omics features, the `colData` contains information on the samples, i.e. experimental design etc.", echo=FALSE, out.width="80%"}
+knitr::include_graphics("./figures/SE.png")
+```
+
+- Assays in a QFeatures object have a
+hierarchical relation: 
+  
+  - proteins are composed of peptides, 
+  - themselves produced by spectra
+  - relations between assays are tracked and recorded throughout data processing
+
+```{r featuresplot, fig.cap = "Conceptual representation of a `QFeatures` object and the aggregative relation between different assays.", echo = FALSE}
+par(mar = c(0, 0, 0, 0))
+plot(NA, xlim = c(0, 12), ylim = c(0, 20),
+     xaxt = "n", yaxt = "n",
+     xlab = "", ylab = "", bty = "n")
+for (i in 0:7)
+    rect(0, i, 3, i+1, col = "lightgrey", border = "white")
+for (i in 8:12)
+    rect(0, i, 3, i+1, col = "steelblue", border = "white")
+for (i in 13:18)
+    rect(0, i, 3, i+1, col = "orange", border = "white")
+for (i in 19)
+    rect(0, i, 3, i+1, col = "darkgrey", border = "white")
+for (i in 5:7)
+    rect(5, i, 8, i+1, col = "lightgrey", border = "white")
+for (i in 8:10)
+    rect(5, i, 8, i+1, col = "steelblue", border = "white")
+for (i in 11:13)
+    rect(5, i, 8, i+1, col = "orange", border = "white")
+for (i in 14)
+    rect(5, i, 8, i+1, col = "darkgrey", border = "white")
+rect(9, 8, 12, 8+1, col = "lightgrey", border = "white")
+rect(9, 9, 12, 9+1, col = "steelblue", border = "white")
+rect(9, 10, 12, 10+1, col = "orange", border = "white")
+rect(9, 11, 12, 11+1, col = "darkgrey", border = "white")
+segments(3, 8, 5, 8, lty = "dashed")
+segments(3, 6, 5, 7, lty = "dashed")
+segments(3, 4, 5, 6, lty = "dashed")
+segments(3, 0, 5, 5, lty = "dashed")
+segments(3, 10, 5, 9, lty = "dashed")
+segments(3, 11, 5, 10, lty = "dashed")
+segments(3, 13, 5, 11, lty = "dashed")
+segments(3, 14, 5, 12, lty = "dashed")
+segments(3, 16, 5, 13, lty = "dashed")
+segments(3, 19, 5, 14, lty = "dashed")
+segments(3, 20, 5, 15, lty = "dashed")
+segments(8, 5, 9, 8, lty = "dashed")
+segments(8, 8, 9, 9, lty = "dashed")
+segments(8, 11, 9, 10, lty = "dashed")
+segments(8, 14, 9, 11, lty = "dashed")
+segments(8, 15, 9, 12, lty = "dashed")
+```
+
+</p></details>
+
+## Import data in R
+
+
+### Load libraries 
+
+<details><summary> Click to see code </summary><p>
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(limma)
+library(QFeatures)
+library(msqrob2)
+library(plotly)
+library(ggplot2)
+```
+</p></details>
+
+### Read data 
+
+<details><summary> Click to see background and code </summary><p>
+1. We use a peptides.txt file from MS-data quantified with maxquant that 
+contains MS1 intensities summarized at the peptide level. 
+```{r}
+peptidesFile <- "https://raw.githubusercontent.com/statOmics/PDA/data/quantification/fullCptacDatasSetNotForTutorial/peptides.txt"
+```
+
+2. Maxquant stores the intensity data for the different samples in columnns that start with Intensity. We can retreive the column names with the intensity data with the code below: 
+
+```{r}
+ecols <- grep("Intensity\\.", names(read.delim(peptidesFile)))
+```
+
+3. Read the data and store it in  QFeatures object 
+
+```{r}
+pe <- readQFeatures(
+  table = peptidesFile,
+  fnames = 1,
+  ecol = ecols,
+  name = "peptideRaw", sep="\t")
+```
+</p></details>
+
+### Explore object
+
+<details><summary> Click to see background and code </summary><p>
+- The rowData contains information on the features (peptides) in the assay. E.g. Sequence, protein, ...
+
+```{r}
+head(rowData(pe[["peptideRaw"]])[,c("Proteins","Sequence","Charges","Intensity","Experiment.6A_1","Experiment.6A_2" )])
+```
+
+- The colData contains information on the samples
+
+```{r} 
+colData(pe)
+```
+
+- No information is stored yet on the design. 
+
+
+```{r} 
+pe %>% colnames
+```
+
+- Note, that the sample names include the spike-in condition. 
+- They also end on a number. 
+  
+  - 1-3 is from lab 1, 
+  - 4-6 from lab 2 and 
+  - 7-9 from lab 3. 
+
+- We update the colData with information on the design
+
+```{r}
+colData(pe)$lab <- rep(rep(paste0("lab",1:3),each=3),5) %>% as.factor
+colData(pe)$condition <- pe[["peptideRaw"]] %>% colnames %>% substr(12,12) %>% as.factor
+colData(pe)$spikeConcentration <- rep(c(A = 0.25, B = 0.74, C = 2.22, D = 6.67, E = 20),each = 9)
+```
+
+- We explore the colData again
+
+```{r}
+colData(pe)
+```
+
+</p></details>
