@@ -1,4 +1,4 @@
-# Proteomics Data Analysis for EBI 2022
+# Proteomics Data Analysis for EuroBioc 2022
 
 Course site for Proteomics Data Analysis Demo for EuroBioc 2022
 
