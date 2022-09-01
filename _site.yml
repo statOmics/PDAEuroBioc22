@@ -10,7 +10,7 @@ navbar:
       icon: fa-chalkboard-teacher
       menu:
         - text: "CPTAC"
-          href: example.html
+          href: CPTAC.html
         - text: "Heart Study"
           href: heart.html
     - text: "Labs"
