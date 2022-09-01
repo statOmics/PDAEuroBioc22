@@ -9,14 +9,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Lieven Clement" />
 
 
-<title>About This Website</title>
+<title>2. Software for Proteomics Data Analysis 2021 (PDA21)</title>
 
 <script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -30,6 +31,7 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -216,6 +218,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -304,26 +309,52 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">About This Website</h1>
+
+<h1 class="title toc-ignore">2. Software for Proteomics Data Analysis 2021 (PDA21)</h1>
+<h4 class="author">Lieven Clement</h4>
+<h4 class="date"><a href="https://statomics.github.io">statOmics</a>, Ghent University</h4>
 
 </div>
 
 
-<div id="proteomics-data-analysis-for-eurobioc-2022" class="section level1">
-<h1>Proteomics Data Analysis for EuroBioc 2022</h1>
-<p>Course site for Proteomics Data Analysis Demo for EuroBioc 2022</p>
-<div id="issues" class="section level3">
-<h3>Issues</h3>
-<p>If you encounter any problems related to the course material (e.g. package installation problems, bugs in the code, typos, …), please consider <a href="https://github.com/statOmics/PDA22EBI/issues">posting an issue on GitHub</a>.</p>
-</div>
-<div id="license" class="section level3">
-<h3>License</h3>
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<p>This project is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a></p>
-</div>
-</div>
+<ul>
+<li>Install [R version 4.1 or higher] (<a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a>)</li>
+<li>Install <a href="https://www.rstudio.com/products/rstudio/download/">Rstudio</a></li>
+<li>Install <em>msqrob2</em>, start R and run the following command.</li>
+</ul>
+<pre><code>if(!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE)) {
+ install.packages(&quot;BiocManager&quot;)
+}
+BiocManager::install(&quot;msqrob2&quot;)</code></pre>
+<ul>
+<li>check if your installation is working with the following example library(msqrob2)</li>
+</ul>
+<pre><code>data(pe)
+pe &lt;- aggregateFeatures(pe,i=&quot;peptide&quot;,fcol=&quot;Proteins&quot;,name=&quot;protein&quot;)
+pe &lt;- msqrob(pe,i=&quot;protein&quot;,formula=~condition,modelColumnName=&quot;rlm&quot;)
+getCoef(rowData(pe[[&quot;protein&quot;]])$rlm[[1]])</code></pre>
+<ul>
+<li>Participants who want to use the graphical user interface (GUI) can install the msqrob2gui shiny app, start R and run the following commands</li>
+</ul>
+<pre><code>if(!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE)) {
+ install.packages(&quot;BiocManager&quot;)
+}
+BiocManager::install(&quot;statomics/msqrob2gui&quot;)</code></pre>
+<ul>
+<li>Launch the GUI. Run</li>
+</ul>
+<pre><code>library(msqrob2gui)
+launchMsqrob2App()</code></pre>
 
 <div class="footer">
     <hr>
@@ -363,6 +394,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
