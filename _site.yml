@@ -13,6 +13,8 @@ navbar:
           href: CPTAC.html
         - text: "Heart Study"
           href: heart.html
+        - text: "Data Structure"
+          href: DataStructure.html
     - text: "Labs"
       icon: fa-laptop
       menu:
