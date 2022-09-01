@@ -13,13 +13,11 @@ navbar:
           href: CPTAC.html
         - text: "Heart Study"
           href: heart.html
-    - text: "Labs"
+    - text: "Extra Info"
       icon: fa-laptop
       menu:
-      - text: "Lab 1"
-        href:
-      - text: "Lab 2"
-        href:
+      - text: "Links Extra info"
+        href: links.html
   right:
     - icon: fab fa-github
       href: https://github.com/statOmics/PDAEuroBioc22

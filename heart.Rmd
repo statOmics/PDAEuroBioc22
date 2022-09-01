@@ -25,6 +25,10 @@ knitr::include_graphics("./figures/heart.png")
 
 We first import the peptides.txt file. This is the file that contains your peptide-level intensities. For a MaxQuant search [6], this peptides.txt file can be found by default in the "path_to_raw_files/combined/txt/" folder from the MaxQuant output, with "path_to_raw_files" the folder where raw files were saved. In this tutorial, we will use a MaxQuant peptides file from MaxQuant that can be found in the data tree of the SGA2020 github repository https://github.com/statOmics/SGA2020/tree/data/quantification/heart .
 
+## Data import
+
+<details><summary> Click to see background and code </summary><p>
+
 To import the data we use the `QFeatures` package.
 
 We generate the object peptideRawFile with the path to the peptideRaws.txt file.
@@ -93,8 +97,13 @@ with a `NA` value rather than `0`.
 pe <- zeroIsNA(pe, "peptideRaw") # convert 0 to NA
 ```
 
+</p></details>
+
 
 ## Data exploration
+
+<details><summary> Click to see background and code </summary><p>
+
 
 `r format(mean(is.na(assay(pe[["peptideRaw"]])))*100,digits=2)`% of all peptide
 intensities are missing and for some peptides we do not even measure a signal
@@ -102,6 +111,9 @@ in any sample. The missingness is similar across samples.
 
 
 # Preprocessing
+
+<details><summary> Click to see background and code </summary><p>
+
 
 This section preforms standard preprocessing for the peptide data. This
 include log transformation, filtering and summarisation of the data.
@@ -113,8 +125,13 @@ pe <- logTransform(pe, base = 2, i = "peptideRaw", name = "peptideLog")
 limma::plotDensities(assay(pe[["peptideLog"]]))
 ```
 
+</p></details>
+
 
 ## Filtering
+
+<details><summary> Click to see background and code </summary><p>
+
 
 ### Handling overlapping protein groups
 In our approach a peptide can map to multiple proteins, as long as there is
@@ -154,7 +171,13 @@ nrow(pe[["peptideLog"]])
 
 We keep `r nrow(pe[["peptideLog"]])` peptides after filtering.
 
+</p></details>
+
+
 ## Normalize the data
+
+<details><summary> Click to see background and code </summary><p>
+
 ```{r}
 pe <- normalize(pe, 
                 i = "peptideLog", 
@@ -162,8 +185,12 @@ pe <- normalize(pe,
                 method = "center.median")
 ```
 
+</p></details>
 
 ## Explore normalized data
+
+<details><summary> Click to see background and code </summary><p>
+
 
 After  normalisation the density curves for all samples are comparable.
 
@@ -195,8 +222,12 @@ limma::plotMDS(assay(pe[["peptideNorm"]]),
 The first axis in the plot is showing the leading log fold changes
 (differences on the log scale) between the samples.
 
+</p></details>
+
 
 ## Summarization to protein level
+
+<details><summary> Click to see background and code </summary><p>
 
 We use robust summarization in aggregateFeatures. This is the default workflow of aggregateFeatures so you do not have to specifiy the argument `fun`.
 However, because we compare methods we have included the `fun` argument to show the summarization method explicitely.
@@ -219,6 +250,9 @@ plotMDS(assay(pe[["proteinRobust"]]),
     substr(start = 11, stop = 13)
 )
 ```
+
+</p></details>
+
 
 # Data Analysis
 
