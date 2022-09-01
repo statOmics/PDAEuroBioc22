@@ -32,7 +32,6 @@ style="display: block; margin: auto;"
 allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 ```{r, warning=FALSE, message=FALSE}
-library(tidyverse)
 library(limma)
 library(QFeatures)
 library(msqrob2)
