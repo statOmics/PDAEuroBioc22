@@ -17,7 +17,7 @@ Researchers have assessed the proteome in different regions of the heart for 3 p
 Suppose that researchers are mainly interested in comparing the ventricular to the atrial proteome. Particularly, they would like to compare the left atrium to the left ventricle, the right atrium to the right ventricle, the average ventricular vs atrial proteome and if ventricular vs atrial proteome shifts differ between left and right heart region.
 
 ```{r pressure, echo=FALSE, fig.cap="Representation of the heart", out.width = '80%'}
-knitr::include_graphics("C:/Users/Nina/OneDrive - UGent/Documenten/Doctoraat/Bioconductor conference/PDAEuroBioc22/heart.png")
+knitr::include_graphics("./figures/heart.png")
 ```
 
 # Data
