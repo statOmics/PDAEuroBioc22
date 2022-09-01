@@ -1,3 +1,16 @@
+---
+title: "Where to find extra info"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+    html_document:
+      code_download: true
+      theme: cosmo
+      toc: true
+      toc_float: true
+      highlight: tango
+      number_sections: true
+---
+
 # Where to find extra information
 
 ## Statistics courses
