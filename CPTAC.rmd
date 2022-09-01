@@ -90,12 +90,15 @@ peLFQ <- msqrob(object = peLFQ, i = "protein", formula = ~condition)
 L <- makeContrast("conditionB=0", parameterNames = c("conditionB"))
 peLFQ <- hypothesisTest(object = peLFQ, i = "protein", contrast = L)
 
-volcanoLFQ <- ggplot(rowData(peLFQ[["protein"]])$conditionB,
+
+tmp <- rowData(peLFQ[["protein"]])$conditionB[complete.cases(rowData(peLFQ[["protein"]])$conditionB),]
+
+volcanoLFQ <- ggplot(tmp,
                   aes(x = logFC, y = -log10(pval), color = adjPval < 0.05)) +
   geom_point(cex = 2.5) +
   scale_color_manual(values = alpha(c("black", "red"), 0.5)) + 
-  theme_minimal() +
-  ggtitle(paste0("maxLFQ: TP = ",sum(rowData(peLFQ[["protein"]])$conditionB$adjPval<0.05&grepl(rownames(rowData(peLFQ[["protein"]])$conditionB),pattern ="UPS"),na.rm=TRUE), " FP = ", sum(rowData(peLFQ[["protein"]])$conditionB$adjPval<0.05&!grepl(rownames(rowData(peLFQ[["protein"]])$conditionB),pattern ="UPS"),na.rm=TRUE)))
+  theme_bw() +
+  ggtitle(paste0("maxLFQ: TP = ",sum(tmp$adjPval<0.05& grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE), " FP = ", sum(tmp$adjPval<0.05& !grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE)))
 ```
 
 
@@ -175,19 +178,27 @@ pe <- hypothesisTest(object = pe, i = "proteinMedian", contrast = L)
 pe <- msqrob(object = pe, i = "proteinRobust", formula = ~condition)
 pe <- hypothesisTest(object = pe, i = "proteinRobust", contrast = L)
 
-volcanoMedian <- ggplot(rowData(pe[["proteinMedian"]])$conditionB,
-                  aes(x = logFC, y = -log10(pval), color = adjPval < 0.05)) +
-  geom_point(cex = 2.5) +
-  scale_color_manual(values = alpha(c("black", "red"), 0.5)) + 
-  theme_minimal() +
-  ggtitle(paste0("Median: TP = ",sum(rowData(pe[["proteinMedian"]])$conditionB$adjPval<0.05&grepl(rownames(rowData(pe[["proteinMedian"]])$conditionB),pattern ="UPS"),na.rm=TRUE), " FP = ", sum(rowData(pe[["proteinMedian"]])$conditionB$adjPval<0.05&!grepl(rownames(rowData(pe[["proteinMedian"]])$conditionB),pattern ="UPS"),na.rm=TRUE)))
+tmp <- rowData(pe[["proteinMedian"]])$conditionB[complete.cases(rowData(pe[["proteinMedian"]])$conditionB),]
 
-volcanoRobust<- ggplot(rowData(pe[["proteinRobust"]])$conditionB,
+volcanoMedian <- ggplot(tmp,
                   aes(x = logFC, y = -log10(pval), color = adjPval < 0.05)) +
   geom_point(cex = 2.5) +
   scale_color_manual(values = alpha(c("black", "red"), 0.5)) + 
-  theme_minimal() +
-  ggtitle(paste0("Robust: TP = ",sum(rowData(pe[["proteinRobust"]])$conditionB$adjPval<0.05&grepl(rownames(rowData(pe[["proteinRobust"]])$conditionB),pattern ="UPS"),na.rm=TRUE), " FP = ", sum(rowData(pe[["proteinRobust"]])$conditionB$adjPval<0.05&!grepl(rownames(rowData(pe[["proteinRobust"]])$conditionB),pattern ="UPS"),na.rm=TRUE)))
+  theme_bw() +
+  ggtitle(paste0("Median: TP = ",sum(tmp$adjPval<0.05&grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE), " FP = ", sum(tmp$adjPval<0.05&!grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE)))
+
+tmp <- rowData(pe[["proteinRobust"]])$conditionB[complete.cases(rowData(pe[["proteinRobust"]])$conditionB),]
+
+tmp$shapes <- 16
+tmp[!grepl("UPS",rownames(tmp)) & tmp$adjPval < 0.05,]$shapes <- 12
+#FP <-tmp[!grepl("UPS",rownames(tmp)) & tmp$adjPval < 0.05,]
+volcanoRobust<- ggplot(tmp,
+                  aes(x = logFC, y = -log10(pval), color = adjPval < 0.05)) +
+  geom_point(cex = 2.5, shape = tmp$shapes) +
+  #geom_point(x =FP$logFC, y = -log10(FP$pval), shape = 8, size = 4 )+
+  scale_color_manual(values = alpha(c("black", "red"), 0.5)) + 
+  theme_bw() +
+  ggtitle(paste0("Robust: TP = ",sum(tmp$adjPval<0.05&grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE), " FP = ", sum(tmp$adjPval<0.05&!grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE)))
 ```
 
 ```{r}
