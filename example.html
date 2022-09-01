@@ -514,6 +514,12 @@ div.tocify {
 ##  Mean   :15.4   Mean   : 42.98  
 ##  3rd Qu.:19.0   3rd Qu.: 56.00  
 ##  Max.   :25.0   Max.   :120.00</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cars)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["speed"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["dist"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"4","2":"2","_rn_":"1"},{"1":"4","2":"10","_rn_":"2"},{"1":"7","2":"4","_rn_":"3"},{"1":"7","2":"22","_rn_":"4"},{"1":"8","2":"16","_rn_":"5"},{"1":"9","2":"10","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <div id="including-plots" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Including Plots</h1>
@@ -525,9 +531,9 @@ div.tocify {
 <h1><span class="header-section-number">3</span> Caching</h1>
 <p>The GHA workflow maintains cached <em>knitr</em> results between subsequent runs to reduce runtime. Caching can be enabled by specifying <code>cache=TRUE</code> in the code chunk header.</p>
 <p><strong>Note that this should be used with caution, as caches may become invalid when code is changed, potentially leading to unsuspected results.</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Run with caching enabled</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;2022-09-01 08:50:19 UTC&quot;</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Run with caching enabled</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;2022-09-01 09:07:15 UTC&quot;</code></pre>
 <!-- Include common Session Information Rmd fragment by including the following code chunk: -->
 <!-- See https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html#rmd-partials -->
 </div>
@@ -537,7 +543,7 @@ div.tocify {
 <summary>
 Session info
 </summary>
-<pre><code>## [1] &quot;2022-09-01 08:50:19 UTC&quot;</code></pre>
+<pre><code>## [1] &quot;2022-09-01 09:07:15 UTC&quot;</code></pre>
 <pre><code>## ─ Session info ───────────────────────────────────────────────────────────────
 ##  setting  value
 ##  version  R version 4.1.3 (2022-03-10)
@@ -603,7 +609,7 @@ Session info
 </details>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhhbXBsZSIKYXV0aG9yOiBNaWxhbiBNYWxmYWl0LCBHaGVudCBVbml2ZXJzaXR5CmRhdGU6ICdgciBmb3JtYXQoU3lzLkRhdGUoKSwgIiVCICVkLCAlWSIpYCcKb3V0cHV0OgogIHBkZl9kb2N1bWVudDoKICAgIHRvYzogZmFsc2UKICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQotLS0KCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFLCBjYWNoZT1GQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQpgYGAKCiMgUiBNYXJrZG93bgoKVGhpcyBpcyBhbiBSIE1hcmtkb3duIGRvY3VtZW50LiBNYXJrZG93biBpcyBhIHNpbXBsZSBmb3JtYXR0aW5nIHN5bnRheCBmb3IgYXV0aG9yaW5nIEhUTUwsIFBERiwgYW5kIE1TIFdvcmQgZG9jdW1lbnRzLiBGb3IgbW9yZSBkZXRhaWxzIG9uIHVzaW5nIFIgTWFya2Rvd24gc2VlIDxodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tPi4KCldoZW4geW91IGNsaWNrIHRoZSAqKktuaXQqKiBidXR0b24gYSBkb2N1bWVudCB3aWxsIGJlIGdlbmVyYXRlZCB0aGF0IGluY2x1ZGVzIGJvdGggY29udGVudCBhcyB3ZWxsIGFzIHRoZSBvdXRwdXQgb2YgYW55IGVtYmVkZGVkIFIgY29kZSBjaHVua3Mgd2l0aGluIHRoZSBkb2N1bWVudC4gWW91IGNhbiBlbWJlZCBhbiBSIGNvZGUgY2h1bmsgbGlrZSB0aGlzOgoKYGBge3IgY2Fyc30Kc3VtbWFyeShjYXJzKQpgYGAKCiMgSW5jbHVkaW5nIFBsb3RzCgpZb3UgY2FuIGFsc28gZW1iZWQgcGxvdHMsIGZvciBleGFtcGxlOgoKYGBge3IgcHJlc3N1cmUsIGVjaG89RkFMU0V9CmxpYnJhcnkoZ2dwbG90MikKZ2dwbG90KG10Y2FycywgYWVzKG1wZywgZGlzcCwgY29sID0gYXMuZmFjdG9yKGN5bCkpKSArCiAgICBnZW9tX3BvaW50KCkKYGBgCgpOb3RlIHRoYXQgdGhlIGBlY2hvID0gRkFMU0VgIHBhcmFtZXRlciB3YXMgYWRkZWQgdG8gdGhlIGNvZGUgY2h1bmsgdG8gcHJldmVudCBwcmludGluZyBvZiB0aGUgUiBjb2RlIHRoYXQgZ2VuZXJhdGVkIHRoZSBwbG90LgoKIyBDYWNoaW5nCgpUaGUgR0hBIHdvcmtmbG93IG1haW50YWlucyBjYWNoZWQgKmtuaXRyKiByZXN1bHRzIGJldHdlZW4gc3Vic2VxdWVudCBydW5zIHRvCnJlZHVjZSBydW50aW1lLiBDYWNoaW5nIGNhbiBiZSBlbmFibGVkIGJ5IHNwZWNpZnlpbmcgYGNhY2hlPVRSVUVgIGluIHRoZSBjb2RlCmNodW5rIGhlYWRlci4KCl9fTm90ZSB0aGF0IHRoaXMgc2hvdWxkIGJlIHVzZWQgd2l0aCBjYXV0aW9uLCBhcyBjYWNoZXMgbWF5IGJlY29tZSBpbnZhbGlkIHdoZW4gY29kZSBpcyBjaGFuZ2VkLCBwb3RlbnRpYWxseSBsZWFkaW5nIHRvIHVuc3VzcGVjdGVkIHJlc3VsdHMuX18KCmBgYHtyLCBjYWNoZT1UUlVFfQojIyBSdW4gd2l0aCBjYWNoaW5nIGVuYWJsZWQKU3lzLnRpbWUoKQpgYGAKCjwhLS0gSW5jbHVkZSBjb21tb24gU2Vzc2lvbiBJbmZvcm1hdGlvbiBSbWQgZnJhZ21lbnQgYnkgaW5jbHVkaW5nIHRoZSBmb2xsb3dpbmcgY29kZSBjaHVuazogLS0+CjwhLS0gU2VlIGh0dHBzOi8vYm9va2Rvd24ub3JnL3lpaHVpL3JtYXJrZG93bi9ybWFya2Rvd24tc2l0ZS5odG1sI3JtZC1wYXJ0aWFscyAtLT4KCmBgYHtyLCBjaGlsZD0iX3Nlc3Npb24taW5mby5SbWQifQpgYGAK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhhbXBsZSIKYXV0aG9yOiBNaWxhbiBNYWxmYWl0LCBHaGVudCBVbml2ZXJzaXR5CmRhdGU6ICdgciBmb3JtYXQoU3lzLkRhdGUoKSwgIiVCICVkLCAlWSIpYCcKb3V0cHV0OgogIHBkZl9kb2N1bWVudDoKICAgIHRvYzogZmFsc2UKICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQotLS0KCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFLCBjYWNoZT1GQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQpgYGAKCiMgUiBNYXJrZG93bgoKVGhpcyBpcyBhbiBSIE1hcmtkb3duIGRvY3VtZW50LiBNYXJrZG93biBpcyBhIHNpbXBsZSBmb3JtYXR0aW5nIHN5bnRheCBmb3IgYXV0aG9yaW5nIEhUTUwsIFBERiwgYW5kIE1TIFdvcmQgZG9jdW1lbnRzLiBGb3IgbW9yZSBkZXRhaWxzIG9uIHVzaW5nIFIgTWFya2Rvd24gc2VlIDxodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tPi4KCldoZW4geW91IGNsaWNrIHRoZSAqKktuaXQqKiBidXR0b24gYSBkb2N1bWVudCB3aWxsIGJlIGdlbmVyYXRlZCB0aGF0IGluY2x1ZGVzIGJvdGggY29udGVudCBhcyB3ZWxsIGFzIHRoZSBvdXRwdXQgb2YgYW55IGVtYmVkZGVkIFIgY29kZSBjaHVua3Mgd2l0aGluIHRoZSBkb2N1bWVudC4gWW91IGNhbiBlbWJlZCBhbiBSIGNvZGUgY2h1bmsgbGlrZSB0aGlzOgoKYGBge3IgY2Fyc30Kc3VtbWFyeShjYXJzKQpgYGAKYGBge3J9CmhlYWQoY2FycykKYGBgCgoKIyBJbmNsdWRpbmcgUGxvdHMKCllvdSBjYW4gYWxzbyBlbWJlZCBwbG90cywgZm9yIGV4YW1wbGU6CgpgYGB7ciBwcmVzc3VyZSwgZWNobz1GQUxTRX0KbGlicmFyeShnZ3Bsb3QyKQpnZ3Bsb3QobXRjYXJzLCBhZXMobXBnLCBkaXNwLCBjb2wgPSBhcy5mYWN0b3IoY3lsKSkpICsKICAgIGdlb21fcG9pbnQoKQpgYGAKCk5vdGUgdGhhdCB0aGUgYGVjaG8gPSBGQUxTRWAgcGFyYW1ldGVyIHdhcyBhZGRlZCB0byB0aGUgY29kZSBjaHVuayB0byBwcmV2ZW50IHByaW50aW5nIG9mIHRoZSBSIGNvZGUgdGhhdCBnZW5lcmF0ZWQgdGhlIHBsb3QuCgojIENhY2hpbmcKClRoZSBHSEEgd29ya2Zsb3cgbWFpbnRhaW5zIGNhY2hlZCAqa25pdHIqIHJlc3VsdHMgYmV0d2VlbiBzdWJzZXF1ZW50IHJ1bnMgdG8KcmVkdWNlIHJ1bnRpbWUuIENhY2hpbmcgY2FuIGJlIGVuYWJsZWQgYnkgc3BlY2lmeWluZyBgY2FjaGU9VFJVRWAgaW4gdGhlIGNvZGUKY2h1bmsgaGVhZGVyLgoKX19Ob3RlIHRoYXQgdGhpcyBzaG91bGQgYmUgdXNlZCB3aXRoIGNhdXRpb24sIGFzIGNhY2hlcyBtYXkgYmVjb21lIGludmFsaWQgd2hlbiBjb2RlIGlzIGNoYW5nZWQsIHBvdGVudGlhbGx5IGxlYWRpbmcgdG8gdW5zdXNwZWN0ZWQgcmVzdWx0cy5fXwoKYGBge3IsIGNhY2hlPVRSVUV9CiMjIFJ1biB3aXRoIGNhY2hpbmcgZW5hYmxlZApTeXMudGltZSgpCmBgYAoKPCEtLSBJbmNsdWRlIGNvbW1vbiBTZXNzaW9uIEluZm9ybWF0aW9uIFJtZCBmcmFnbWVudCBieSBpbmNsdWRpbmcgdGhlIGZvbGxvd2luZyBjb2RlIGNodW5rOiAtLT4KPCEtLSBTZWUgaHR0cHM6Ly9ib29rZG93bi5vcmcveWlodWkvcm1hcmtkb3duL3JtYXJrZG93bi1zaXRlLmh0bWwjcm1kLXBhcnRpYWxzIC0tPgoKYGBge3IsIGNoaWxkPSJfc2Vzc2lvbi1pbmZvLlJtZCJ9CmBgYAo=</div>
 <div class="footer">
     <hr>
     This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
