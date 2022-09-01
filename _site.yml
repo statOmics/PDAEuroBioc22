@@ -1,6 +1,6 @@
-name: "my-website"
+name: "PDAEuroBioc22"
 navbar:
-  title: "My Website"
+  title: "PDAEuroBioc22"
   left:
     - icon: fa-home
       href: index.html
@@ -9,8 +9,10 @@ navbar:
     - text: "Lectures"
       icon: fa-chalkboard-teacher
       menu:
-        - text: "Example"
+        - text: "CPTAC"
           href: example.html
+        - text: "Heart Study"
+          href: heart.html
     - text: "Labs"
       icon: fa-laptop
       menu:
