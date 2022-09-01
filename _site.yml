@@ -20,7 +20,7 @@ navbar:
         href:
   right:
     - icon: fab fa-github
-      href: https://github.com/statOmics/Rmd-website
+      href: https://github.com/statOmics/PDAEuroBioc22
     - text: "statOmics"
       href: http://statomics.github.io/
 output:
