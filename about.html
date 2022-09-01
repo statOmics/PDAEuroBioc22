@@ -13,7 +13,7 @@
 
 <title>About This Website</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -134,11 +134,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -257,7 +261,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="example.html">CPTAC</a>
+      <a href="CPTAC.html">CPTAC</a>
     </li>
     <li>
       <a href="heart.html">Heart Study</a>
@@ -302,7 +306,19 @@ $(document).ready(function () {
 </div>
 
 
-<p>More about this website.</p>
+<div id="proteomics-data-analysis-for-eurobioc-2022" class="section level1">
+<h1>Proteomics Data Analysis for EuroBioc 2022</h1>
+<p>Course site for Proteomics Data Analysis Demo for EuroBioc 2022</p>
+<div id="issues" class="section level3">
+<h3>Issues</h3>
+<p>If you encounter any problems related to the course material (e.g. package installation problems, bugs in the code, typos, …), please consider <a href="https://github.com/statOmics/PDA22EBI/issues">posting an issue on GitHub</a>.</p>
+</div>
+<div id="license" class="section level3">
+<h3>License</h3>
+<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+<p>This project is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a></p>
+</div>
+</div>
 
 <div class="footer">
     <hr>

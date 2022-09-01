@@ -11,12 +11,12 @@
 
 
 
-<title>My Website</title>
+<title>Experimental Design and Data-Analysis in Label-Free Quantitative LC/MS Proteomics - A Tutorial with msqrob2 (EuroBioc22)</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -30,6 +30,7 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -134,11 +135,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -212,6 +217,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -257,7 +265,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="example.html">CPTAC</a>
+      <a href="CPTAC.html">CPTAC</a>
     </li>
     <li>
       <a href="heart.html">Heart Study</a>
@@ -295,23 +303,68 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">My Website</h1>
+
+<h1 class="title toc-ignore">Experimental Design and Data-Analysis in Label-Free Quantitative LC/MS Proteomics - A Tutorial with msqrob2 (EuroBioc22)</h1>
 
 </div>
 
 
-<p>Hello, Website!</p>
-<p>For more information about simple R Markdown websites, please read the documentation at <a href="https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html" class="uri">https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html</a>.</p>
-<p>Please also note that simple R Markdown sites are <em>not</em> based on <strong>blogdown</strong>. They are probably good for websites with only a few Rmd documents. For larger-scale and more sophisticated websites (such as blogs), you may want to use <strong>blogdown</strong> instead: <a href="https://github.com/rstudio/blogdown" class="uri">https://github.com/rstudio/blogdown</a>.</p>
 <hr />
-<div id="contents" class="section level3">
-<h3>Contents</h3>
-<!-- Placeholder of Table of Contents on the homepage, with links to the actual page and PDF version -->
+<p><img src="figures/IntroFig.png" /><!-- --></p>
+<div id="target-audience" class="section level3">
+<h3>Target Audience</h3>
 <ul>
-<li><a href="./example.html">Example</a> (<a href="./example.pdf">PDF</a>)</li>
+<li><p>This course is oriented towards biologists and bioinformaticians with a particular interest in differential analysis for quantitative proteomics.</p></li>
+<li><p>We assume that the participants already know the basics on preprocessing and statistical testing in proteomics data analysis.</p></li>
+<li><p>These prerequisites can be revisited in our two hour introductory course on proteomics data analysis: <a href="https://statomics.github.io/PDA21/">https://statomics.github.io/PDA21/</a></p></li>
 </ul>
+</div>
+<div id="software-data" class="section level3">
+<h3>Software &amp; Data</h3>
+<p>Many software tools exist for differential proteomics data analysis, e.g. </p>
+<ul>
+<li>MaxQuant - Perseus</li>
+<li>MSstats</li>
+<li>DEqMS</li>
+<li>msqrob2</li>
+</ul>
+<p>Here, we will illustrate all concepts using the msqrob2 software. The software can be used with R/Rmarkdown scripting or with a Graphical User Interface (GUI).</p>
+<ul>
+<li><a href="./software.html">Install msqrob2 software</a></li>
+<li><a href="https://github.com/statOmics/PDA21/archive/refs/heads/data.zip">Download data</a></li>
+</ul>
+<p>Note, that users who develop R/markdown scripts can access data both from the web or from disk within their scripts. So they do not need to download the data first. The msqrob2gui Shiny App only works with data that is available on disk.</p>
+<ul>
+<li>More information on our tools can be found in our papers <span class="citation">[@goeminne2016]</span>, <span class="citation">[@goeminne2020]</span> and <span class="citation">[@sticker2020]</span>. Please refer to our work when using our tools.</li>
+</ul>
+</div>
+<div id="instructor" class="section level3">
+<h3>Instructor</h3>
+<ul>
+<li><a href="https://statomics.github.io/pages/about.html">Lieven Clement</a>, Associate Professor of Statistical Genomics, <a href="https://statomics.github.io/">statOmics</a>, <a href="https://www.ugent.be/">Ghent University</a>, Belgium</li>
+<li>Laurent Gatto</li>
+<li>Stijn Vandenbulcke</li>
+<li>Nina Demeulemeester</li>
+</ul>
+<hr />
+</div>
+<div id="license" class="section level3">
+<h3>License</h3>
+<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+<p>This project is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a></p>
+<hr />
+</div>
+<div id="references" class="section level3">
+<h3>References</h3>
 </div>
 
 <div class="footer">
@@ -352,6 +405,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
