@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: M-value, A-value Expression List - class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for MAList-class {limma}"><tr><td>MAList-class {limma}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>M-value, A-value Expression List - class</h2>
+
+<h3>Description</h3>
+
+<p>A simple list-based class for storing M-values and A-values for a batch of spotted microarrays.
+<code>MAList</code> objects are usually created during normalization by the functions <code><a href="../../limma/help/normalizeWithinArrays.html">normalizeWithinArrays</a></code> or <code><a href="../../limma/help/MA.RG.html">MA.RG</a></code>.
+</p>
+
+
+<h3>Slots/List Components</h3>
+
+<p><code>MAList</code> objects can be created by <code>new("MAList",MA)</code> where <code>MA</code> is a list.
+This class contains no slots (other than <code>.Data</code>), but objects should contain the following components:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+  <code>M</code>:</td><td style="text-align: left;"> numeric matrix containing the M-values (log-2 expression ratios).  Rows correspond to spots and columns to arrays.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code>A</code>:</td><td style="text-align: left;"> numeric matrix containing the A-values (average log-2 expression values).
+</td>
+</tr>
+
+</table>
+
+<p>Optional components include:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+  <code>weights</code>:</td><td style="text-align: left;"> numeric matrix of same dimensions as <code>M</code> containing relative spot quality weights.  Elements should be non-negative.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code>other</code>:</td><td style="text-align: left;"> list containing other matrices, all of the same dimensions as <code>M</code>.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code>genes</code>:</td><td style="text-align: left;"> data.frame containing probe information. Should have one row for each spot. May have any number of columns.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code>targets</code>:</td><td style="text-align: left;"> data.frame containing information on the target RNA samples.  Rows correspond to arrays.  May have any number of columns. Usually includes columns <code>Cy3</code> and <code>Cy5</code> specifying which RNA was hybridized to each array.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code>printer</code>:</td><td style="text-align: left;"> list containing information on the process used to print the spots on the arrays.  See <a href="../help/PrintLayout.html">PrintLayout</a>.
+</td>
+</tr>
+
+</table>
+
+<p>Valid <code>MAList</code> objects may contain other optional components, but all probe or array information should be contained in the above components.
+</p>
+
+
+<h3>Methods</h3>
+
+<p>This class inherits directly from class <code>list</code> so any operation appropriate for lists will work on objects of this class.
+In addition, <code>MAList</code> objects can be <a href="../../limma/help/subsetting.html">subsetted</a> and <a href="../../limma/help/cbind.html">combined</a>.
+<code>RGList</code> objects will return dimensions and hence functions such as <code><a href="../help/dim.html">dim</a></code>, <code><a href="../../base/help/nrow.html">nrow</a></code> and <code><a href="../../base/help/nrow.html">ncol</a></code> are defined. 
+<code>MALists</code> also inherit a <code><a href="../../methods/help/show.html">show</a></code> method from the virtual class <code><a href="../help/LargeDataObject.html">LargeDataObject</a></code>, which means that <code>RGLists</code> will print in a compact way.
+</p>
+<p>Other functions in LIMMA which operate on <code>MAList</code> objects include
+<code><a href="../../limma/help/normalizeWithinArrays.html">normalizeWithinArrays</a></code>,
+<code><a href="../../limma/help/normalizeBetweenArrays.html">normalizeBetweenArrays</a></code>,
+<code><a href="../../limma/help/normalizeForPrintorder.html">normalizeForPrintorder</a></code>,
+<code><a href="../../limma/help/plotMA.html">plotMA</a></code>
+and <code><a href="../../limma/help/plotPrintTipLoess.html">plotPrintTipLoess</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gordon Smyth</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../limma/help/02.Classes.html">02.Classes</a> gives an overview of all the classes defined by this package.
+</p>
+<p><code>marrayNorm</code> is the corresponding class in the marray package.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>limma</em> version 3.50.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

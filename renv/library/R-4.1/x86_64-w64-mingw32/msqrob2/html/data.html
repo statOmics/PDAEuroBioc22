@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Example data for 100 proteins</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for pe {msqrob2}"><tr><td>pe {msqrob2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Example data for 100 proteins</h2>
+
+<h3>Description</h3>
+
+<p>Subset of peptides from 100 proteins from a quantitative mass spectrometry
+based proteomics dataset (PRIDE identifier: PXD003881 Shen et al. (2018)).
+E. Coli lysates were spiked at five different concentrations (3%, 4.5%, 6%,
+7.5% and 9%wt/wt) in a stable human background (4 repl. per treatment). The
+twenty resulting samples were run on an Orbitrap Fusion mass spectrometer.
+Raw data files were processed with MaxQuant (version 1.6.1.0, Cox and Mann
+(2008)) using default search settings unless otherwise noted. Spectra were
+searched against the UniProtKB/SwissProt human and E. Coli reference
+proteome databases (07/06/2018), concatenated with the default Maxquant
+contaminant database. Carbamidomethylation of Cystein was set as a fixed
+modification, and oxidation of Methionine and acetylation of the protein
+amino-terminus were allowed as variable modifications. In silico cleavage
+was set to use trypsin/P, allowing two miscleavages. Match between runs
+was also enabled using default settings. The resulting peptide-to-spectrum
+matches (PSMs) were filtered by MaxQuant at 1% FDR.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data(pe)
+</pre>
+
+
+<h3>Format</h3>
+
+<p>Feature set with an instance &quot;peptide&quot;:
+</p>
+
+<dl>
+<dt>assay</dt><dd><p>contains the raw peptide intensities</p>
+</dd>
+<dt>rowData</dt><dd><p>contains a variable &quot;Proteins&quot; with the protein accession and an variable ecoli to indicate if the protein is a spikin.</p>
+</dd>
+<dt>colData</dt><dd><p>contains a factor condition indicating the spike-in condition</p>
+</dd>
+</dl>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+data(pe)
+head(colData(pe))
+head(rowData(pe))
+head(assay(pe))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>msqrob2</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

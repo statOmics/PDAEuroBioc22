@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: LOWESS Smoother with Prior Weights</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for weightedLowess {limma}"><tr><td>weightedLowess {limma}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>LOWESS Smoother with Prior Weights</h2>
+
+<h3>Description</h3>
+
+<p>This function generalizes the original LOWESS smoother (locally-weighted regression) to incorporate prior weights while preserving the original algorithm design and efficiency as closely as possible.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+weightedLowess(x, y, weights = NULL,
+               delta = NULL, npts = 200, span = 0.3, iterations = 4,
+               output.style = "loess")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a numeric vector of values for the covariate or x-axis coordinates.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>a numeric vector of response values or y-axis coordinates, of same length as <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+
+<p>a numeric vector containing non-negative prior weights, of same length as <code>x</code>.
+Defaults to a constant vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>delta</code></td>
+<td>
+
+<p>a numeric scalar specifying the maximum distance between successive anchor x-values where a local regression will be computed.
+Roughly corresponds to <code>diff(range(x))/npts</code> if the x-values are equally spaced.
+Setting <code>delta=0</code> forces every distinct x-value to be an anchor point.
+If <code>NULL</code> then a suitable <code>delta</code> value will be computed from <code>npts</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>npts</code></td>
+<td>
+
+<p>an integer scalar specifying the approximate number of anchor x-values at which local regressions will be computed.
+Ignored if <code>delta</code> is not <code>NULL</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>span</code></td>
+<td>
+
+<p>a numeric scalar between 0 and 1 specifying the width of the smoothing window as a proportion of the total weight.
+</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+
+<p>an integer scalar specifying the number of iterations.
+<code>iterations=1</code> corresponds to local least squares regression without robustifying weights.
+Each additional iteration incorporates robustifying weights.
+</p>
+</td></tr>
+<tr valign="top"><td><code>output.style</code></td>
+<td>
+
+<p>character string indicating whether the output should be in the style of <code>"loess"</code> or of <code>"lowess"</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function extends the LOWESS algorithm of Cleveland (1979, 1981) to handle non-negative prior weights.
+</p>
+<p>The LOWESS method consists of computing a series of local linear regressions, with each local regression restricted to a window of x-values.
+Smoothness is achieved by using overlapping windows and by gradually down-weighting points in each regression according to their distance from the anchor point of the window (tri-cube weighting).
+</p>
+<p>To conserve running time and memory, locally-weighted regressions are computed at only a limited number of anchor x-values, either <code>npts</code> or the number of distinct x-values, whichever is smaller.
+Anchor points are defined exactly as in the original LOWESS algorithm.
+Any x-value within distance <code>delta</code> of an anchor point is considered adjacent to it.
+The first anchor point is <code>min(x)</code>.
+With the x-values sorted in ascending order, successive anchor points are defined as follows.
+The next anchor point is the smallest x-value not adjacent to any previous anchor points.
+The last anchor point is <code>max(x)</code>.
+</p>
+<p>For each anchor point, a weighted linear regression is performed for a window of neighboring points.
+The neighboring points consist of the smallest set of closest neighbors such as the sum of weights is greater than or equal to <code>span</code> times the total weight of all points.
+Each local regression produces a fitted value for that anchor point.
+Fitted values for other x-values are then obtained by linear interpolation between anchor points.
+</p>
+<p>For the first iteration, the local linear regressions use weights equal to prior weights times the tri-cube distance weights.
+Subsequent iterations multiple these weights by robustifying weights.
+Points with residuals greater than 6 times the median absolute residual are assigned weights of zero and otherwise Tukey's biweight function is applied to the residuals to obtain the robust weights.
+More iterations produce greater robustness.
+</p>
+<p>In summary, the prior weights are used in two ways.
+First, the prior weights are used during the span calculations such that the points included in the window for each local regression must account for the specified proportion of the total sum of weights.
+Second, the weights used for the local regressions are the product of the prior weights, tri-cube local weights and biweight robustifying weights.
+Hence a point with prior weight equal to an integer n has the same influence as n points with unit weight and the same x and y-values.
+</p>
+<p>See also <code><a href="../../limma/help/loessFit.html">loessFit</a></code>, which is is essentially a wrapper function for <code>lowess</code> and <code><a href="../../limma/help/weightedLowess.html">weightedLowess</a></code> with added error checking.
+</p>
+<p><strong>Relationship to lowess and loess</strong>
+</p>
+<p>The stats package provides two functions <code>lowess</code> and <code>loess</code>.
+<code>lowess</code> implements the original LOWESS algorithm of Cleveland (1979, 1981) designed for scatterplot smoothing with  single x-variable while <code>loess</code> implements the more complex algorithm by Cleveland et al (1988, 1992) designed to fit multivariate surfaces.
+The <code>loess</code> algorithm is more general than <code>lowess</code> in a number of ways, notably because it allows prior weights and up to four numeric predictors.
+On the other hand, <code>loess</code> is necessarily slower and uses more memory than <code>lowess</code>.
+Furthermore, it has less accurate interpolation than <code>lowess</code> because it uses a cruder algorithm to choose the anchor points whereby anchor points are equi-spaced in terms of numbers of points rather than in terms of x-value spacing.
+<code>lowess</code> and <code>loess</code> also have different defaults and input parameters.
+See Smyth (2003) for a detailed discussion.
+</p>
+<p>Another difference between <code>lowess</code> and <code>loess</code> is that <code>lowess</code> returns the x and y coordinates of the fitted curve, with x in ascending order, whereas <code>loess</code> returns fitted values and residuals in the original data order.
+</p>
+<p>The purpose of the current function is to incorporate prior weights but keep the algorithmic advantages of the original <code>lowess</code> code for scatterplot smoothing.
+The current function therefore generalizes the <code>span</code> and interpolation concepts of <code>lowess</code> differently to <code>loess</code>.
+</p>
+<p>When <code>output.style="loess"</code>, <code>weightedLowess</code> outputs results in original order similar to <code>loessFit</code> and <code>loess</code>.
+When <code>output.style="lowess"</code>, <code>weightedLowess</code> outputs results in sorted order the same as <code>lowess</code>.
+</p>
+<p>The <code>span</code> argument corresponds to the <code>f</code> argument of <code>lowess</code> and the <code>span</code> argument of <code>loess</code>.
+The <code>delta</code> argument is the same as the <code>delta</code> argument of <code>lowess</code>.
+The <code>npts</code> argument is new and amounts to a more convenient way to specify <code>delta</code>.
+The <code>iterations</code> argument is the same as the corresponding argument of <code>loess</code> and is equivalent to <code>iter+1</code> where <code>iter</code> is the <code>lowess</code> argument.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>output.style="loess"</code>, then a list with the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>fitted</code></td>
+<td>
+<p>numeric vector of smoothed y-values (in the same order as the input vectors).</p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+<p>numeric vector or residuals.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>numeric vector of robustifying weights used in the most recent iteration.</p>
+</td></tr>
+<tr valign="top"><td><code>delta</code></td>
+<td>
+<p>the delta used, either the input value or the value derived from <code>npts</code>.</p>
+</td></tr>
+</table>
+<p>If <code>output.style="lowess"</code>, then a list with the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>numeric vector of x-values in ascending order.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>numeric vector or smoothed y-values.</p>
+</td></tr>
+<tr valign="top"><td><code>delta</code></td>
+<td>
+<p>the delta used, either the input value or the value derived from <code>npts</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>C code and R function by Aaron Lun.</p>
+
+
+<h3>References</h3>
+
+<p>Cleveland, W.S. (1979).
+Robust Locally Weighted Regression and Smoothing Scatterplots.
+<em>Journal of the American Statistical Association</em> 74(368), 829-836.
+</p>
+<p>Cleveland, W.S. (1981).
+LOWESS: A program for smoothing scatterplots by robust locally weighted regression.
+<em>The American Statistician</em> 35(1), 54.
+</p>
+<p>Cleveland, W.S., and Devlin, S.J. (1988).
+Locally-weighted regression: an approach to regression analysis by local fitting.
+<em>Journal of the American Statistical Association</em> 83(403), 596-610.
+</p>
+<p>Cleveland, W.S., Grosse, E., and Shyu, W.M. (1992).
+Local regression models.
+Chapter 8 In:
+<em>Statistical Models in S</em> edited by J.M. Chambers and T.J. Hastie, Chapman &amp; Hall/CRC, Boca Raton.
+</p>
+<p>Smyth, G.K. 2003.
+<em>lowess vs. loess</em>.
+Answer on the Bioconductor Support forum <a href="https://support.bioconductor.org/p/2323/">https://support.bioconductor.org/p/2323/</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/lowess.html">lowess</a></code>,
+<code><a href="../../stats/html/loess.html">loess</a></code>,
+<code><a href="../../limma/help/loessFit.html">loessFit</a></code>,
+<code><a href="../../limma/help/tricubeMovingAverage.html">tricubeMovingAverage</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+y &lt;- rt(100,df=4)
+x &lt;- runif(100)
+w &lt;- runif(100)
+l &lt;- weightedLowess(x, y, w, span=0.7, output.style="lowess")
+plot(x, y, cex=w)
+lines(l, col = "red")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>limma</em> version 3.50.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

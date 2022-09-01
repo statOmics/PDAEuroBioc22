@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Topic: Individual Channel Analysis of Two-Color Microarrays</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for 07.SingleChannel {limma}"><tr><td>07.SingleChannel {limma}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Topic: Individual Channel Analysis of Two-Color Microarrays</h2>
+
+<h3>Description</h3>
+
+<p>This page gives an overview of the LIMMA functions fit linear models to two-color microarray data in terms of the log-intensities rather than log-ratios.
+</p>
+<p>The function <code><a href="../../limma/help/intraspotCorrelation.html">intraspotCorrelation</a></code> estimates the intra-spot correlation between the two channels.
+The regression function <code><a href="../../limma/help/lmscFit.html">lmscFit</a></code> takes the correlation as an argument and fits linear models to the two-color data in terms of the individual log-intensities.
+The output of <code>lmscFit</code> is an <code>MArrayLM</code> object just the same as from <code>lmFit</code>, so inference proceeds in the same way as for log-ratios once the linear model is fitted.
+See <a href="../../limma/help/06.LinearModels.html">06.LinearModels</a>.
+</p>
+<p>The function <code><a href="../../limma/help/targetsA2C.html">targetsA2C</a></code> converts two-color format target data frames to single channel format, i.e, converts from array-per-line to channel-per-line, to facilitate the formulation of the design matrix.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gordon Smyth</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../limma/help/01.Introduction.html">01.Introduction</a>,
+<a href="../../limma/help/02.Classes.html">02.Classes</a>,
+<a href="../../limma/help/03.ReadingData.html">03.ReadingData</a>,
+<a href="../../limma/help/04.Background.html">04.Background</a>,
+<a href="../../limma/help/05.Normalization.html">05.Normalization</a>,
+<a href="../../limma/help/06.LinearModels.html">06.LinearModels</a>,
+<a href="../../limma/help/07.SingleChannel.html">07.SingleChannel</a>,
+<a href="../../limma/help/08.Tests.html">08.Tests</a>,
+<a href="../../limma/help/09.Diagnostics.html">09.Diagnostics</a>,
+<a href="../../limma/help/10.GeneSetTests.html">10.GeneSetTests</a>,
+<a href="../../limma/help/11.RNAseq.html">11.RNAseq</a>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>limma</em> version 3.50.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

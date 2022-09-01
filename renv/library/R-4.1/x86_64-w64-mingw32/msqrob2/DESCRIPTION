@@ -1,0 +1,82 @@
+Package: msqrob2
+Title: Robust statistical inference for quantitative LC-MS proteomics
+Version: 1.2.0
+Authors@R: c(
+      person(given = "Lieven",
+           family = "Clement",
+           role = c("aut", "cre"),
+           email = "lieven.clement@ugent.be",
+           comment = c(ORCID = "0000-0002-9050-4370")),
+      person(given = "Laurent",
+             family = "Gatto",
+             role = c("aut"),
+             email = "laurent.gatto@uclouvain.be",
+             comment = c(ORCID = "0000-0002-1520-2268")),
+      person(family = "Crook",
+             given = "Oliver M.",
+       		   email = "oliver.crook@stats.ox.ac.uk",
+       		   comment = c(ORCID = "0000-0001-5669-8506"),
+       		   role = "aut"),
+      person(given = "Adriaan",
+             family = "Sticker",
+             email = "adriaan.sticker@ugent.be",
+             role = "ctb"),
+      person(given = "Ludger",
+             family = "Goeminne",
+             email = " ludgergoeminne@gmail.com",
+             role = "ctb"),
+      person(given = "Milan",
+             family = "Malfait",
+             email = "milan.malfait94@gmail.com",
+             comment = c(ORCID = "0000-0001-9144-3701"),
+             role = "ctb"),
+      person(given = "Stijn",
+             family = "Vandenbulcke",
+             email = "vandenbulcke.stijn@gmail.com",
+             role = "aut")
+      )
+Description: msqrob2 provides a robust linear mixed model framework for assessing differential abundance in
+    MS-based Quantitative proteomics experiments. Our workflows can start from raw peptide intensities or
+    summarised protein expression values. The model parameter estimates can be stabilized by ridge regression,
+    empirical Bayes variance estimation and robust M-estimation. msqrob2's hurde workflow can handle missing
+    data without having to rely on hard-to-verify imputation assumptions, and, outcompetes state-of-the-art
+    methods with and without imputation for both high and low missingness. It builds on QFeature infrastructure
+    for quantitative mass spectrometry data to store the model results together with the raw data and preprocessed
+    data.
+Depends: R (>= 4.1), QFeatures (>= 1.1.2)
+Imports: stats, methods, lme4, purrr, BiocParallel, Matrix, MASS,
+        limma, SummarizedExperiment, codetools
+Suggests: multcomp, gridExtra, knitr, BiocStyle, RefManageR,
+        sessioninfo, rmarkdown, testthat, tidyverse, plotly, msdata,
+        MSnbase, matrixStats, MsCoreUtils
+License: Artistic-2.0
+Collate: 'msqrob-framework.R' 'allGenerics.R' 'accessors.R' 'msqrob.R'
+        'msqrob-utils.R' 'StatModel-methods.R'
+        'hypothesisTest-methods.R' 'msqrob-methods.R'
+        'msqrobAggregate.R' 'topFeatures.R' 'data.R' 'msqrobQB.R'
+        'msqrobHurdle-methods.R'
+Encoding: UTF-8
+VignetteBuilder: knitr
+Roxygen: list(markdown=TRUE)
+RoxygenNote: 7.1.1
+biocViews: Proteomics, MassSpectrometry, DifferentialExpression,
+        MultipleComparison, Regression, ExperimentalDesign, Software,
+        ImmunoOncology, Normalization, TimeCourse, Preprocessing
+URL: https://github.com/statOmics/msqrob2
+BugReports: https://github.com/statOmics/msqrob2/issues
+git_url: https://git.bioconductor.org/packages/msqrob2
+git_branch: RELEASE_3_14
+git_last_commit: 815b2a6
+git_last_commit_date: 2021-10-26
+Date/Publication: 2021-10-26
+NeedsCompilation: no
+Packaged: 2021-10-27 02:48:16 UTC; biocbuild
+Author: Lieven Clement [aut, cre] (<https://orcid.org/0000-0002-9050-4370>),
+  Laurent Gatto [aut] (<https://orcid.org/0000-0002-1520-2268>),
+  Oliver M. Crook [aut] (<https://orcid.org/0000-0001-5669-8506>),
+  Adriaan Sticker [ctb],
+  Ludger Goeminne [ctb],
+  Milan Malfait [ctb] (<https://orcid.org/0000-0001-9144-3701>),
+  Stijn Vandenbulcke [aut]
+Maintainer: Lieven Clement <lieven.clement@ugent.be>
+Built: R 4.1.1; ; 2021-10-27 12:13:11 UTC; windows

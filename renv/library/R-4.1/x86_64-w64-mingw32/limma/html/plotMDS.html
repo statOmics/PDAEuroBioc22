@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multidimensional scaling plot of distances between gene...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plotMDS {limma}"><tr><td>plotMDS {limma}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Multidimensional scaling plot of distances between gene expression profiles</h2>
+
+<h3>Description</h3>
+
+<p>Plot samples on a two-dimensional scatterplot so that distances on the plot approximate the typical log2 fold changes between the samples.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+plotMDS(x, top = 500, labels = NULL, pch = NULL, cex = 1,
+     dim.plot = c(1,2), gene.selection = "pairwise",
+     xlab = NULL, ylab = NULL, plot = TRUE, var.explained = TRUE, ...)
+## S3 method for class 'MDS'
+plotMDS(x, labels = NULL, pch = NULL, cex = 1, dim.plot = NULL,
+     xlab = NULL, ylab = NULL, var.explained = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>any data object which can be coerced to a matrix, for example an <code>ExpressionSet</code> or an <code>EList</code>. Rows represent genes or genomic features while columns represent samples.</p>
+</td></tr>
+<tr valign="top"><td><code>top</code></td>
+<td>
+<p>number of top genes used to calculate pairwise distances.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>character vector of sample names or labels. Defaults to <code>colnames(x)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>plotting symbol or symbols. See <code><a href="../../graphics/html/points.html">points</a></code> for possible values. Ignored if <code>labels</code> is non-<code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>numeric vector of plot symbol expansions.</p>
+</td></tr>
+<tr valign="top"><td><code>dim.plot</code></td>
+<td>
+<p>integer vector of length two specifying which principal components should be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>gene.selection</code></td>
+<td>
+<p>character, <code>"pairwise"</code> to choose the top genes separately for each pairwise comparison between the samples or <code>"common"</code> to select the same genes for all comparisons.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>title for the x-axis.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>title for the y-axis.</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p>logical. If <code>TRUE</code> then a plot is created on the current graphics device.</p>
+</td></tr>
+<tr valign="top"><td><code>var.explained</code></td>
+<td>
+<p>logical. If <code>TRUE</code> then the percentage variation explained is included in the axis labels.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>any other arguments are passed to <code>plot</code>, and also to <code>text</code> (if <code>pch</code> is <code>NULL</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function uses multidimensional scaling (MDS) to produce a principal coordinate (PCoA) or principal component (PCA) plot showing the relationships between the expression profiles represented by the columns of <code>x</code>.
+If <code>gene.selection = "common"</code>, or if the <code>top</code> is equal to or greater than the number of rows of <code>x</code>, then a PCA plot is constructed from the <code>top</code> genes with largest standard deviations across the samples.
+</p>
+<p>If <code>gene.section = "pairwise"</code> and <code>top</code> is less than <code>nrow(x)</code> then a PCoA plot is produced and distances on the plot represent the <em>leading log2-fold-changes</em>.
+The leading log-fold-change between a pair of samples is defined as the root-mean-square average of the <code>top</code> largest log2-fold-changes between those two samples.
+The PCA and PCoA plots produced by <code>gene.selection="common"</code> and <code>gene.selection="pairwise"</code>, respectively, use similar distance measures but the PCA plot uses the same genes throughout whereas the PCoA plot potentially selects different genes to distinguish each pair of samples.
+The pairwise choice is the default.
+It potentially gives better resolution than a PCA plot if different molecular pathways are relevant for distinguishing different pairs of samples.
+</p>
+<p>If <code>pch=NULL</code>, then each sample is represented by a text label, defaulting to the column names of <code>x</code>.
+If <code>pch</code> is not <code>NULL</code>, then plotting symbols are used.
+</p>
+<p>See <code><a href="../../graphics/help/text.html">text</a></code> for possible values for <code>col</code> and <code>cex</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>plot=TRUE</code> or if <code>x</code> is an object of class <code>"MDS"</code>, then a plot is created on the current graphics device.
+</p>
+<p>An object of class <code>"MDS"</code> is also invisibly returned.
+This is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>eigen.values</code></td>
+<td>
+<p>eigen values</p>
+</td></tr>
+<tr valign="top"><td><code>eigen.vectors</code></td>
+<td>
+<p>eigen vectors</p>
+</td></tr>
+<tr valign="top"><td><code>var.explained</code></td>
+<td>
+<p>proportion of variance explained by each dimension</p>
+</td></tr>
+<tr valign="top"><td><code>distance.matrix.squared</code></td>
+<td>
+<p>numeric matrix of squared pairwise distances between columns of <code>x</code></p>
+</td></tr>
+<tr valign="top"><td><code>dim.plot</code></td>
+<td>
+<p>dimensions plotted</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>x-xordinates of plotted points</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>y-cordinates of plotted points</p>
+</td></tr>
+<tr valign="top"><td><code>gene.selection</code></td>
+<td>
+<p>gene selection method</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Di Wu and Gordon Smyth</p>
+
+
+<h3>References</h3>
+
+<p>Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, and Smyth GK (2015).
+limma powers differential expression analyses for RNA-sequencing and microarray studies.
+<em>Nucleic Acids Research</em> 43, e47.
+<a href="http://nar.oxfordjournals.org/content/43/7/e47">http://nar.oxfordjournals.org/content/43/7/e47</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>An overview of diagnostic functions available in LIMMA is given in <a href="../../limma/help/09.Diagnostics.html">09.Diagnostics</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Simulate gene expression data for 1000 probes and 6 microarrays.
+# Samples are in two groups
+# First 50 probes are differentially expressed in second group
+sd &lt;- 0.3*sqrt(4/rchisq(1000,df=4))
+x &lt;- matrix(rnorm(1000*6,sd=sd),1000,6)
+rownames(x) &lt;- paste("Gene",1:1000)
+x[1:50,4:6] &lt;- x[1:50,4:6] + 2
+# without labels, indexes of samples are plotted.
+mds &lt;- plotMDS(x,  col=c(rep("black",3), rep("red",3)) )
+# or labels can be provided, here group indicators:
+plotMDS(mds,  col=c(rep("black",3), rep("red",3)), labels= c(rep("Grp1",3), rep("Grp2",3)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>limma</em> version 3.50.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

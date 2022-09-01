@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read Sample Characteristics From GEO Series Matrix File</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for readSampleInfoFromGEO {limma}"><tr><td>readSampleInfoFromGEO {limma}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read Sample Characteristics From GEO Series Matrix File</h2>
+
+<h3>Description</h3>
+
+<p>Read sample annotation from a GEO Series Matrix File into data.frames.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+readSampleInfoFromGEO(file, remove.constant.columns = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>file name or path of GEO series matrix file.</p>
+</td></tr>
+<tr valign="top"><td><code>remove.constant.columns</code></td>
+<td>
+<p>logical, if <code>TRUE</code> then columns that have the same entry for every sample are removed.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function parses a GEO series matrix file.
+Sample characteristics associated with expression channels 1 and 2 are separated into separate data.frames.
+The function particularly allows for the fact that not every sample characteristic will have an entry for every sample.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with three components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>SampleInfo</code></td>
+<td>
+<p>character matrix of sample annotation.</p>
+</td></tr>
+<tr valign="top"><td><code>CharacteristicsCh1</code></td>
+<td>
+<p>character matrix of sample characteristics associated with expression channel 1.</p>
+</td></tr>
+<tr valign="top"><td><code>CharacteristicsCh2</code></td>
+<td>
+<p>character matrix of sample characteristics associated with expression channel 2.</p>
+</td></tr>
+</table>
+<p>Each sample corresponds to one row.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gordon Smyth</p>
+
+
+<h3>See Also</h3>
+
+<p>An overview of LIMMA functions for reading data is given in <a href="../../limma/help/03.ReadingData.html">03.ReadingData</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# This example downloads a series matrix file of about 33MB
+## Not run: 
+url &lt;- "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE40nnn/GSE40115/matrix/GSE40115-GPL15931_series_matrix.txt.gz"
+download.file(url, "GSE40115.txt.gz")
+a &lt;- readSampleInfoFromGEO("GSE40115.txt.gz")
+colnames(a$SampleInfo)
+colnames(a$CharacteristicsCh1)
+colnames(a$CharacteristicsCh2)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>limma</em> version 3.50.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

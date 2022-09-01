@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to fit msqrob models to peptide counts using glm</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for msqrobGlm {msqrob2}"><tr><td>msqrobGlm {msqrob2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function to fit msqrob models to peptide counts using glm</h2>
+
+<h3>Description</h3>
+
+<p>Low-level function for parameter estimation with msqrob
+by modeling peptide counts using quasibinomial glm
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+msqrobGlm(y, npep, formula, data, priorCount = 0.1, binomialBound = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>A <code>matrix</code> with the peptide counts. The
+features are along the rows and samples along the columns.</p>
+</td></tr>
+<tr valign="top"><td><code>npep</code></td>
+<td>
+<p>A vector with number of peptides per protein. It has as length
+the number of rows of y. The counts are equal or larger than the largest
+peptide count in y.</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>Model formula. The model is built based on the
+covariates in the data object.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A <code>DataFrame</code> with information on the design. It has
+the same number of rows as the number of columns (samples) of
+<code>y</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>priorCount</code></td>
+<td>
+<p>A 'numeric(1)', which is a prior count to be added to the observations to shrink
+the estimated log-fold-changes towards zero.</p>
+</td></tr>
+<tr valign="top"><td><code>binomialBound</code></td>
+<td>
+<p>logical, if ‘TRUE’ then the quasibinomial variance estimator will
+be never smaller than 1 (no underdispersion).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list of objects of the <code>StatModel</code> class.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lieven Clement
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Load example data
+# The data are a Feature object with containing
+# a SummarizedExperiment named "peptide" with MaxQuant peptide intensities
+# The data are a subset of spike-in the human-ecoli study
+# The variable condition in the colData of the Feature object
+# contains information on the spike in condition a-e (from low to high)
+data(pe)
+
+# Aggregate peptide intensities in protein expression values
+pe &lt;- aggregateFeatures(pe, i = "peptide", fcol = "Proteins", name = "protein")
+pe
+
+# Fit MSqrob model using robust regression with the MASS rlm function
+models &lt;- msqrobGlm(
+    aggcounts(pe[["protein"]]),
+    rowData(pe[["protein"]])[[".n"]],
+    ~condition,
+    colData(pe)
+)
+getCoef(models[[1]])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>msqrob2</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

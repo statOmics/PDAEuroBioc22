@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Topic: Diagnostics and Quality Assessment</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for 09.Diagnostics {limma}"><tr><td>09.Diagnostics {limma}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Topic: Diagnostics and Quality Assessment</h2>
+
+<h3>Description</h3>
+
+<p>This page gives an overview of the LIMMA functions available for microarray quality assessment and diagnostic plots.
+</p>
+<p>This package provides an <code><a href="../help/anova-method.html">anova</a></code> method which is designed for assessing the quality of an array series or of a normalization method.
+It is not designed to assess differential expression of individual genes.
+<code><a href="../help/anova-method.html">anova</a></code> uses utility functions <code><a href="../../limma/help/bwss.html">bwss</a></code> and <code><a href="../../limma/help/bwss.matrix.html">bwss.matrix</a></code>.
+</p>
+<p>The function <code><a href="../../limma/help/arrayWeights.html">arrayWeights</a></code> estimates the empirical reliability of each array following a linear model fit.
+</p>
+<p>Diagnostic plots can be produced by
+</p>
+
+<dl>
+<dt> <code><a href="../../limma/help/imageplot.html">imageplot</a></code> </dt><dd>
+<p>Produces a spatial picture of any spot-specific measure from an array image. If the log-ratios are plotted, then this produces an in-silico representation of the well known false-color TIFF image of an array.
+<code><a href="../../limma/help/imageplot3by2.html">imageplot3by2</a></code> will write imageplots to files, six plots to a page.</p>
+</dd>
+<dt> <code><a href="../../limma/help/plotFB.html">plotFB</a></code> </dt><dd>
+<p>Plots foreground versus background log-intensies.</p>
+</dd>
+<dt> <code><a href="../../limma/help/plotMD.html">plotMD</a></code> </dt><dd>
+<p>Mean-difference plots.
+Very versatile plot.
+For two color arrays, this plots the M-values vs A-values.
+For single channel technologies, this plots one column of log-expression values vs the average of the other columns.
+For fitted model objects, this plots a log-fold-change versus average log-expression.
+<code><a href="../../limma/help/mdplot.html">mdplot</a></code> can also be useful for comparing two one-channel microarrays.
+</p>
+</dd>
+<dt> <code><a href="../../limma/help/plotMA.html">plotMA</a></code> </dt><dd>
+<p>MA-plots, essentially the same as mean-difference plots.
+<code><a href="../../limma/help/plotMA3by2.html">plotMA3by2</a></code> will write MA-plots to files, six plots to a page.
+</p>
+</dd>
+<dt> <code><a href="../../limma/help/plotWithHighlights.html">plotWithHighlights</a></code> </dt><dd>
+<p>Scatterplots with highlights.
+This is the underlying engine for <code>plotMD</code> and <code>plotMA</code>.
+</p>
+</dd>
+<dt> <code><a href="../../limma/help/plotPrintTipLoess.html">plotPrintTipLoess</a></code> </dt><dd>
+<p>Produces a grid of MA-plots, one for each print-tip group on an array, together with the corresponding lowess curve.
+Intended to help visualize print-tip loess normalization.</p>
+</dd>
+<dt> <code><a href="../../limma/help/plotPrintorder.html">plotPrintorder</a></code> </dt><dd>
+<p>For an array, produces a scatter plot of log-ratios or log-intensities by print order.</p>
+</dd>
+<dt> <code><a href="../../limma/help/plotDensities.html">plotDensities</a></code> </dt><dd>
+<p>Individual channel densities for one or more arrays.
+An essential plot to accompany between array normalization, especially quantile normalization.</p>
+</dd>
+<dt> <code><a href="../../limma/help/plotMDS.html">plotMDS</a></code> </dt><dd>
+<p>Multidimensional scaling plot for a set of arrays.
+Useful for visualizing the relationship between the set of samples.</p>
+</dd>
+<dt> <code><a href="../../limma/help/plotSA.html">plotSA</a></code> </dt><dd>
+<p>Sigma vs A plot.
+After a linear model is fitted, this checks constancy of the variance with respect to intensity level.</p>
+</dd>
+</dl>
+
+<p><code>plotPrintTipLoess</code> uses utility functions <code><a href="../../limma/help/gridr.html">gridr</a></code> and <code><a href="../../limma/help/gridc.html">gridc</a></code>.
+<code><a href="../../limma/help/plotDensities.html">plotDensities</a></code> uses utility function <code><a href="../../limma/help/RG.MA.html">RG.MA</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gordon Smyth</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../limma/help/01.Introduction.html">01.Introduction</a>,
+<a href="../../limma/help/02.Classes.html">02.Classes</a>,
+<a href="../../limma/help/03.ReadingData.html">03.ReadingData</a>,
+<a href="../../limma/help/04.Background.html">04.Background</a>,
+<a href="../../limma/help/05.Normalization.html">05.Normalization</a>,
+<a href="../../limma/help/06.LinearModels.html">06.LinearModels</a>,
+<a href="../../limma/help/07.SingleChannel.html">07.SingleChannel</a>,
+<a href="../../limma/help/08.Tests.html">08.Tests</a>,
+<a href="../../limma/help/09.Diagnostics.html">09.Diagnostics</a>,
+<a href="../../limma/help/10.GeneSetTests.html">10.GeneSetTests</a>,
+<a href="../../limma/help/11.RNAseq.html">11.RNAseq</a>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>limma</em> version 3.50.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

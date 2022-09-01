@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The StatModel class for msqrob</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for StatModel-class {msqrob2}"><tr><td>StatModel-class {msqrob2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The StatModel class for msqrob</h2>
+
+<h3>Description</h3>
+
+<p>The <code>StatModel</code> class contains a statistical model as applied on a
+feature.
+</p>
+<p>Models are created by the dedicated user-level functions
+(<code>msqrob()</code>, <code>mqrobAggregate()</code>) or manually, using the
+<code>StatModel()</code> constructor. In the former case, each quantitative
+feature is assigned its statistical model and the models are stored
+as a variable in a <code>DataFrame</code> object, as illustred in the example
+below.
+</p>
+<p>Function for constructing a new <code>StatModel</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'StatModel'
+show(object)
+
+StatModel(
+  type = "fitError",
+  params = list(),
+  varPosterior = NA_real_,
+  dfPosterior = NA_real_
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><code>StatModel</code> object</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>default set to fit-error, can be a &quot;lm&quot;, &quot;rlm&quot; (robust lm with M estimation),
+&quot;lmer&quot; (when mixed models or ridge regression is adopted), &quot;quasibinomial&quot; (when peptide counts are fitted)</p>
+</td></tr>
+<tr valign="top"><td><code>params</code></td>
+<td>
+<p>A list containing the parameters of the fitted model</p>
+</td></tr>
+<tr valign="top"><td><code>varPosterior</code></td>
+<td>
+<p>Numeric, posterior variance, default is NA</p>
+</td></tr>
+<tr valign="top"><td><code>dfPosterior</code></td>
+<td>
+<p>Numeric, posterior degrees of freedom,
+default is NA</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A StatModel object
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>type</code></dt><dd><p><code>character(1)</code> defining type of the used model. Default
+is <code>"fitError"</code>, i.e. a error model. Other include <code>"lm"</code>,
+<code>"rlm"</code>, ...</p>
+</dd>
+<dt><code>params</code></dt><dd><p>A <code>list()</code> containing information of the used model.</p>
+</dd>
+<dt><code>varPosterior</code></dt><dd><p><code>numeric()</code> of posterior variance.</p>
+</dd>
+<dt><code>dfPosterior</code></dt><dd><p><code>numeric()</code> of posterior degrees of freedom.</p>
+</dd>
+</dl>
+
+
+<h3>Author(s)</h3>
+
+<p>Oliver M. Crook, Laurent Gatto, Lieven Clement
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## A fully specified dummy model
+myModel &lt;- StatModel(
+    type = "rlm",
+    params = list(x = 3, y = 7, b = 4),
+    varPosterior = c(0.1, 0.2, 0.3),
+    dfPosterior = c(6, 7, 8)
+)
+myModel
+
+
+
+## A collection of models stored as a variable in a DataFrame
+mod1 &lt;- StatModel(type = "rlm")
+mod2 &lt;- StatModel(type = "lm")
+df &lt;- DataFrame(x = 1:2)
+df$mods &lt;- c(mod1, mod2)
+df
+# TODO
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>msqrob2</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

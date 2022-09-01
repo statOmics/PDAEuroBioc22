@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameter estimates, standard errors and statistical...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for hypothesisTest,SummarizedExperiment-method {msqrob2}"><tr><td>hypothesisTest,SummarizedExperiment-method {msqrob2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameter estimates, standard errors and statistical inference on differential
+expression analysis</h2>
+
+<h3>Description</h3>
+
+<p>Summary table of the estimates for differential expression of features
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'SummarizedExperiment'
+hypothesisTest(
+  object,
+  contrast,
+  adjust.method = "BH",
+  modelColumn = "msqrobModels",
+  resultsColumnNamePrefix = "",
+  overwrite = FALSE
+)
+
+## S4 method for signature 'SummarizedExperiment'
+hypothesisTestHurdle(
+  object,
+  contrast,
+  adjust.method = "BH",
+  modelColumn = "msqrobHurdle",
+  resultsColumnNamePrefix = "hurdle_",
+  overwrite = FALSE
+)
+
+## S4 method for signature 'QFeatures'
+hypothesisTest(
+  object,
+  i,
+  contrast,
+  adjust.method = "BH",
+  modelColumn = "msqrobModels",
+  resultsColumnNamePrefix = "",
+  overwrite = FALSE
+)
+
+## S4 method for signature 'QFeatures'
+hypothesisTestHurdle(
+  object,
+  i,
+  contrast,
+  adjust.method = "BH",
+  modelColumn = "msqrobHurdle",
+  resultsColumnNamePrefix = "hurdle_",
+  overwrite = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><code>SummarizedExperiment</code> or <code>QFeatures</code> instance</p>
+</td></tr>
+<tr valign="top"><td><code>contrast</code></td>
+<td>
+<p><code>numeric</code> matrix specifying one or more contrasts of
+the linear model coefficients to be tested equal to zero. If multiple
+contrasts are given (multiple columns) then results will be returned for
+each contrast. The rownames of the matrix should be equal to the names
+of parameters of the model that are involved in the contrast.
+The column names of the matrix will be used to construct names to store
+the results in the rowData of the SummarizedExperiment or of the assay of
+the QFeatures object. The contrast matrix can be made using the <code>makeContrast</code>
+function.</p>
+</td></tr>
+<tr valign="top"><td><code>adjust.method</code></td>
+<td>
+<p><code>character</code> specifying the method to adjust
+the p-values for multiple testing.
+Options, in increasing conservatism, include ‘&quot;none&quot;’,
+‘&quot;BH&quot;’, ‘&quot;BY&quot;’ and ‘&quot;holm&quot;’.  See ‘p.adjust’ for the complete
+list of options. Default is &quot;BH&quot; the Benjamini-Hochberg method
+to controle the False Discovery Rate (FDR).</p>
+</td></tr>
+<tr valign="top"><td><code>modelColumn</code></td>
+<td>
+<p><code>character</code> to indicate the variable name that was used
+to store the msqrob models in the rowData of the SummarizedExperiment
+instance or of the assay of the QFeatures instance. Default is &quot;msqrobModels&quot;
+when the <code>hypothesisTest</code> function is used and &quot;msqrobHurdle&quot; for <code>hypothesisTestHurdle</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>resultsColumnNamePrefix</code></td>
+<td>
+<p><code>character</code> to indicate the the prefix for the
+variable name that will be used to store test results in the rowData of
+the SummarizedExperiment instance or of the assay of the QFeatures instance.
+Default is &quot;&quot; so that the variable name with the results will be
+the column name of the column in the contrast matrix L. If L is a matrix
+with multiple columns, multiple results columns will be made, one for each
+contrast. If L is a matrix with a single column which has no column names and if resultsColumnNamePrefix=&quot;&quot; the
+results will be stored in the column with name msqrobResults. For hypothesisTestHurdle
+the default prefix is &quot;hurdle_&quot;. If L is a matrix with one column and has no column names and if resultsColumnNamePrefix=&quot;hurdle_&quot; the
+results will be stored in the column with name hurdleResults.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p><code>boolean(1)</code> to indicate if the column in the rowData has to
+be overwritten if the modelColumnName already exists. Default is FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+<p><code>character</code> or <code>integer</code> to specify the element of the <code>QFeatures</code> that
+contains the log expression intensities that will be modelled.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A SummarizedExperiment or a <code>QFeatures</code> instance augmented with the test
+results.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Lieven Clement
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Load example data
+# The data are a Feature object containing
+# a SummarizedExperiment named "peptide" with MaxQuant peptide intensities
+# The data are a subset of spike-in the human-ecoli study
+# The variable condition in the colData of the Feature object
+# contains information on the spike in condition a-e (from low to high)
+data(pe)
+
+# Aggregate peptide intensities in protein expression values
+pe &lt;- aggregateFeatures(pe, i = "peptide", fcol = "Proteins", name = "protein")
+
+# Fit msqrob model
+pe &lt;- msqrob(pe, i = "protein", formula = ~condition)
+
+# Define contrast
+getCoef(rowData(pe[["protein"]])$msqrobModels[[1]])
+# Assess log2 fold change between condition c and condition b
+L &lt;- makeContrast(
+    "conditionc - conditionb=0",
+    c("conditionb", "conditionc")
+)
+
+# example SummarizedExperiment instance
+se &lt;- pe[["protein"]]
+se &lt;- hypothesisTest(se, L)
+head(rowData(se)$"conditionc - conditionb", 10)
+# Volcano plot
+plot(-log10(pval) ~ logFC,
+    rowData(se)$"conditionc - conditionb",
+    col = (adjPval &lt; 0.05) + 1
+)
+
+# Example for QFeatures instance
+# Assess log2 fold change between condition b and condition a (reference class),
+# condition c and condition a, and, condition c and condition b.
+L &lt;- makeContrast(
+    c(
+        "conditionb=0",
+        "conditionc=0",
+        "conditionc - conditionb=0"
+    ),
+    c("conditionb", "conditionc")
+)
+pe &lt;- hypothesisTest(pe, i = "protein", L)
+head(rowData(pe[["protein"]])$"conditionb", 10)
+# Volcano plots
+par(mfrow = c(1, 3))
+plot(-log10(pval) ~ logFC,
+    rowData(pe[["protein"]])$"conditionb",
+    col = (adjPval &lt; 0.05) + 1,
+    main = "log2 FC b-a"
+)
+plot(-log10(pval) ~ logFC,
+    rowData(pe[["protein"]])$"conditionc",
+    col = (adjPval &lt; 0.05) + 1,
+    main = "log2 FC c-a"
+)
+plot(-log10(pval) ~ logFC,
+    rowData(pe[["protein"]])$"conditionc - conditionb",
+    col = (adjPval &lt; 0.05) + 1,
+    main = "log2 FC c-b"
+)
+
+# Hurdle method
+pe &lt;- msqrobHurdle(pe, i = "protein", formula = ~condition)
+pe &lt;- hypothesisTestHurdle(pe, i = "protein", L)
+head(rowData(pe[["protein"]])$"hurdle_conditionb", 10)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>msqrob2</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Make contrast matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for makeContrast {msqrob2}"><tr><td>makeContrast {msqrob2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make contrast matrix</h2>
+
+<h3>Description</h3>
+
+<p>Construct the contrast matrix corresponding to specified contrasts
+of a set of parameters.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+makeContrast(contrasts, parameterNames)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+<p>character vector specifying contrasts, i.e. the linear combination of the modelparameters that equals to zero.</p>
+</td></tr>
+<tr valign="top"><td><code>parameterNames</code></td>
+<td>
+<p>character vector specifying the model parameters that are involved in the contrasts, e.g if we model data of
+three conditions using a factor condition with three levels a, b and c then our model will have 3 mean parameters named (Intercept),
+conditionb and conditionc. Hence the log2 fold change between  b and a is conditionb. Under the null hypothesis the log2 fold change
+equals 0. Which is to be encoded as &quot;conditionb=0&quot;. If we would like to test for log2 fold change between condition c and b we assess if
+the log2 fold change conditionc-conditionb equals 0, encoded as &quot;condtionb-conditionc=0&quot;.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A numeric contrast matrix with rownames that equal the model parameters that are involved in the contrasts
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+makeContrast(c("conditionb = 0"),
+    parameterNames = c(
+        "(Intercept)",
+        "conditionb",
+        "conditionc"
+    )
+)
+makeContrast(c("conditionc=0"),
+    parameterNames = c("conditionc")
+)
+makeContrast(c(
+    "conditionb=0",
+    "conditionc=0",
+    "conditionc-conditionb=0"
+),
+parameterNames = c(
+    "conditionb",
+    "conditionc"
+)
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>msqrob2</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,32 @@
+StatModel-class         The StatModel class for msqrob
+getContrast,StatModel-method
+                        Methods for StatModel class
+getModel,StatModel-method
+                        Accessor functions for StatModel class
+hypothesisTest,SummarizedExperiment-method
+                        Parameter estimates, standard errors and
+                        statistical inference on differential
+                        expression analysis
+makeContrast            Make contrast matrix
+msqrob,SummarizedExperiment-method
+                        Methods to fit msqrob models with ridge
+                        regression and/or random effects using lme4
+msqrobAggregate,QFeatures-method
+                        Method to fit msqrob models with robust
+                        regression and/or ridge regression and/or
+                        random effects It models multiple features
+                        simultaneously, e.g. multiple peptides from the
+                        same protein.
+msqrobGlm               Function to fit msqrob models to peptide counts
+                        using glm
+msqrobHurdle,SummarizedExperiment-method
+                        Function to fit msqrob hurdle models
+msqrobLm                Function to fit msqrob models using lm and rlm
+msqrobLmer              Function to fit msqrob models with ridge
+                        regression and/or random effects using lme4
+msqrobQB,SummarizedExperiment-method
+                        Function to fit msqrob models to peptide counts
+                        using glm
+pe                      Example data for 100 proteins
+smallestUniqueGroups    Smallest unique protein groups
+topFeatures             Toplist of DE proteins, peptides or features

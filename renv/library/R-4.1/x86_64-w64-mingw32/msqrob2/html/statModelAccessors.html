@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Accessor functions for StatModel class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for getModel,StatModel-method {msqrob2}"><tr><td>getModel,StatModel-method {msqrob2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Accessor functions for StatModel class</h2>
+
+<h3>Description</h3>
+
+<p>Accessor functions for StatModel class
+</p>
+
+<dl>
+<dt>getModel(object)</dt><dd><p>to get model</p>
+</dd>
+<dt>getFitMethod(object)</dt><dd><p>to get the parameter estimation method</p>
+</dd>
+<dt>getCoef(object)</dt><dd><p>to get the parameter estimates of the mean model</p>
+</dd>
+<dt>getDF(object)</dt><dd><p>to get the residual degrees of freedom of the model</p>
+</dd>
+<dt>getVar(object)</dt><dd><p>to get the residual variance of the model</p>
+</dd>
+<dt>getSigma(object)</dt><dd><p>to get the residual standard deviation of the model</p>
+</dd>
+<dt>getDfPosterior(object)</dt><dd><p>to get the degrees of freedom of
+the empirical Bayes variance estimator</p>
+</dd>
+<dt>getVarPosterior(object)</dt><dd><p>to get the empirical Bayes variance</p>
+</dd>
+<dt>getSigmaPosterior(object)</dt><dd><p>to get the empirical Bayes standard deviation</p>
+</dd>
+<dt>getVcovUnscaled(object)</dt><dd><p>to get the unscaled variance covariance matrix
+of the model parameters</p>
+</dd>
+</dl>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'StatModel'
+getModel(object)
+
+## S4 method for signature 'StatModel'
+getFitMethod(object)
+
+## S4 method for signature 'StatModel'
+getCoef(object)
+
+## S4 method for signature 'StatModel'
+getDfPosterior(object)
+
+## S4 method for signature 'StatModel'
+getVarPosterior(object)
+
+## S4 method for signature 'StatModel'
+getSigmaPosterior(object)
+
+## S4 method for signature 'StatModel'
+getDF(object)
+
+## S4 method for signature 'StatModel'
+getVar(object)
+
+## S4 method for signature 'StatModel'
+getSigma(object)
+
+## S4 method for signature 'StatModel'
+getVcovUnscaled(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><code>StatModel</code> object</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The requested parameter of the StatModel object
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(pe)
+
+# Aggregate peptide intensities in protein expression values
+pe &lt;- aggregateFeatures(pe, i = "peptide", fcol = "Proteins", name = "protein")
+
+# Fit msqrob model
+pe &lt;- msqrob(pe, i = "protein", formula = ~condition)
+getCoef(rowData(pe[["protein"]])$msqrobModels[[1]])
+getModel(rowData(pe[["protein"]])$msqrobModels[[1]])
+getFitMethod(rowData(pe[["protein"]])$msqrobModels[[1]])
+# Similar for the remaining accessors
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>msqrob2</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

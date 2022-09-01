@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Smallest unique protein groups</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for smallestUniqueGroups {msqrob2}"><tr><td>smallestUniqueGroups {msqrob2}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Smallest unique protein groups</h2>
+
+<h3>Description</h3>
+
+<p>For a given vector of protein group names, outputs the names of those protein groups for which none of its member proteins is present in a smaller protein group.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+smallestUniqueGroups(proteins, split = ";")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>proteins</code></td>
+<td>
+<p>A vector of characters or factors containing single proteins and/or protein groups (i.e. proteins separated by a separator symbol).</p>
+</td></tr>
+<tr valign="top"><td><code>split</code></td>
+<td>
+<p>The character string that is used to separate the indivudual protein names in each protein group.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A character vector containing the names of the protein groups for which none of its proteins is present in a smaller protein group.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(pe)
+smallestUniqueGroups(rowData(pe[["peptide"]])$Proteins)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>msqrob2</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>
