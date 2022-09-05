@@ -4,11 +4,17 @@ date: "statOmics, Ghent University (https://statomics.github.io)"
 output:
     html_document:
       code_download: true
-      theme: cosmo
+      theme: flatly
       toc: true
       toc_float: true
       highlight: tango
       number_sections: true
+    pdf_document:
+      toc: true
+      number_sections: true
+linkcolor: blue
+urlcolor: blue
+citecolor: blue
 ---
 
 # Where to find extra information
