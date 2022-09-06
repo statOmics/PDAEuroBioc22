@@ -1,5 +1,5 @@
 ---
-title: "Where to find extra info"
+title: "Additional Resources"
 date: "statOmics, Ghent University (https://statomics.github.io)"
 output:
     html_document:
@@ -17,22 +17,11 @@ urlcolor: blue
 citecolor: blue
 ---
 
-# Where to find extra information
 
-## Statistics courses
+## Additional resources 
 
-[Statistiek](https://statomics.github.io/sbc21/), 2nd Bachelor of Science in Biology, 2nd Bachelor of Science in Biochemistry and Biotechnology, 2nd Bachelor of Science in Biomedical Sciences and 2nd Bachelor of Science in Chemistry. Only in Dutch.
+[Short course in Proteomics Data Analysis](https://statomics.github.io/PDA/), here you can find  clips explaining the concepts introduced in this demo.
 
-[Biostatistiek](https://statomics.github.io/biostatistics21/), 3th Bachelor of Science in Biology, partim univariate statistics. Only in Dutch.
+[Practical Statistics for the Life Sciences](https://statomics.github.io/PSLS/), a basic course on statistics where you can find additional information on the statistical concepts 
 
-[High Dimensional Data Analysis](https://statomics.github.io/HDDA/), Master of Science in Statistical Data Analysis.
-
-[Statistical Genomics](https://statomics.github.io/SGA21/), 1st Master of Science in Bioinformatics & Master of Science in Statistical Data Analysis.
-
-[Our Github Course Template](https://github.com/statOmics/Rmd-website)
-
-## Short courses
-
-[Short course in Proteomics Data Analysis](https://statomics.github.io/PDA/), here you can find some clips of prof. Clement explaining all the concepts touched upon in this course.
-
-[Practical Statistics for the Live Sciences](https://statomics.github.io/PSLS/)
+[Other courses of statOmics](https://statomics.github.io/pages/teaching.html)

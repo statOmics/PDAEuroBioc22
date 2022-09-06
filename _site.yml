@@ -6,7 +6,7 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
-    - text: "Lectures"
+    - text: "demos"
       icon: fa-chalkboard-teacher
       menu:
         - text: "CPTAC"

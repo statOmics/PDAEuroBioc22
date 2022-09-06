@@ -27,9 +27,7 @@ knitr::include_graphics("./figures/IntroFig.png")
 
 - We assume that the participants already know the basics on preprocessing and statistical testing in proteomics data analysis. 
 
-- These prerequisites can be revisited in our two hour introductory course on proteomics data analysis: [https://statomics.github.io/PDA21/](https://statomics.github.io/PDA21/)
-
-
+- These prerequisites can be revisited in our two hour introductory course on proteomics data analysis: [https://statomics.github.io/PDA/](https://statomics.github.io/PDA/)
 
 ### Software & Data 
 
@@ -50,6 +48,10 @@ Note, that users who develop R/markdown scripts can access data both from the we
 
 - More information on our tools can be found in our papers [@goeminne2016], [@goeminne2020] and [@sticker2020]. Please refer to our work when using our tools. 
 
+### Demos 
+
+- [Impact of Preprocessing](CPTAC.html)
+- [RCB design](heart.html)
 
 ### Instructor
 
@@ -60,6 +62,7 @@ Note, that users who develop R/markdown scripts can access data both from the we
 
 
 ---
+
 
 ### License
 
