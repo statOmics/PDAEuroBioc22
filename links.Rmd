@@ -18,8 +18,6 @@ citecolor: blue
 ---
 
 
-## Additional resources 
-
 [Short course in Proteomics Data Analysis](https://statomics.github.io/PDA/), here you can find  clips explaining the concepts introduced in this demo.
 
 [Practical Statistics for the Life Sciences](https://statomics.github.io/PSLS/), a basic course on statistics where you can find additional information on the statistical concepts 
