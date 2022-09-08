@@ -23,14 +23,6 @@ citecolor: blue
 This is part of the online course [Proteomics Data Analysis (PDA)](https://statomics.github.io/PDA/)
 
 
-
-
-<iframe width="560" height="315"
-src="https://www.youtube.com/embed/-vp7EBaur7s"
-frameborder="0"
-style="display: block; margin: auto;"
-allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(limma)
@@ -134,7 +126,7 @@ colData(pe)$condition <- substr(colnames(pe), cond, cond) %>%
 
 2. Preprocessing
 
-```{r}
+```{r, message=FALSE,warning=FALSE}
 rowData(pe[["peptideRaw"]])$nNonZero <- rowSums(assay(pe[["peptideRaw"]]) > 0)
 
 pe <- zeroIsNA(pe, "peptideRaw") # convert 0 to NA
