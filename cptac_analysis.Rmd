@@ -18,7 +18,7 @@ urlcolor: blue
 citecolor: blue
 ---
 
-<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
 
 This is part of the online course [Proteomics Data Analysis (PDA)](https://statomics.github.io/PDA/)
 
