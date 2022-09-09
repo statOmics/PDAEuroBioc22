@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>LICENSE</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PDAEuroBioc22</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    demos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cptac_analysis.html">CPTAC</a>
+    </li>
+    <li>
+      <a href="heart.html">Heart Study</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="links.html">
+    <span class="fa fa-laptop"></span>
+     
+    Extra Info
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/PDAEuroBioc22">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<p>Attribution-ShareAlike 4.0 International</p>
+<p>=======================================================================</p>
+<p>Creative Commons Corporation (“Creative Commons”) is not a law firm and does not provide legal services or legal advice. Distribution of Creative Commons public licenses does not create a lawyer-client or other relationship. Creative Commons makes its licenses and related information available on an “as-is” basis. Creative Commons gives no warranties regarding its licenses, any material licensed under their terms and conditions, or any related information. Creative Commons disclaims all liability for damages resulting from their use to the fullest extent possible.</p>
+<p>Using Creative Commons Public Licenses</p>
+<p>Creative Commons public licenses provide a standard set of terms and conditions that creators and other rights holders may use to share original works of authorship and other material subject to copyright and certain other rights specified in the public license below. The following considerations are for informational purposes only, are not exhaustive, and do not form part of our licenses.</p>
+<pre><code> Considerations for licensors: Our public licenses are
+ intended for use by those authorized to give the public
+ permission to use material in ways otherwise restricted by
+ copyright and certain other rights. Our licenses are
+ irrevocable. Licensors should read and understand the terms
+ and conditions of the license they choose before applying it.
+ Licensors should also secure all rights necessary before
+ applying our licenses so that the public can reuse the
+ material as expected. Licensors should clearly mark any
+ material not subject to the license. This includes other CC-
+ licensed material, or material used under an exception or
+ limitation to copyright. More considerations for licensors:
+wiki.creativecommons.org/Considerations_for_licensors
+
+ Considerations for the public: By using one of our public
+ licenses, a licensor grants the public permission to use the
+ licensed material under specified terms and conditions. If
+ the licensor&#39;s permission is not necessary for any reason--for
+ example, because of any applicable exception or limitation to
+ copyright--then that use is not regulated by the license. Our
+ licenses grant only permissions under copyright and certain
+ other rights that a licensor has authority to grant. Use of
+ the licensed material may still be restricted for other
+ reasons, including because others have copyright or other
+ rights in the material. A licensor may make special requests,
+ such as asking that all changes be marked or described.
+ Although not required by our licenses, you are encouraged to
+ respect those requests where reasonable. More_considerations
+ for the public:
+wiki.creativecommons.org/Considerations_for_licensees</code></pre>
+<p>=======================================================================</p>
+<p>Creative Commons Attribution-ShareAlike 4.0 International Public License</p>
+<p>By exercising the Licensed Rights (defined below), You accept and agree to be bound by the terms and conditions of this Creative Commons Attribution-ShareAlike 4.0 International Public License (“Public License”). To the extent this Public License may be interpreted as a contract, You are granted the Licensed Rights in consideration of Your acceptance of these terms and conditions, and the Licensor grants You such rights in consideration of benefits the Licensor receives from making the Licensed Material available under these terms and conditions.</p>
+<p>Section 1 – Definitions.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Adapted Material means material subject to Copyright and Similar Rights that is derived from or based upon the Licensed Material and in which the Licensed Material is translated, altered, arranged, transformed, or otherwise modified in a manner requiring permission under the Copyright and Similar Rights held by the Licensor. For purposes of this Public License, where the Licensed Material is a musical work, performance, or sound recording, Adapted Material is always produced where the Licensed Material is synched in timed relation with a moving image.</p></li>
+<li><p>Adapter’s License means the license You apply to Your Copyright and Similar Rights in Your contributions to Adapted Material in accordance with the terms and conditions of this Public License.</p></li>
+<li><p>BY-SA Compatible License means a license listed at creativecommons.org/compatiblelicenses, approved by Creative Commons as essentially the equivalent of this Public License.</p></li>
+<li><p>Copyright and Similar Rights means copyright and/or similar rights closely related to copyright including, without limitation, performance, broadcast, sound recording, and Sui Generis Database Rights, without regard to how the rights are labeled or categorized. For purposes of this Public License, the rights specified in Section 2(b)(1)-(2) are not Copyright and Similar Rights.</p></li>
+<li><p>Effective Technological Measures means those measures that, in the absence of proper authority, may not be circumvented under laws fulfilling obligations under Article 11 of the WIPO Copyright Treaty adopted on December 20, 1996, and/or similar international agreements.</p></li>
+<li><p>Exceptions and Limitations means fair use, fair dealing, and/or any other exception or limitation to Copyright and Similar Rights that applies to Your use of the Licensed Material.</p></li>
+<li><p>License Elements means the license attributes listed in the name of a Creative Commons Public License. The License Elements of this Public License are Attribution and ShareAlike.</p></li>
+<li><p>Licensed Material means the artistic or literary work, database, or other material to which the Licensor applied this Public License.</p></li>
+<li><p>Licensed Rights means the rights granted to You subject to the terms and conditions of this Public License, which are limited to all Copyright and Similar Rights that apply to Your use of the Licensed Material and that the Licensor has authority to license.</p></li>
+<li><p>Licensor means the individual(s) or entity(ies) granting rights under this Public License.</p></li>
+<li><p>Share means to provide material to the public by any means or process that requires permission under the Licensed Rights, such as reproduction, public display, public performance, distribution, dissemination, communication, or importation, and to make material available to the public including in ways that members of the public may access the material from a place and at a time individually chosen by them.</p></li>
+<li><p>Sui Generis Database Rights means rights other than copyright resulting from Directive 96/9/EC of the European Parliament and of the Council of 11 March 1996 on the legal protection of databases, as amended and/or succeeded, as well as other essentially equivalent rights anywhere in the world.</p></li>
+<li><p>You means the individual or entity exercising the Licensed Rights under this Public License. Your has a corresponding meaning.</p></li>
+</ol>
+<p>Section 2 – Scope.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>License grant.</p>
+<ol style="list-style-type: decimal">
+<li><p>Subject to the terms and conditions of this Public License, the Licensor hereby grants You a worldwide, royalty-free, non-sublicensable, non-exclusive, irrevocable license to exercise the Licensed Rights in the Licensed Material to:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>reproduce and Share the Licensed Material, in whole or in part; and</p></li>
+<li><p>produce, reproduce, and Share Adapted Material.</p></li>
+</ol></li>
+<li><p>Exceptions and Limitations. For the avoidance of doubt, where Exceptions and Limitations apply to Your use, this Public License does not apply, and You do not need to comply with its terms and conditions.</p></li>
+<li><p>Term. The term of this Public License is specified in Section 6(a).</p></li>
+<li><p>Media and formats; technical modifications allowed. The Licensor authorizes You to exercise the Licensed Rights in all media and formats whether now known or hereafter created, and to make technical modifications necessary to do so. The Licensor waives and/or agrees not to assert any right or authority to forbid You from making technical modifications necessary to exercise the Licensed Rights, including technical modifications necessary to circumvent Effective Technological Measures. For purposes of this Public License, simply making modifications authorized by this Section 2(a)</p>
+<ol start="4" style="list-style-type: decimal">
+<li>never produces Adapted Material.</li>
+</ol></li>
+<li><p>Downstream recipients.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Offer from the Licensor – Licensed Material. Every recipient of the Licensed Material automatically receives an offer from the Licensor to exercise the Licensed Rights under the terms and conditions of this Public License.</p></li>
+<li><p>Additional offer from the Licensor – Adapted Material. Every recipient of Adapted Material from You automatically receives an offer from the Licensor to exercise the Licensed Rights in the Adapted Material under the conditions of the Adapter’s License You apply.</p></li>
+<li><p>No downstream restrictions. You may not offer or impose any additional or different terms or conditions on, or apply any Effective Technological Measures to, the Licensed Material if doing so restricts exercise of the Licensed Rights by any recipient of the Licensed Material.</p></li>
+</ol></li>
+<li><p>No endorsement. Nothing in this Public License constitutes or may be construed as permission to assert or imply that You are, or that Your use of the Licensed Material is, connected with, or sponsored, endorsed, or granted official status by, the Licensor or others designated to receive attribution as provided in Section 3(a)(1)(A)(i).</p></li>
+</ol></li>
+<li><p>Other rights.</p>
+<ol style="list-style-type: decimal">
+<li><p>Moral rights, such as the right of integrity, are not licensed under this Public License, nor are publicity, privacy, and/or other similar personality rights; however, to the extent possible, the Licensor waives and/or agrees not to assert any such rights held by the Licensor to the limited extent necessary to allow You to exercise the Licensed Rights, but not otherwise.</p></li>
+<li><p>Patent and trademark rights are not licensed under this Public License.</p></li>
+<li><p>To the extent possible, the Licensor waives any right to collect royalties from You for the exercise of the Licensed Rights, whether directly or through a collecting society under any voluntary or waivable statutory or compulsory licensing scheme. In all other cases the Licensor expressly reserves any right to collect such royalties.</p></li>
+</ol></li>
+</ol>
+<p>Section 3 – License Conditions.</p>
+<p>Your exercise of the Licensed Rights is expressly made subject to the following conditions.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Attribution.</p>
+<ol style="list-style-type: decimal">
+<li><p>If You Share the Licensed Material (including in modified form), You must:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>retain the following if it is supplied by the Licensor with the Licensed Material:</p>
+<ol style="list-style-type: lower-roman">
+<li><p>identification of the creator(s) of the Licensed Material and any others designated to receive attribution, in any reasonable manner requested by the Licensor (including by pseudonym if designated);</p></li>
+<li><p>a copyright notice;</p></li>
+<li><p>a notice that refers to this Public License;</p></li>
+<li><p>a notice that refers to the disclaimer of warranties;</p></li>
+<li><p>a URI or hyperlink to the Licensed Material to the extent reasonably practicable;</p></li>
+</ol></li>
+<li><p>indicate if You modified the Licensed Material and retain an indication of any previous modifications; and</p></li>
+<li><p>indicate the Licensed Material is licensed under this Public License, and include the text of, or the URI or hyperlink to, this Public License.</p></li>
+</ol></li>
+<li><p>You may satisfy the conditions in Section 3(a)(1) in any reasonable manner based on the medium, means, and context in which You Share the Licensed Material. For example, it may be reasonable to satisfy the conditions by providing a URI or hyperlink to a resource that includes the required information.</p></li>
+<li><p>If requested by the Licensor, You must remove any of the information required by Section 3(a)(1)(A) to the extent reasonably practicable.</p></li>
+</ol></li>
+<li><p>ShareAlike.</p>
+<p>In addition to the conditions in Section 3(a), if You Share Adapted Material You produce, the following conditions also apply.</p>
+<ol style="list-style-type: decimal">
+<li><p>The Adapter’s License You apply must be a Creative Commons license with the same License Elements, this version or later, or a BY-SA Compatible License.</p></li>
+<li><p>You must include the text of, or the URI or hyperlink to, the Adapter’s License You apply. You may satisfy this condition in any reasonable manner based on the medium, means, and context in which You Share Adapted Material.</p></li>
+<li><p>You may not offer or impose any additional or different terms or conditions on, or apply any Effective Technological Measures to, Adapted Material that restrict exercise of the rights granted under the Adapter’s License You apply.</p></li>
+</ol></li>
+</ol>
+<p>Section 4 – Sui Generis Database Rights.</p>
+<p>Where the Licensed Rights include Sui Generis Database Rights that apply to Your use of the Licensed Material:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>for the avoidance of doubt, Section 2(a)(1) grants You the right to extract, reuse, reproduce, and Share all or a substantial portion of the contents of the database;</p></li>
+<li><p>if You include all or a substantial portion of the database contents in a database in which You have Sui Generis Database Rights, then the database in which You have Sui Generis Database Rights (but not its individual contents) is Adapted Material,</p>
+<p>including for purposes of Section 3(b); and</p></li>
+<li><p>You must comply with the conditions in Section 3(a) if You Share all or a substantial portion of the contents of the database.</p></li>
+</ol>
+<p>For the avoidance of doubt, this Section 4 supplements and does not replace Your obligations under this Public License where the Licensed Rights include other Copyright and Similar Rights.</p>
+<p>Section 5 – Disclaimer of Warranties and Limitation of Liability.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>UNLESS OTHERWISE SEPARATELY UNDERTAKEN BY THE LICENSOR, TO THE EXTENT POSSIBLE, THE LICENSOR OFFERS THE LICENSED MATERIAL AS-IS AND AS-AVAILABLE, AND MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE LICENSED MATERIAL, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHER. THIS INCLUDES, WITHOUT LIMITATION, WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ABSENCE OF LATENT OR OTHER DEFECTS, ACCURACY, OR THE PRESENCE OR ABSENCE OF ERRORS, WHETHER OR NOT KNOWN OR DISCOVERABLE. WHERE DISCLAIMERS OF WARRANTIES ARE NOT ALLOWED IN FULL OR IN PART, THIS DISCLAIMER MAY NOT APPLY TO YOU.</p></li>
+<li><p>TO THE EXTENT POSSIBLE, IN NO EVENT WILL THE LICENSOR BE LIABLE TO YOU ON ANY LEGAL THEORY (INCLUDING, WITHOUT LIMITATION, NEGLIGENCE) OR OTHERWISE FOR ANY DIRECT, SPECIAL, INDIRECT, INCIDENTAL, CONSEQUENTIAL, PUNITIVE, EXEMPLARY, OR OTHER LOSSES, COSTS, EXPENSES, OR DAMAGES ARISING OUT OF THIS PUBLIC LICENSE OR USE OF THE LICENSED MATERIAL, EVEN IF THE LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH LOSSES, COSTS, EXPENSES, OR DAMAGES. WHERE A LIMITATION OF LIABILITY IS NOT ALLOWED IN FULL OR IN PART, THIS LIMITATION MAY NOT APPLY TO YOU.</p></li>
+<li><p>The disclaimer of warranties and limitation of liability provided above shall be interpreted in a manner that, to the extent possible, most closely approximates an absolute disclaimer and waiver of all liability.</p></li>
+</ol>
+<p>Section 6 – Term and Termination.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>This Public License applies for the term of the Copyright and Similar Rights licensed here. However, if You fail to comply with this Public License, then Your rights under this Public License terminate automatically.</p></li>
+<li><p>Where Your right to use the Licensed Material has terminated under Section 6(a), it reinstates:</p>
+<ol style="list-style-type: decimal">
+<li><p>automatically as of the date the violation is cured, provided it is cured within 30 days of Your discovery of the violation; or</p></li>
+<li><p>upon express reinstatement by the Licensor.</p></li>
+</ol>
+<p>For the avoidance of doubt, this Section 6(b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License.</p></li>
+<li><p>For the avoidance of doubt, the Licensor may also offer the Licensed Material under separate terms or conditions or stop distributing the Licensed Material at any time; however, doing so will not terminate this Public License.</p></li>
+<li><p>Sections 1, 5, 6, 7, and 8 survive termination of this Public License.</p></li>
+</ol>
+<p>Section 7 – Other Terms and Conditions.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The Licensor shall not be bound by any additional or different terms or conditions communicated by You unless expressly agreed.</p></li>
+<li><p>Any arrangements, understandings, or agreements regarding the Licensed Material not stated herein are separate from and independent of the terms and conditions of this Public License.</p></li>
+</ol>
+<p>Section 8 – Interpretation.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>For the avoidance of doubt, this Public License does not, and shall not be interpreted to, reduce, limit, restrict, or impose conditions on any use of the Licensed Material that could lawfully be made without permission under this Public License.</p></li>
+<li><p>To the extent possible, if any provision of this Public License is deemed unenforceable, it shall be automatically reformed to the minimum extent necessary to make it enforceable. If the provision cannot be reformed, it shall be severed from this Public License without affecting the enforceability of the remaining terms and conditions.</p></li>
+<li><p>No term or condition of this Public License will be waived and no failure to comply consented to unless expressly agreed to by the Licensor.</p></li>
+<li><p>Nothing in this Public License constitutes or may be interpreted as a limitation upon, or waiver of, any privileges and immunities that apply to the Licensor or You, including from the legal processes of any jurisdiction or authority.</p></li>
+</ol>
+<p>=======================================================================</p>
+<p>Creative Commons is not a party to its public licenses. Notwithstanding, Creative Commons may elect to apply one of its public licenses to material it publishes and in those instances will be considered the “Licensor.” The text of the Creative Commons public licenses is dedicated to the public domain under the CC0 Public Domain Dedication. Except for the limited purpose of indicating that material is shared under a Creative Commons public license or as otherwise permitted by the Creative Commons policies published at creativecommons.org/policies, Creative Commons does not authorize the use of the trademark “Creative Commons” or any other trademark or logo of Creative Commons without its prior written consent including, without limitation, in connection with any unauthorized modifications to any of its public licenses or any other arrangements, understandings, or agreements concerning use of licensed material. For the avoidance of doubt, this paragraph does not form part of the public licenses.</p>
+<p>Creative Commons may be contacted at creativecommons.org.</p>
+
+<div id="rmd-source-code">QXR0cmlidXRpb24tU2hhcmVBbGlrZSA0LjAgSW50ZXJuYXRpb25hbAoKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KCkNyZWF0aXZlIENvbW1vbnMgQ29ycG9yYXRpb24gKCJDcmVhdGl2ZSBDb21tb25zIikgaXMgbm90IGEgbGF3IGZpcm0gYW5kCmRvZXMgbm90IHByb3ZpZGUgbGVnYWwgc2VydmljZXMgb3IgbGVnYWwgYWR2aWNlLiBEaXN0cmlidXRpb24gb2YKQ3JlYXRpdmUgQ29tbW9ucyBwdWJsaWMgbGljZW5zZXMgZG9lcyBub3QgY3JlYXRlIGEgbGF3eWVyLWNsaWVudCBvcgpvdGhlciByZWxhdGlvbnNoaXAuIENyZWF0aXZlIENvbW1vbnMgbWFrZXMgaXRzIGxpY2Vuc2VzIGFuZCByZWxhdGVkCmluZm9ybWF0aW9uIGF2YWlsYWJsZSBvbiBhbiAiYXMtaXMiIGJhc2lzLiBDcmVhdGl2ZSBDb21tb25zIGdpdmVzIG5vCndhcnJhbnRpZXMgcmVnYXJkaW5nIGl0cyBsaWNlbnNlcywgYW55IG1hdGVyaWFsIGxpY2Vuc2VkIHVuZGVyIHRoZWlyCnRlcm1zIGFuZCBjb25kaXRpb25zLCBvciBhbnkgcmVsYXRlZCBpbmZvcm1hdGlvbi4gQ3JlYXRpdmUgQ29tbW9ucwpkaXNjbGFpbXMgYWxsIGxpYWJpbGl0eSBmb3IgZGFtYWdlcyByZXN1bHRpbmcgZnJvbSB0aGVpciB1c2UgdG8gdGhlCmZ1bGxlc3QgZXh0ZW50IHBvc3NpYmxlLgoKVXNpbmcgQ3JlYXRpdmUgQ29tbW9ucyBQdWJsaWMgTGljZW5zZXMKCkNyZWF0aXZlIENvbW1vbnMgcHVibGljIGxpY2Vuc2VzIHByb3ZpZGUgYSBzdGFuZGFyZCBzZXQgb2YgdGVybXMgYW5kCmNvbmRpdGlvbnMgdGhhdCBjcmVhdG9ycyBhbmQgb3RoZXIgcmlnaHRzIGhvbGRlcnMgbWF5IHVzZSB0byBzaGFyZQpvcmlnaW5hbCB3b3JrcyBvZiBhdXRob3JzaGlwIGFuZCBvdGhlciBtYXRlcmlhbCBzdWJqZWN0IHRvIGNvcHlyaWdodAphbmQgY2VydGFpbiBvdGhlciByaWdodHMgc3BlY2lmaWVkIGluIHRoZSBwdWJsaWMgbGljZW5zZSBiZWxvdy4gVGhlCmZvbGxvd2luZyBjb25zaWRlcmF0aW9ucyBhcmUgZm9yIGluZm9ybWF0aW9uYWwgcHVycG9zZXMgb25seSwgYXJlIG5vdApleGhhdXN0aXZlLCBhbmQgZG8gbm90IGZvcm0gcGFydCBvZiBvdXIgbGljZW5zZXMuCgogICAgIENvbnNpZGVyYXRpb25zIGZvciBsaWNlbnNvcnM6IE91ciBwdWJsaWMgbGljZW5zZXMgYXJlCiAgICAgaW50ZW5kZWQgZm9yIHVzZSBieSB0aG9zZSBhdXRob3JpemVkIHRvIGdpdmUgdGhlIHB1YmxpYwogICAgIHBlcm1pc3Npb24gdG8gdXNlIG1hdGVyaWFsIGluIHdheXMgb3RoZXJ3aXNlIHJlc3RyaWN0ZWQgYnkKICAgICBjb3B5cmlnaHQgYW5kIGNlcnRhaW4gb3RoZXIgcmlnaHRzLiBPdXIgbGljZW5zZXMgYXJlCiAgICAgaXJyZXZvY2FibGUuIExpY2Vuc29ycyBzaG91bGQgcmVhZCBhbmQgdW5kZXJzdGFuZCB0aGUgdGVybXMKICAgICBhbmQgY29uZGl0aW9ucyBvZiB0aGUgbGljZW5zZSB0aGV5IGNob29zZSBiZWZvcmUgYXBwbHlpbmcgaXQuCiAgICAgTGljZW5zb3JzIHNob3VsZCBhbHNvIHNlY3VyZSBhbGwgcmlnaHRzIG5lY2Vzc2FyeSBiZWZvcmUKICAgICBhcHBseWluZyBvdXIgbGljZW5zZXMgc28gdGhhdCB0aGUgcHVibGljIGNhbiByZXVzZSB0aGUKICAgICBtYXRlcmlhbCBhcyBleHBlY3RlZC4gTGljZW5zb3JzIHNob3VsZCBjbGVhcmx5IG1hcmsgYW55CiAgICAgbWF0ZXJpYWwgbm90IHN1YmplY3QgdG8gdGhlIGxpY2Vuc2UuIFRoaXMgaW5jbHVkZXMgb3RoZXIgQ0MtCiAgICAgbGljZW5zZWQgbWF0ZXJpYWwsIG9yIG1hdGVyaWFsIHVzZWQgdW5kZXIgYW4gZXhjZXB0aW9uIG9yCiAgICAgbGltaXRhdGlvbiB0byBjb3B5cmlnaHQuIE1vcmUgY29uc2lkZXJhdGlvbnMgZm9yIGxpY2Vuc29yczoKCXdpa2kuY3JlYXRpdmVjb21tb25zLm9yZy9Db25zaWRlcmF0aW9uc19mb3JfbGljZW5zb3JzCgogICAgIENvbnNpZGVyYXRpb25zIGZvciB0aGUgcHVibGljOiBCeSB1c2luZyBvbmUgb2Ygb3VyIHB1YmxpYwogICAgIGxpY2Vuc2VzLCBhIGxpY2Vuc29yIGdyYW50cyB0aGUgcHVibGljIHBlcm1pc3Npb24gdG8gdXNlIHRoZQogICAgIGxpY2Vuc2VkIG1hdGVyaWFsIHVuZGVyIHNwZWNpZmllZCB0ZXJtcyBhbmQgY29uZGl0aW9ucy4gSWYKICAgICB0aGUgbGljZW5zb3IncyBwZXJtaXNzaW9uIGlzIG5vdCBuZWNlc3NhcnkgZm9yIGFueSByZWFzb24tLWZvcgogICAgIGV4YW1wbGUsIGJlY2F1c2Ugb2YgYW55IGFwcGxpY2FibGUgZXhjZXB0aW9uIG9yIGxpbWl0YXRpb24gdG8KICAgICBjb3B5cmlnaHQtLXRoZW4gdGhhdCB1c2UgaXMgbm90IHJlZ3VsYXRlZCBieSB0aGUgbGljZW5zZS4gT3VyCiAgICAgbGljZW5zZXMgZ3JhbnQgb25seSBwZXJtaXNzaW9ucyB1bmRlciBjb3B5cmlnaHQgYW5kIGNlcnRhaW4KICAgICBvdGhlciByaWdodHMgdGhhdCBhIGxpY2Vuc29yIGhhcyBhdXRob3JpdHkgdG8gZ3JhbnQuIFVzZSBvZgogICAgIHRoZSBsaWNlbnNlZCBtYXRlcmlhbCBtYXkgc3RpbGwgYmUgcmVzdHJpY3RlZCBmb3Igb3RoZXIKICAgICByZWFzb25zLCBpbmNsdWRpbmcgYmVjYXVzZSBvdGhlcnMgaGF2ZSBjb3B5cmlnaHQgb3Igb3RoZXIKICAgICByaWdodHMgaW4gdGhlIG1hdGVyaWFsLiBBIGxpY2Vuc29yIG1heSBtYWtlIHNwZWNpYWwgcmVxdWVzdHMsCiAgICAgc3VjaCBhcyBhc2tpbmcgdGhhdCBhbGwgY2hhbmdlcyBiZSBtYXJrZWQgb3IgZGVzY3JpYmVkLgogICAgIEFsdGhvdWdoIG5vdCByZXF1aXJlZCBieSBvdXIgbGljZW5zZXMsIHlvdSBhcmUgZW5jb3VyYWdlZCB0bwogICAgIHJlc3BlY3QgdGhvc2UgcmVxdWVzdHMgd2hlcmUgcmVhc29uYWJsZS4gTW9yZV9jb25zaWRlcmF0aW9ucwogICAgIGZvciB0aGUgcHVibGljOgoJd2lraS5jcmVhdGl2ZWNvbW1vbnMub3JnL0NvbnNpZGVyYXRpb25zX2Zvcl9saWNlbnNlZXMKCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CgpDcmVhdGl2ZSBDb21tb25zIEF0dHJpYnV0aW9uLVNoYXJlQWxpa2UgNC4wIEludGVybmF0aW9uYWwgUHVibGljCkxpY2Vuc2UKCkJ5IGV4ZXJjaXNpbmcgdGhlIExpY2Vuc2VkIFJpZ2h0cyAoZGVmaW5lZCBiZWxvdyksIFlvdSBhY2NlcHQgYW5kIGFncmVlCnRvIGJlIGJvdW5kIGJ5IHRoZSB0ZXJtcyBhbmQgY29uZGl0aW9ucyBvZiB0aGlzIENyZWF0aXZlIENvbW1vbnMKQXR0cmlidXRpb24tU2hhcmVBbGlrZSA0LjAgSW50ZXJuYXRpb25hbCBQdWJsaWMgTGljZW5zZSAoIlB1YmxpYwpMaWNlbnNlIikuIFRvIHRoZSBleHRlbnQgdGhpcyBQdWJsaWMgTGljZW5zZSBtYXkgYmUgaW50ZXJwcmV0ZWQgYXMgYQpjb250cmFjdCwgWW91IGFyZSBncmFudGVkIHRoZSBMaWNlbnNlZCBSaWdodHMgaW4gY29uc2lkZXJhdGlvbiBvZiBZb3VyCmFjY2VwdGFuY2Ugb2YgdGhlc2UgdGVybXMgYW5kIGNvbmRpdGlvbnMsIGFuZCB0aGUgTGljZW5zb3IgZ3JhbnRzIFlvdQpzdWNoIHJpZ2h0cyBpbiBjb25zaWRlcmF0aW9uIG9mIGJlbmVmaXRzIHRoZSBMaWNlbnNvciByZWNlaXZlcyBmcm9tCm1ha2luZyB0aGUgTGljZW5zZWQgTWF0ZXJpYWwgYXZhaWxhYmxlIHVuZGVyIHRoZXNlIHRlcm1zIGFuZApjb25kaXRpb25zLgoKClNlY3Rpb24gMSAtLSBEZWZpbml0aW9ucy4KCiAgYS4gQWRhcHRlZCBNYXRlcmlhbCBtZWFucyBtYXRlcmlhbCBzdWJqZWN0IHRvIENvcHlyaWdodCBhbmQgU2ltaWxhcgogICAgIFJpZ2h0cyB0aGF0IGlzIGRlcml2ZWQgZnJvbSBvciBiYXNlZCB1cG9uIHRoZSBMaWNlbnNlZCBNYXRlcmlhbAogICAgIGFuZCBpbiB3aGljaCB0aGUgTGljZW5zZWQgTWF0ZXJpYWwgaXMgdHJhbnNsYXRlZCwgYWx0ZXJlZCwKICAgICBhcnJhbmdlZCwgdHJhbnNmb3JtZWQsIG9yIG90aGVyd2lzZSBtb2RpZmllZCBpbiBhIG1hbm5lciByZXF1aXJpbmcKICAgICBwZXJtaXNzaW9uIHVuZGVyIHRoZSBDb3B5cmlnaHQgYW5kIFNpbWlsYXIgUmlnaHRzIGhlbGQgYnkgdGhlCiAgICAgTGljZW5zb3IuIEZvciBwdXJwb3NlcyBvZiB0aGlzIFB1YmxpYyBMaWNlbnNlLCB3aGVyZSB0aGUgTGljZW5zZWQKICAgICBNYXRlcmlhbCBpcyBhIG11c2ljYWwgd29yaywgcGVyZm9ybWFuY2UsIG9yIHNvdW5kIHJlY29yZGluZywKICAgICBBZGFwdGVkIE1hdGVyaWFsIGlzIGFsd2F5cyBwcm9kdWNlZCB3aGVyZSB0aGUgTGljZW5zZWQgTWF0ZXJpYWwgaXMKICAgICBzeW5jaGVkIGluIHRpbWVkIHJlbGF0aW9uIHdpdGggYSBtb3ZpbmcgaW1hZ2UuCgogIGIuIEFkYXB0ZXIncyBMaWNlbnNlIG1lYW5zIHRoZSBsaWNlbnNlIFlvdSBhcHBseSB0byBZb3VyIENvcHlyaWdodAogICAgIGFuZCBTaW1pbGFyIFJpZ2h0cyBpbiBZb3VyIGNvbnRyaWJ1dGlvbnMgdG8gQWRhcHRlZCBNYXRlcmlhbCBpbgogICAgIGFjY29yZGFuY2Ugd2l0aCB0aGUgdGVybXMgYW5kIGNvbmRpdGlvbnMgb2YgdGhpcyBQdWJsaWMgTGljZW5zZS4KCiAgYy4gQlktU0EgQ29tcGF0aWJsZSBMaWNlbnNlIG1lYW5zIGEgbGljZW5zZSBsaXN0ZWQgYXQKICAgICBjcmVhdGl2ZWNvbW1vbnMub3JnL2NvbXBhdGlibGVsaWNlbnNlcywgYXBwcm92ZWQgYnkgQ3JlYXRpdmUKICAgICBDb21tb25zIGFzIGVzc2VudGlhbGx5IHRoZSBlcXVpdmFsZW50IG9mIHRoaXMgUHVibGljIExpY2Vuc2UuCgogIGQuIENvcHlyaWdodCBhbmQgU2ltaWxhciBSaWdodHMgbWVhbnMgY29weXJpZ2h0IGFuZC9vciBzaW1pbGFyIHJpZ2h0cwogICAgIGNsb3NlbHkgcmVsYXRlZCB0byBjb3B5cmlnaHQgaW5jbHVkaW5nLCB3aXRob3V0IGxpbWl0YXRpb24sCiAgICAgcGVyZm9ybWFuY2UsIGJyb2FkY2FzdCwgc291bmQgcmVjb3JkaW5nLCBhbmQgU3VpIEdlbmVyaXMgRGF0YWJhc2UKICAgICBSaWdodHMsIHdpdGhvdXQgcmVnYXJkIHRvIGhvdyB0aGUgcmlnaHRzIGFyZSBsYWJlbGVkIG9yCiAgICAgY2F0ZWdvcml6ZWQuIEZvciBwdXJwb3NlcyBvZiB0aGlzIFB1YmxpYyBMaWNlbnNlLCB0aGUgcmlnaHRzCiAgICAgc3BlY2lmaWVkIGluIFNlY3Rpb24gMihiKSgxKS0oMikgYXJlIG5vdCBDb3B5cmlnaHQgYW5kIFNpbWlsYXIKICAgICBSaWdodHMuCgogIGUuIEVmZmVjdGl2ZSBUZWNobm9sb2dpY2FsIE1lYXN1cmVzIG1lYW5zIHRob3NlIG1lYXN1cmVzIHRoYXQsIGluIHRoZQogICAgIGFic2VuY2Ugb2YgcHJvcGVyIGF1dGhvcml0eSwgbWF5IG5vdCBiZSBjaXJjdW12ZW50ZWQgdW5kZXIgbGF3cwogICAgIGZ1bGZpbGxpbmcgb2JsaWdhdGlvbnMgdW5kZXIgQXJ0aWNsZSAxMSBvZiB0aGUgV0lQTyBDb3B5cmlnaHQKICAgICBUcmVhdHkgYWRvcHRlZCBvbiBEZWNlbWJlciAyMCwgMTk5NiwgYW5kL29yIHNpbWlsYXIgaW50ZXJuYXRpb25hbAogICAgIGFncmVlbWVudHMuCgogIGYuIEV4Y2VwdGlvbnMgYW5kIExpbWl0YXRpb25zIG1lYW5zIGZhaXIgdXNlLCBmYWlyIGRlYWxpbmcsIGFuZC9vcgogICAgIGFueSBvdGhlciBleGNlcHRpb24gb3IgbGltaXRhdGlvbiB0byBDb3B5cmlnaHQgYW5kIFNpbWlsYXIgUmlnaHRzCiAgICAgdGhhdCBhcHBsaWVzIHRvIFlvdXIgdXNlIG9mIHRoZSBMaWNlbnNlZCBNYXRlcmlhbC4KCiAgZy4gTGljZW5zZSBFbGVtZW50cyBtZWFucyB0aGUgbGljZW5zZSBhdHRyaWJ1dGVzIGxpc3RlZCBpbiB0aGUgbmFtZQogICAgIG9mIGEgQ3JlYXRpdmUgQ29tbW9ucyBQdWJsaWMgTGljZW5zZS4gVGhlIExpY2Vuc2UgRWxlbWVudHMgb2YgdGhpcwogICAgIFB1YmxpYyBMaWNlbnNlIGFyZSBBdHRyaWJ1dGlvbiBhbmQgU2hhcmVBbGlrZS4KCiAgaC4gTGljZW5zZWQgTWF0ZXJpYWwgbWVhbnMgdGhlIGFydGlzdGljIG9yIGxpdGVyYXJ5IHdvcmssIGRhdGFiYXNlLAogICAgIG9yIG90aGVyIG1hdGVyaWFsIHRvIHdoaWNoIHRoZSBMaWNlbnNvciBhcHBsaWVkIHRoaXMgUHVibGljCiAgICAgTGljZW5zZS4KCiAgaS4gTGljZW5zZWQgUmlnaHRzIG1lYW5zIHRoZSByaWdodHMgZ3JhbnRlZCB0byBZb3Ugc3ViamVjdCB0byB0aGUKICAgICB0ZXJtcyBhbmQgY29uZGl0aW9ucyBvZiB0aGlzIFB1YmxpYyBMaWNlbnNlLCB3aGljaCBhcmUgbGltaXRlZCB0bwogICAgIGFsbCBDb3B5cmlnaHQgYW5kIFNpbWlsYXIgUmlnaHRzIHRoYXQgYXBwbHkgdG8gWW91ciB1c2Ugb2YgdGhlCiAgICAgTGljZW5zZWQgTWF0ZXJpYWwgYW5kIHRoYXQgdGhlIExpY2Vuc29yIGhhcyBhdXRob3JpdHkgdG8gbGljZW5zZS4KCiAgai4gTGljZW5zb3IgbWVhbnMgdGhlIGluZGl2aWR1YWwocykgb3IgZW50aXR5KGllcykgZ3JhbnRpbmcgcmlnaHRzCiAgICAgdW5kZXIgdGhpcyBQdWJsaWMgTGljZW5zZS4KCiAgay4gU2hhcmUgbWVhbnMgdG8gcHJvdmlkZSBtYXRlcmlhbCB0byB0aGUgcHVibGljIGJ5IGFueSBtZWFucyBvcgogICAgIHByb2Nlc3MgdGhhdCByZXF1aXJlcyBwZXJtaXNzaW9uIHVuZGVyIHRoZSBMaWNlbnNlZCBSaWdodHMsIHN1Y2gKICAgICBhcyByZXByb2R1Y3Rpb24sIHB1YmxpYyBkaXNwbGF5LCBwdWJsaWMgcGVyZm9ybWFuY2UsIGRpc3RyaWJ1dGlvbiwKICAgICBkaXNzZW1pbmF0aW9uLCBjb21tdW5pY2F0aW9uLCBvciBpbXBvcnRhdGlvbiwgYW5kIHRvIG1ha2UgbWF0ZXJpYWwKICAgICBhdmFpbGFibGUgdG8gdGhlIHB1YmxpYyBpbmNsdWRpbmcgaW4gd2F5cyB0aGF0IG1lbWJlcnMgb2YgdGhlCiAgICAgcHVibGljIG1heSBhY2Nlc3MgdGhlIG1hdGVyaWFsIGZyb20gYSBwbGFjZSBhbmQgYXQgYSB0aW1lCiAgICAgaW5kaXZpZHVhbGx5IGNob3NlbiBieSB0aGVtLgoKICBsLiBTdWkgR2VuZXJpcyBEYXRhYmFzZSBSaWdodHMgbWVhbnMgcmlnaHRzIG90aGVyIHRoYW4gY29weXJpZ2h0CiAgICAgcmVzdWx0aW5nIGZyb20gRGlyZWN0aXZlIDk2LzkvRUMgb2YgdGhlIEV1cm9wZWFuIFBhcmxpYW1lbnQgYW5kIG9mCiAgICAgdGhlIENvdW5jaWwgb2YgMTEgTWFyY2ggMTk5NiBvbiB0aGUgbGVnYWwgcHJvdGVjdGlvbiBvZiBkYXRhYmFzZXMsCiAgICAgYXMgYW1lbmRlZCBhbmQvb3Igc3VjY2VlZGVkLCBhcyB3ZWxsIGFzIG90aGVyIGVzc2VudGlhbGx5CiAgICAgZXF1aXZhbGVudCByaWdodHMgYW55d2hlcmUgaW4gdGhlIHdvcmxkLgoKICBtLiBZb3UgbWVhbnMgdGhlIGluZGl2aWR1YWwgb3IgZW50aXR5IGV4ZXJjaXNpbmcgdGhlIExpY2Vuc2VkIFJpZ2h0cwogICAgIHVuZGVyIHRoaXMgUHVibGljIExpY2Vuc2UuIFlvdXIgaGFzIGEgY29ycmVzcG9uZGluZyBtZWFuaW5nLgoKClNlY3Rpb24gMiAtLSBTY29wZS4KCiAgYS4gTGljZW5zZSBncmFudC4KCiAgICAgICAxLiBTdWJqZWN0IHRvIHRoZSB0ZXJtcyBhbmQgY29uZGl0aW9ucyBvZiB0aGlzIFB1YmxpYyBMaWNlbnNlLAogICAgICAgICAgdGhlIExpY2Vuc29yIGhlcmVieSBncmFudHMgWW91IGEgd29ybGR3aWRlLCByb3lhbHR5LWZyZWUsCiAgICAgICAgICBub24tc3VibGljZW5zYWJsZSwgbm9uLWV4Y2x1c2l2ZSwgaXJyZXZvY2FibGUgbGljZW5zZSB0bwogICAgICAgICAgZXhlcmNpc2UgdGhlIExpY2Vuc2VkIFJpZ2h0cyBpbiB0aGUgTGljZW5zZWQgTWF0ZXJpYWwgdG86CgogICAgICAgICAgICBhLiByZXByb2R1Y2UgYW5kIFNoYXJlIHRoZSBMaWNlbnNlZCBNYXRlcmlhbCwgaW4gd2hvbGUgb3IKICAgICAgICAgICAgICAgaW4gcGFydDsgYW5kCgogICAgICAgICAgICBiLiBwcm9kdWNlLCByZXByb2R1Y2UsIGFuZCBTaGFyZSBBZGFwdGVkIE1hdGVyaWFsLgoKICAgICAgIDIuIEV4Y2VwdGlvbnMgYW5kIExpbWl0YXRpb25zLiBGb3IgdGhlIGF2b2lkYW5jZSBvZiBkb3VidCwgd2hlcmUKICAgICAgICAgIEV4Y2VwdGlvbnMgYW5kIExpbWl0YXRpb25zIGFwcGx5IHRvIFlvdXIgdXNlLCB0aGlzIFB1YmxpYwogICAgICAgICAgTGljZW5zZSBkb2VzIG5vdCBhcHBseSwgYW5kIFlvdSBkbyBub3QgbmVlZCB0byBjb21wbHkgd2l0aAogICAgICAgICAgaXRzIHRlcm1zIGFuZCBjb25kaXRpb25zLgoKICAgICAgIDMuIFRlcm0uIFRoZSB0ZXJtIG9mIHRoaXMgUHVibGljIExpY2Vuc2UgaXMgc3BlY2lmaWVkIGluIFNlY3Rpb24KICAgICAgICAgIDYoYSkuCgogICAgICAgNC4gTWVkaWEgYW5kIGZvcm1hdHM7IHRlY2huaWNhbCBtb2RpZmljYXRpb25zIGFsbG93ZWQuIFRoZQogICAgICAgICAgTGljZW5zb3IgYXV0aG9yaXplcyBZb3UgdG8gZXhlcmNpc2UgdGhlIExpY2Vuc2VkIFJpZ2h0cyBpbgogICAgICAgICAgYWxsIG1lZGlhIGFuZCBmb3JtYXRzIHdoZXRoZXIgbm93IGtub3duIG9yIGhlcmVhZnRlciBjcmVhdGVkLAogICAgICAgICAgYW5kIHRvIG1ha2UgdGVjaG5pY2FsIG1vZGlmaWNhdGlvbnMgbmVjZXNzYXJ5IHRvIGRvIHNvLiBUaGUKICAgICAgICAgIExpY2Vuc29yIHdhaXZlcyBhbmQvb3IgYWdyZWVzIG5vdCB0byBhc3NlcnQgYW55IHJpZ2h0IG9yCiAgICAgICAgICBhdXRob3JpdHkgdG8gZm9yYmlkIFlvdSBmcm9tIG1ha2luZyB0ZWNobmljYWwgbW9kaWZpY2F0aW9ucwogICAgICAgICAgbmVjZXNzYXJ5IHRvIGV4ZXJjaXNlIHRoZSBMaWNlbnNlZCBSaWdodHMsIGluY2x1ZGluZwogICAgICAgICAgdGVjaG5pY2FsIG1vZGlmaWNhdGlvbnMgbmVjZXNzYXJ5IHRvIGNpcmN1bXZlbnQgRWZmZWN0aXZlCiAgICAgICAgICBUZWNobm9sb2dpY2FsIE1lYXN1cmVzLiBGb3IgcHVycG9zZXMgb2YgdGhpcyBQdWJsaWMgTGljZW5zZSwKICAgICAgICAgIHNpbXBseSBtYWtpbmcgbW9kaWZpY2F0aW9ucyBhdXRob3JpemVkIGJ5IHRoaXMgU2VjdGlvbiAyKGEpCiAgICAgICAgICAoNCkgbmV2ZXIgcHJvZHVjZXMgQWRhcHRlZCBNYXRlcmlhbC4KCiAgICAgICA1LiBEb3duc3RyZWFtIHJlY2lwaWVudHMuCgogICAgICAgICAgICBhLiBPZmZlciBmcm9tIHRoZSBMaWNlbnNvciAtLSBMaWNlbnNlZCBNYXRlcmlhbC4gRXZlcnkKICAgICAgICAgICAgICAgcmVjaXBpZW50IG9mIHRoZSBMaWNlbnNlZCBNYXRlcmlhbCBhdXRvbWF0aWNhbGx5CiAgICAgICAgICAgICAgIHJlY2VpdmVzIGFuIG9mZmVyIGZyb20gdGhlIExpY2Vuc29yIHRvIGV4ZXJjaXNlIHRoZQogICAgICAgICAgICAgICBMaWNlbnNlZCBSaWdodHMgdW5kZXIgdGhlIHRlcm1zIGFuZCBjb25kaXRpb25zIG9mIHRoaXMKICAgICAgICAgICAgICAgUHVibGljIExpY2Vuc2UuCgogICAgICAgICAgICBiLiBBZGRpdGlvbmFsIG9mZmVyIGZyb20gdGhlIExpY2Vuc29yIC0tIEFkYXB0ZWQgTWF0ZXJpYWwuCiAgICAgICAgICAgICAgIEV2ZXJ5IHJlY2lwaWVudCBvZiBBZGFwdGVkIE1hdGVyaWFsIGZyb20gWW91CiAgICAgICAgICAgICAgIGF1dG9tYXRpY2FsbHkgcmVjZWl2ZXMgYW4gb2ZmZXIgZnJvbSB0aGUgTGljZW5zb3IgdG8KICAgICAgICAgICAgICAgZXhlcmNpc2UgdGhlIExpY2Vuc2VkIFJpZ2h0cyBpbiB0aGUgQWRhcHRlZCBNYXRlcmlhbAogICAgICAgICAgICAgICB1bmRlciB0aGUgY29uZGl0aW9ucyBvZiB0aGUgQWRhcHRlcidzIExpY2Vuc2UgWW91IGFwcGx5LgoKICAgICAgICAgICAgYy4gTm8gZG93bnN0cmVhbSByZXN0cmljdGlvbnMuIFlvdSBtYXkgbm90IG9mZmVyIG9yIGltcG9zZQogICAgICAgICAgICAgICBhbnkgYWRkaXRpb25hbCBvciBkaWZmZXJlbnQgdGVybXMgb3IgY29uZGl0aW9ucyBvbiwgb3IKICAgICAgICAgICAgICAgYXBwbHkgYW55IEVmZmVjdGl2ZSBUZWNobm9sb2dpY2FsIE1lYXN1cmVzIHRvLCB0aGUKICAgICAgICAgICAgICAgTGljZW5zZWQgTWF0ZXJpYWwgaWYgZG9pbmcgc28gcmVzdHJpY3RzIGV4ZXJjaXNlIG9mIHRoZQogICAgICAgICAgICAgICBMaWNlbnNlZCBSaWdodHMgYnkgYW55IHJlY2lwaWVudCBvZiB0aGUgTGljZW5zZWQKICAgICAgICAgICAgICAgTWF0ZXJpYWwuCgogICAgICAgNi4gTm8gZW5kb3JzZW1lbnQuIE5vdGhpbmcgaW4gdGhpcyBQdWJsaWMgTGljZW5zZSBjb25zdGl0dXRlcyBvcgogICAgICAgICAgbWF5IGJlIGNvbnN0cnVlZCBhcyBwZXJtaXNzaW9uIHRvIGFzc2VydCBvciBpbXBseSB0aGF0IFlvdQogICAgICAgICAgYXJlLCBvciB0aGF0IFlvdXIgdXNlIG9mIHRoZSBMaWNlbnNlZCBNYXRlcmlhbCBpcywgY29ubmVjdGVkCiAgICAgICAgICB3aXRoLCBvciBzcG9uc29yZWQsIGVuZG9yc2VkLCBvciBncmFudGVkIG9mZmljaWFsIHN0YXR1cyBieSwKICAgICAgICAgIHRoZSBMaWNlbnNvciBvciBvdGhlcnMgZGVzaWduYXRlZCB0byByZWNlaXZlIGF0dHJpYnV0aW9uIGFzCiAgICAgICAgICBwcm92aWRlZCBpbiBTZWN0aW9uIDMoYSkoMSkoQSkoaSkuCgogIGIuIE90aGVyIHJpZ2h0cy4KCiAgICAgICAxLiBNb3JhbCByaWdodHMsIHN1Y2ggYXMgdGhlIHJpZ2h0IG9mIGludGVncml0eSwgYXJlIG5vdAogICAgICAgICAgbGljZW5zZWQgdW5kZXIgdGhpcyBQdWJsaWMgTGljZW5zZSwgbm9yIGFyZSBwdWJsaWNpdHksCiAgICAgICAgICBwcml2YWN5LCBhbmQvb3Igb3RoZXIgc2ltaWxhciBwZXJzb25hbGl0eSByaWdodHM7IGhvd2V2ZXIsIHRvCiAgICAgICAgICB0aGUgZXh0ZW50IHBvc3NpYmxlLCB0aGUgTGljZW5zb3Igd2FpdmVzIGFuZC9vciBhZ3JlZXMgbm90IHRvCiAgICAgICAgICBhc3NlcnQgYW55IHN1Y2ggcmlnaHRzIGhlbGQgYnkgdGhlIExpY2Vuc29yIHRvIHRoZSBsaW1pdGVkCiAgICAgICAgICBleHRlbnQgbmVjZXNzYXJ5IHRvIGFsbG93IFlvdSB0byBleGVyY2lzZSB0aGUgTGljZW5zZWQKICAgICAgICAgIFJpZ2h0cywgYnV0IG5vdCBvdGhlcndpc2UuCgogICAgICAgMi4gUGF0ZW50IGFuZCB0cmFkZW1hcmsgcmlnaHRzIGFyZSBub3QgbGljZW5zZWQgdW5kZXIgdGhpcwogICAgICAgICAgUHVibGljIExpY2Vuc2UuCgogICAgICAgMy4gVG8gdGhlIGV4dGVudCBwb3NzaWJsZSwgdGhlIExpY2Vuc29yIHdhaXZlcyBhbnkgcmlnaHQgdG8KICAgICAgICAgIGNvbGxlY3Qgcm95YWx0aWVzIGZyb20gWW91IGZvciB0aGUgZXhlcmNpc2Ugb2YgdGhlIExpY2Vuc2VkCiAgICAgICAgICBSaWdodHMsIHdoZXRoZXIgZGlyZWN0bHkgb3IgdGhyb3VnaCBhIGNvbGxlY3Rpbmcgc29jaWV0eQogICAgICAgICAgdW5kZXIgYW55IHZvbHVudGFyeSBvciB3YWl2YWJsZSBzdGF0dXRvcnkgb3IgY29tcHVsc29yeQogICAgICAgICAgbGljZW5zaW5nIHNjaGVtZS4gSW4gYWxsIG90aGVyIGNhc2VzIHRoZSBMaWNlbnNvciBleHByZXNzbHkKICAgICAgICAgIHJlc2VydmVzIGFueSByaWdodCB0byBjb2xsZWN0IHN1Y2ggcm95YWx0aWVzLgoKClNlY3Rpb24gMyAtLSBMaWNlbnNlIENvbmRpdGlvbnMuCgpZb3VyIGV4ZXJjaXNlIG9mIHRoZSBMaWNlbnNlZCBSaWdodHMgaXMgZXhwcmVzc2x5IG1hZGUgc3ViamVjdCB0byB0aGUKZm9sbG93aW5nIGNvbmRpdGlvbnMuCgogIGEuIEF0dHJpYnV0aW9uLgoKICAgICAgIDEuIElmIFlvdSBTaGFyZSB0aGUgTGljZW5zZWQgTWF0ZXJpYWwgKGluY2x1ZGluZyBpbiBtb2RpZmllZAogICAgICAgICAgZm9ybSksIFlvdSBtdXN0OgoKICAgICAgICAgICAgYS4gcmV0YWluIHRoZSBmb2xsb3dpbmcgaWYgaXQgaXMgc3VwcGxpZWQgYnkgdGhlIExpY2Vuc29yCiAgICAgICAgICAgICAgIHdpdGggdGhlIExpY2Vuc2VkIE1hdGVyaWFsOgoKICAgICAgICAgICAgICAgICBpLiBpZGVudGlmaWNhdGlvbiBvZiB0aGUgY3JlYXRvcihzKSBvZiB0aGUgTGljZW5zZWQKICAgICAgICAgICAgICAgICAgICBNYXRlcmlhbCBhbmQgYW55IG90aGVycyBkZXNpZ25hdGVkIHRvIHJlY2VpdmUKICAgICAgICAgICAgICAgICAgICBhdHRyaWJ1dGlvbiwgaW4gYW55IHJlYXNvbmFibGUgbWFubmVyIHJlcXVlc3RlZCBieQogICAgICAgICAgICAgICAgICAgIHRoZSBMaWNlbnNvciAoaW5jbHVkaW5nIGJ5IHBzZXVkb255bSBpZgogICAgICAgICAgICAgICAgICAgIGRlc2lnbmF0ZWQpOwoKICAgICAgICAgICAgICAgIGlpLiBhIGNvcHlyaWdodCBub3RpY2U7CgogICAgICAgICAgICAgICBpaWkuIGEgbm90aWNlIHRoYXQgcmVmZXJzIHRvIHRoaXMgUHVibGljIExpY2Vuc2U7CgogICAgICAgICAgICAgICAgaXYuIGEgbm90aWNlIHRoYXQgcmVmZXJzIHRvIHRoZSBkaXNjbGFpbWVyIG9mCiAgICAgICAgICAgICAgICAgICAgd2FycmFudGllczsKCiAgICAgICAgICAgICAgICAgdi4gYSBVUkkgb3IgaHlwZXJsaW5rIHRvIHRoZSBMaWNlbnNlZCBNYXRlcmlhbCB0byB0aGUKICAgICAgICAgICAgICAgICAgICBleHRlbnQgcmVhc29uYWJseSBwcmFjdGljYWJsZTsKCiAgICAgICAgICAgIGIuIGluZGljYXRlIGlmIFlvdSBtb2RpZmllZCB0aGUgTGljZW5zZWQgTWF0ZXJpYWwgYW5kCiAgICAgICAgICAgICAgIHJldGFpbiBhbiBpbmRpY2F0aW9uIG9mIGFueSBwcmV2aW91cyBtb2RpZmljYXRpb25zOyBhbmQKCiAgICAgICAgICAgIGMuIGluZGljYXRlIHRoZSBMaWNlbnNlZCBNYXRlcmlhbCBpcyBsaWNlbnNlZCB1bmRlciB0aGlzCiAgICAgICAgICAgICAgIFB1YmxpYyBMaWNlbnNlLCBhbmQgaW5jbHVkZSB0aGUgdGV4dCBvZiwgb3IgdGhlIFVSSSBvcgogICAgICAgICAgICAgICBoeXBlcmxpbmsgdG8sIHRoaXMgUHVibGljIExpY2Vuc2UuCgogICAgICAgMi4gWW91IG1heSBzYXRpc2Z5IHRoZSBjb25kaXRpb25zIGluIFNlY3Rpb24gMyhhKSgxKSBpbiBhbnkKICAgICAgICAgIHJlYXNvbmFibGUgbWFubmVyIGJhc2VkIG9uIHRoZSBtZWRpdW0sIG1lYW5zLCBhbmQgY29udGV4dCBpbgogICAgICAgICAgd2hpY2ggWW91IFNoYXJlIHRoZSBMaWNlbnNlZCBNYXRlcmlhbC4gRm9yIGV4YW1wbGUsIGl0IG1heSBiZQogICAgICAgICAgcmVhc29uYWJsZSB0byBzYXRpc2Z5IHRoZSBjb25kaXRpb25zIGJ5IHByb3ZpZGluZyBhIFVSSSBvcgogICAgICAgICAgaHlwZXJsaW5rIHRvIGEgcmVzb3VyY2UgdGhhdCBpbmNsdWRlcyB0aGUgcmVxdWlyZWQKICAgICAgICAgIGluZm9ybWF0aW9uLgoKICAgICAgIDMuIElmIHJlcXVlc3RlZCBieSB0aGUgTGljZW5zb3IsIFlvdSBtdXN0IHJlbW92ZSBhbnkgb2YgdGhlCiAgICAgICAgICBpbmZvcm1hdGlvbiByZXF1aXJlZCBieSBTZWN0aW9uIDMoYSkoMSkoQSkgdG8gdGhlIGV4dGVudAogICAgICAgICAgcmVhc29uYWJseSBwcmFjdGljYWJsZS4KCiAgYi4gU2hhcmVBbGlrZS4KCiAgICAgSW4gYWRkaXRpb24gdG8gdGhlIGNvbmRpdGlvbnMgaW4gU2VjdGlvbiAzKGEpLCBpZiBZb3UgU2hhcmUKICAgICBBZGFwdGVkIE1hdGVyaWFsIFlvdSBwcm9kdWNlLCB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnMgYWxzbyBhcHBseS4KCiAgICAgICAxLiBUaGUgQWRhcHRlcidzIExpY2Vuc2UgWW91IGFwcGx5IG11c3QgYmUgYSBDcmVhdGl2ZSBDb21tb25zCiAgICAgICAgICBsaWNlbnNlIHdpdGggdGhlIHNhbWUgTGljZW5zZSBFbGVtZW50cywgdGhpcyB2ZXJzaW9uIG9yCiAgICAgICAgICBsYXRlciwgb3IgYSBCWS1TQSBDb21wYXRpYmxlIExpY2Vuc2UuCgogICAgICAgMi4gWW91IG11c3QgaW5jbHVkZSB0aGUgdGV4dCBvZiwgb3IgdGhlIFVSSSBvciBoeXBlcmxpbmsgdG8sIHRoZQogICAgICAgICAgQWRhcHRlcidzIExpY2Vuc2UgWW91IGFwcGx5LiBZb3UgbWF5IHNhdGlzZnkgdGhpcyBjb25kaXRpb24KICAgICAgICAgIGluIGFueSByZWFzb25hYmxlIG1hbm5lciBiYXNlZCBvbiB0aGUgbWVkaXVtLCBtZWFucywgYW5kCiAgICAgICAgICBjb250ZXh0IGluIHdoaWNoIFlvdSBTaGFyZSBBZGFwdGVkIE1hdGVyaWFsLgoKICAgICAgIDMuIFlvdSBtYXkgbm90IG9mZmVyIG9yIGltcG9zZSBhbnkgYWRkaXRpb25hbCBvciBkaWZmZXJlbnQgdGVybXMKICAgICAgICAgIG9yIGNvbmRpdGlvbnMgb24sIG9yIGFwcGx5IGFueSBFZmZlY3RpdmUgVGVjaG5vbG9naWNhbAogICAgICAgICAgTWVhc3VyZXMgdG8sIEFkYXB0ZWQgTWF0ZXJpYWwgdGhhdCByZXN0cmljdCBleGVyY2lzZSBvZiB0aGUKICAgICAgICAgIHJpZ2h0cyBncmFudGVkIHVuZGVyIHRoZSBBZGFwdGVyJ3MgTGljZW5zZSBZb3UgYXBwbHkuCgoKU2VjdGlvbiA0IC0tIFN1aSBHZW5lcmlzIERhdGFiYXNlIFJpZ2h0cy4KCldoZXJlIHRoZSBMaWNlbnNlZCBSaWdodHMgaW5jbHVkZSBTdWkgR2VuZXJpcyBEYXRhYmFzZSBSaWdodHMgdGhhdAphcHBseSB0byBZb3VyIHVzZSBvZiB0aGUgTGljZW5zZWQgTWF0ZXJpYWw6CgogIGEuIGZvciB0aGUgYXZvaWRhbmNlIG9mIGRvdWJ0LCBTZWN0aW9uIDIoYSkoMSkgZ3JhbnRzIFlvdSB0aGUgcmlnaHQKICAgICB0byBleHRyYWN0LCByZXVzZSwgcmVwcm9kdWNlLCBhbmQgU2hhcmUgYWxsIG9yIGEgc3Vic3RhbnRpYWwKICAgICBwb3J0aW9uIG9mIHRoZSBjb250ZW50cyBvZiB0aGUgZGF0YWJhc2U7CgogIGIuIGlmIFlvdSBpbmNsdWRlIGFsbCBvciBhIHN1YnN0YW50aWFsIHBvcnRpb24gb2YgdGhlIGRhdGFiYXNlCiAgICAgY29udGVudHMgaW4gYSBkYXRhYmFzZSBpbiB3aGljaCBZb3UgaGF2ZSBTdWkgR2VuZXJpcyBEYXRhYmFzZQogICAgIFJpZ2h0cywgdGhlbiB0aGUgZGF0YWJhc2UgaW4gd2hpY2ggWW91IGhhdmUgU3VpIEdlbmVyaXMgRGF0YWJhc2UKICAgICBSaWdodHMgKGJ1dCBub3QgaXRzIGluZGl2aWR1YWwgY29udGVudHMpIGlzIEFkYXB0ZWQgTWF0ZXJpYWwsCgogICAgIGluY2x1ZGluZyBmb3IgcHVycG9zZXMgb2YgU2VjdGlvbiAzKGIpOyBhbmQKICBjLiBZb3UgbXVzdCBjb21wbHkgd2l0aCB0aGUgY29uZGl0aW9ucyBpbiBTZWN0aW9uIDMoYSkgaWYgWW91IFNoYXJlCiAgICAgYWxsIG9yIGEgc3Vic3RhbnRpYWwgcG9ydGlvbiBvZiB0aGUgY29udGVudHMgb2YgdGhlIGRhdGFiYXNlLgoKRm9yIHRoZSBhdm9pZGFuY2Ugb2YgZG91YnQsIHRoaXMgU2VjdGlvbiA0IHN1cHBsZW1lbnRzIGFuZCBkb2VzIG5vdApyZXBsYWNlIFlvdXIgb2JsaWdhdGlvbnMgdW5kZXIgdGhpcyBQdWJsaWMgTGljZW5zZSB3aGVyZSB0aGUgTGljZW5zZWQKUmlnaHRzIGluY2x1ZGUgb3RoZXIgQ29weXJpZ2h0IGFuZCBTaW1pbGFyIFJpZ2h0cy4KCgpTZWN0aW9uIDUgLS0gRGlzY2xhaW1lciBvZiBXYXJyYW50aWVzIGFuZCBMaW1pdGF0aW9uIG9mIExpYWJpbGl0eS4KCiAgYS4gVU5MRVNTIE9USEVSV0lTRSBTRVBBUkFURUxZIFVOREVSVEFLRU4gQlkgVEhFIExJQ0VOU09SLCBUTyBUSEUKICAgICBFWFRFTlQgUE9TU0lCTEUsIFRIRSBMSUNFTlNPUiBPRkZFUlMgVEhFIExJQ0VOU0VEIE1BVEVSSUFMIEFTLUlTCiAgICAgQU5EIEFTLUFWQUlMQUJMRSwgQU5EIE1BS0VTIE5PIFJFUFJFU0VOVEFUSU9OUyBPUiBXQVJSQU5USUVTIE9GCiAgICAgQU5ZIEtJTkQgQ09OQ0VSTklORyBUSEUgTElDRU5TRUQgTUFURVJJQUwsIFdIRVRIRVIgRVhQUkVTUywKICAgICBJTVBMSUVELCBTVEFUVVRPUlksIE9SIE9USEVSLiBUSElTIElOQ0xVREVTLCBXSVRIT1VUIExJTUlUQVRJT04sCiAgICAgV0FSUkFOVElFUyBPRiBUSVRMRSwgTUVSQ0hBTlRBQklMSVRZLCBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIKICAgICBQVVJQT1NFLCBOT04tSU5GUklOR0VNRU5ULCBBQlNFTkNFIE9GIExBVEVOVCBPUiBPVEhFUiBERUZFQ1RTLAogICAgIEFDQ1VSQUNZLCBPUiBUSEUgUFJFU0VOQ0UgT1IgQUJTRU5DRSBPRiBFUlJPUlMsIFdIRVRIRVIgT1IgTk9UCiAgICAgS05PV04gT1IgRElTQ09WRVJBQkxFLiBXSEVSRSBESVNDTEFJTUVSUyBPRiBXQVJSQU5USUVTIEFSRSBOT1QKICAgICBBTExPV0VEIElOIEZVTEwgT1IgSU4gUEFSVCwgVEhJUyBESVNDTEFJTUVSIE1BWSBOT1QgQVBQTFkgVE8gWU9VLgoKICBiLiBUTyBUSEUgRVhURU5UIFBPU1NJQkxFLCBJTiBOTyBFVkVOVCBXSUxMIFRIRSBMSUNFTlNPUiBCRSBMSUFCTEUKICAgICBUTyBZT1UgT04gQU5ZIExFR0FMIFRIRU9SWSAoSU5DTFVESU5HLCBXSVRIT1VUIExJTUlUQVRJT04sCiAgICAgTkVHTElHRU5DRSkgT1IgT1RIRVJXSVNFIEZPUiBBTlkgRElSRUNULCBTUEVDSUFMLCBJTkRJUkVDVCwKICAgICBJTkNJREVOVEFMLCBDT05TRVFVRU5USUFMLCBQVU5JVElWRSwgRVhFTVBMQVJZLCBPUiBPVEhFUiBMT1NTRVMsCiAgICAgQ09TVFMsIEVYUEVOU0VTLCBPUiBEQU1BR0VTIEFSSVNJTkcgT1VUIE9GIFRISVMgUFVCTElDIExJQ0VOU0UgT1IKICAgICBVU0UgT0YgVEhFIExJQ0VOU0VEIE1BVEVSSUFMLCBFVkVOIElGIFRIRSBMSUNFTlNPUiBIQVMgQkVFTgogICAgIEFEVklTRUQgT0YgVEhFIFBPU1NJQklMSVRZIE9GIFNVQ0ggTE9TU0VTLCBDT1NUUywgRVhQRU5TRVMsIE9SCiAgICAgREFNQUdFUy4gV0hFUkUgQSBMSU1JVEFUSU9OIE9GIExJQUJJTElUWSBJUyBOT1QgQUxMT1dFRCBJTiBGVUxMIE9SCiAgICAgSU4gUEFSVCwgVEhJUyBMSU1JVEFUSU9OIE1BWSBOT1QgQVBQTFkgVE8gWU9VLgoKICBjLiBUaGUgZGlzY2xhaW1lciBvZiB3YXJyYW50aWVzIGFuZCBsaW1pdGF0aW9uIG9mIGxpYWJpbGl0eSBwcm92aWRlZAogICAgIGFib3ZlIHNoYWxsIGJlIGludGVycHJldGVkIGluIGEgbWFubmVyIHRoYXQsIHRvIHRoZSBleHRlbnQKICAgICBwb3NzaWJsZSwgbW9zdCBjbG9zZWx5IGFwcHJveGltYXRlcyBhbiBhYnNvbHV0ZSBkaXNjbGFpbWVyIGFuZAogICAgIHdhaXZlciBvZiBhbGwgbGlhYmlsaXR5LgoKClNlY3Rpb24gNiAtLSBUZXJtIGFuZCBUZXJtaW5hdGlvbi4KCiAgYS4gVGhpcyBQdWJsaWMgTGljZW5zZSBhcHBsaWVzIGZvciB0aGUgdGVybSBvZiB0aGUgQ29weXJpZ2h0IGFuZAogICAgIFNpbWlsYXIgUmlnaHRzIGxpY2Vuc2VkIGhlcmUuIEhvd2V2ZXIsIGlmIFlvdSBmYWlsIHRvIGNvbXBseSB3aXRoCiAgICAgdGhpcyBQdWJsaWMgTGljZW5zZSwgdGhlbiBZb3VyIHJpZ2h0cyB1bmRlciB0aGlzIFB1YmxpYyBMaWNlbnNlCiAgICAgdGVybWluYXRlIGF1dG9tYXRpY2FsbHkuCgogIGIuIFdoZXJlIFlvdXIgcmlnaHQgdG8gdXNlIHRoZSBMaWNlbnNlZCBNYXRlcmlhbCBoYXMgdGVybWluYXRlZCB1bmRlcgogICAgIFNlY3Rpb24gNihhKSwgaXQgcmVpbnN0YXRlczoKCiAgICAgICAxLiBhdXRvbWF0aWNhbGx5IGFzIG9mIHRoZSBkYXRlIHRoZSB2aW9sYXRpb24gaXMgY3VyZWQsIHByb3ZpZGVkCiAgICAgICAgICBpdCBpcyBjdXJlZCB3aXRoaW4gMzAgZGF5cyBvZiBZb3VyIGRpc2NvdmVyeSBvZiB0aGUKICAgICAgICAgIHZpb2xhdGlvbjsgb3IKCiAgICAgICAyLiB1cG9uIGV4cHJlc3MgcmVpbnN0YXRlbWVudCBieSB0aGUgTGljZW5zb3IuCgogICAgIEZvciB0aGUgYXZvaWRhbmNlIG9mIGRvdWJ0LCB0aGlzIFNlY3Rpb24gNihiKSBkb2VzIG5vdCBhZmZlY3QgYW55CiAgICAgcmlnaHQgdGhlIExpY2Vuc29yIG1heSBoYXZlIHRvIHNlZWsgcmVtZWRpZXMgZm9yIFlvdXIgdmlvbGF0aW9ucwogICAgIG9mIHRoaXMgUHVibGljIExpY2Vuc2UuCgogIGMuIEZvciB0aGUgYXZvaWRhbmNlIG9mIGRvdWJ0LCB0aGUgTGljZW5zb3IgbWF5IGFsc28gb2ZmZXIgdGhlCiAgICAgTGljZW5zZWQgTWF0ZXJpYWwgdW5kZXIgc2VwYXJhdGUgdGVybXMgb3IgY29uZGl0aW9ucyBvciBzdG9wCiAgICAgZGlzdHJpYnV0aW5nIHRoZSBMaWNlbnNlZCBNYXRlcmlhbCBhdCBhbnkgdGltZTsgaG93ZXZlciwgZG9pbmcgc28KICAgICB3aWxsIG5vdCB0ZXJtaW5hdGUgdGhpcyBQdWJsaWMgTGljZW5zZS4KCiAgZC4gU2VjdGlvbnMgMSwgNSwgNiwgNywgYW5kIDggc3Vydml2ZSB0ZXJtaW5hdGlvbiBvZiB0aGlzIFB1YmxpYwogICAgIExpY2Vuc2UuCgoKU2VjdGlvbiA3IC0tIE90aGVyIFRlcm1zIGFuZCBDb25kaXRpb25zLgoKICBhLiBUaGUgTGljZW5zb3Igc2hhbGwgbm90IGJlIGJvdW5kIGJ5IGFueSBhZGRpdGlvbmFsIG9yIGRpZmZlcmVudAogICAgIHRlcm1zIG9yIGNvbmRpdGlvbnMgY29tbXVuaWNhdGVkIGJ5IFlvdSB1bmxlc3MgZXhwcmVzc2x5IGFncmVlZC4KCiAgYi4gQW55IGFycmFuZ2VtZW50cywgdW5kZXJzdGFuZGluZ3MsIG9yIGFncmVlbWVudHMgcmVnYXJkaW5nIHRoZQogICAgIExpY2Vuc2VkIE1hdGVyaWFsIG5vdCBzdGF0ZWQgaGVyZWluIGFyZSBzZXBhcmF0ZSBmcm9tIGFuZAogICAgIGluZGVwZW5kZW50IG9mIHRoZSB0ZXJtcyBhbmQgY29uZGl0aW9ucyBvZiB0aGlzIFB1YmxpYyBMaWNlbnNlLgoKClNlY3Rpb24gOCAtLSBJbnRlcnByZXRhdGlvbi4KCiAgYS4gRm9yIHRoZSBhdm9pZGFuY2Ugb2YgZG91YnQsIHRoaXMgUHVibGljIExpY2Vuc2UgZG9lcyBub3QsIGFuZAogICAgIHNoYWxsIG5vdCBiZSBpbnRlcnByZXRlZCB0bywgcmVkdWNlLCBsaW1pdCwgcmVzdHJpY3QsIG9yIGltcG9zZQogICAgIGNvbmRpdGlvbnMgb24gYW55IHVzZSBvZiB0aGUgTGljZW5zZWQgTWF0ZXJpYWwgdGhhdCBjb3VsZCBsYXdmdWxseQogICAgIGJlIG1hZGUgd2l0aG91dCBwZXJtaXNzaW9uIHVuZGVyIHRoaXMgUHVibGljIExpY2Vuc2UuCgogIGIuIFRvIHRoZSBleHRlbnQgcG9zc2libGUsIGlmIGFueSBwcm92aXNpb24gb2YgdGhpcyBQdWJsaWMgTGljZW5zZSBpcwogICAgIGRlZW1lZCB1bmVuZm9yY2VhYmxlLCBpdCBzaGFsbCBiZSBhdXRvbWF0aWNhbGx5IHJlZm9ybWVkIHRvIHRoZQogICAgIG1pbmltdW0gZXh0ZW50IG5lY2Vzc2FyeSB0byBtYWtlIGl0IGVuZm9yY2VhYmxlLiBJZiB0aGUgcHJvdmlzaW9uCiAgICAgY2Fubm90IGJlIHJlZm9ybWVkLCBpdCBzaGFsbCBiZSBzZXZlcmVkIGZyb20gdGhpcyBQdWJsaWMgTGljZW5zZQogICAgIHdpdGhvdXQgYWZmZWN0aW5nIHRoZSBlbmZvcmNlYWJpbGl0eSBvZiB0aGUgcmVtYWluaW5nIHRlcm1zIGFuZAogICAgIGNvbmRpdGlvbnMuCgogIGMuIE5vIHRlcm0gb3IgY29uZGl0aW9uIG9mIHRoaXMgUHVibGljIExpY2Vuc2Ugd2lsbCBiZSB3YWl2ZWQgYW5kIG5vCiAgICAgZmFpbHVyZSB0byBjb21wbHkgY29uc2VudGVkIHRvIHVubGVzcyBleHByZXNzbHkgYWdyZWVkIHRvIGJ5IHRoZQogICAgIExpY2Vuc29yLgoKICBkLiBOb3RoaW5nIGluIHRoaXMgUHVibGljIExpY2Vuc2UgY29uc3RpdHV0ZXMgb3IgbWF5IGJlIGludGVycHJldGVkCiAgICAgYXMgYSBsaW1pdGF0aW9uIHVwb24sIG9yIHdhaXZlciBvZiwgYW55IHByaXZpbGVnZXMgYW5kIGltbXVuaXRpZXMKICAgICB0aGF0IGFwcGx5IHRvIHRoZSBMaWNlbnNvciBvciBZb3UsIGluY2x1ZGluZyBmcm9tIHRoZSBsZWdhbAogICAgIHByb2Nlc3NlcyBvZiBhbnkganVyaXNkaWN0aW9uIG9yIGF1dGhvcml0eS4KCgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQoKQ3JlYXRpdmUgQ29tbW9ucyBpcyBub3QgYSBwYXJ0eSB0byBpdHMgcHVibGljCmxpY2Vuc2VzLiBOb3R3aXRoc3RhbmRpbmcsIENyZWF0aXZlIENvbW1vbnMgbWF5IGVsZWN0IHRvIGFwcGx5IG9uZSBvZgppdHMgcHVibGljIGxpY2Vuc2VzIHRvIG1hdGVyaWFsIGl0IHB1Ymxpc2hlcyBhbmQgaW4gdGhvc2UgaW5zdGFuY2VzCndpbGwgYmUgY29uc2lkZXJlZCB0aGUg4oCcTGljZW5zb3Iu4oCdIFRoZSB0ZXh0IG9mIHRoZSBDcmVhdGl2ZSBDb21tb25zCnB1YmxpYyBsaWNlbnNlcyBpcyBkZWRpY2F0ZWQgdG8gdGhlIHB1YmxpYyBkb21haW4gdW5kZXIgdGhlIENDMCBQdWJsaWMKRG9tYWluIERlZGljYXRpb24uIEV4Y2VwdCBmb3IgdGhlIGxpbWl0ZWQgcHVycG9zZSBvZiBpbmRpY2F0aW5nIHRoYXQKbWF0ZXJpYWwgaXMgc2hhcmVkIHVuZGVyIGEgQ3JlYXRpdmUgQ29tbW9ucyBwdWJsaWMgbGljZW5zZSBvciBhcwpvdGhlcndpc2UgcGVybWl0dGVkIGJ5IHRoZSBDcmVhdGl2ZSBDb21tb25zIHBvbGljaWVzIHB1Ymxpc2hlZCBhdApjcmVhdGl2ZWNvbW1vbnMub3JnL3BvbGljaWVzLCBDcmVhdGl2ZSBDb21tb25zIGRvZXMgbm90IGF1dGhvcml6ZSB0aGUKdXNlIG9mIHRoZSB0cmFkZW1hcmsgIkNyZWF0aXZlIENvbW1vbnMiIG9yIGFueSBvdGhlciB0cmFkZW1hcmsgb3IgbG9nbwpvZiBDcmVhdGl2ZSBDb21tb25zIHdpdGhvdXQgaXRzIHByaW9yIHdyaXR0ZW4gY29uc2VudCBpbmNsdWRpbmcsCndpdGhvdXQgbGltaXRhdGlvbiwgaW4gY29ubmVjdGlvbiB3aXRoIGFueSB1bmF1dGhvcml6ZWQgbW9kaWZpY2F0aW9ucwp0byBhbnkgb2YgaXRzIHB1YmxpYyBsaWNlbnNlcyBvciBhbnkgb3RoZXIgYXJyYW5nZW1lbnRzLAp1bmRlcnN0YW5kaW5ncywgb3IgYWdyZWVtZW50cyBjb25jZXJuaW5nIHVzZSBvZiBsaWNlbnNlZCBtYXRlcmlhbC4gRm9yCnRoZSBhdm9pZGFuY2Ugb2YgZG91YnQsIHRoaXMgcGFyYWdyYXBoIGRvZXMgbm90IGZvcm0gcGFydCBvZiB0aGUKcHVibGljIGxpY2Vuc2VzLgoKQ3JlYXRpdmUgQ29tbW9ucyBtYXkgYmUgY29udGFjdGVkIGF0IGNyZWF0aXZlY29tbW9ucy5vcmcuCg==</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-sa/4.0/">
+    CC BY-SA-4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("LICENSE.md");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
