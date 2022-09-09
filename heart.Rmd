@@ -5,9 +5,10 @@ date: "statOmics, Ghent University (https://statomics.github.io)"
 output:
     html_document:
       code_download: true
-      theme: flatly
+      theme: cosmo
       toc: true
-      toc_float: true
+      toc_float: 
+        collapsed: true
       highlight: tango
       number_sections: true
     pdf_document:
@@ -17,6 +18,8 @@ linkcolor: blue
 urlcolor: blue
 citecolor: blue
 ---
+
+
 # Background
 
 Researchers have assessed the proteome in different regions of the heart for 3 patients (identifiers 3, 4, and 8). For each patient they sampled the left atrium (LA), right atrium (RA), left ventricle (LV) and the right ventricle (RV). The data are a small subset of the public dataset PXD006675 on PRIDE.
@@ -168,7 +171,7 @@ pe <- filterFeatures(pe,~ Potential.contaminant != "+")
 
 ### Drop peptides that were only identified in one sample
 
-We keep peptides that were observed at last twice.
+We keep peptides that were observed at least twice.
 
 ```{r}
 pe <- filterFeatures(pe,~nNonZero >= 2)
@@ -179,10 +182,10 @@ We keep `r nrow(pe[["peptideLog"]])` peptides after filtering.
 
 </p></details>
 
-
 ## Normalize the data
 
 <details><summary> Click to see background and code </summary><p>
+
 
 ```{r}
 pe <- normalize(pe, 
@@ -193,7 +196,7 @@ pe <- normalize(pe,
 
 </p></details>
 
-## Explore normalized data
+### Explore normalized data
 
 <details><summary> Click to see background and code </summary><p>
 
@@ -332,7 +335,8 @@ rowData(pe[["proteinRobust"]])$tissueV %>%
   na.exclude %>%
   filter(adjPval<0.05) %>%
   arrange(pval)  %>%
-  knitr::kable(.)
+  head(10) %>%
+  knitr::kable(.) 
 ```
 
 ## Evaluate results contrast $\log_2 FC_{V-A}^R$
@@ -369,6 +373,7 @@ rowData(pe[["proteinRobust"]])$"tissueV + locationR:tissueV"  %>%
   na.exclude %>%
   filter(adjPval<0.05) %>%
   arrange(pval) %>%
+  head(10) %>%
   knitr::kable(.)
 ```
 
@@ -407,7 +412,8 @@ rowData(pe[["proteinRobust"]])$"tissueV + 0.5 * locationR:tissueV" %>%
   na.exclude %>%
   filter(adjPval<0.05) %>%
   arrange(pval) %>%
-  knitr::kable(.)
+  head(10) %>%
+  knitr::kable(.) 
 ```
 
 
@@ -446,96 +452,8 @@ rowData(pe[["proteinRobust"]])$"locationR:tissueV" %>%
   cbind(.,rowData(pe[["proteinRobust"]])$Protein.names) %>%
   na.exclude %>%
   filter(adjPval<0.05) %>%
-  arrange(pval)
+  head(10) %>%
+  knitr::kable(.) 
 ```
 
-#  Large difference in number of proteins that are returned
-
-Note, that much more proteins are returned significant for average contrast ($\log_2 FC_{V-A}$) as compared to contrast for assessing the fold change between ventriculum and atrium left and right. The power for the average contrast is larger than for the contrast left or right because the log2 FC can be estimated with higher precision.
-
-For none of the proteins the interaction was significant (change in log2 FC between ventriculum and atrium in the right vs the left heart region). The power for the interaction is typically low.
-
-## Reason
-
-Part of variance covariance matrix of model parameters due to design:
-
-```{r}
-X <- model.matrix(~ location*tissue + patient, colData(pe))
-covarUnscaled <- solve(t(X) %*% X)
-```
-
-Variance of contrasts (diagonal elements) due to design
-```{r}
-varContrasts <- t(L)%*%covarUnscaled%*%L %>%
-  diag
-varContrasts
-sqrt(varContrasts)
-```
-
-So it is clear that the standard error of the log2 FC left and right is the same.
-That of the average contrast is a factor $\sqrt{2}$ smaller!
-Indeed, we use double the number of samples to estimate it!
-
-```{r}
-varContrasts[3]/varContrasts[2]
-sqrt(varContrasts)[3]/sqrt(varContrasts)[2]
-1/sqrt(2)
-```
-
-The standard error of the interaction is a factor $\sqrt{2}$ larger than that of the main effects!
-```{r}
-varContrasts[4]/varContrasts[2]
-sqrt(varContrasts)[4]/sqrt(varContrasts)[2]
-sqrt(2)
-```
-
-## Msqrob
-
-This is not the case for the standard errors of protein 2???
-
-```{r}
-rowData(pe[["proteinRobust"]])$"tissueV"[2,]
-rowData(pe[["proteinRobust"]])$"tissueV + locationR:tissueV"[2,]
-rowData(pe[["proteinRobust"]])$"tissueV + 0.5 * locationR:tissueV"[2,]
-rowData(pe[["proteinRobust"]])$"locationR:tissueV"[2,]
-```
-
-Because msqrob is using robust regression to assess DE!
-
-```{r}
-pe %>%
-  colData %>%
-  as_tibble %>%
-  mutate(w=getModel(rowData(pe[["proteinRobust"]])$msqrobModels[[2]])$w)
-```
-
-For protein 2 the samples at the left and right side have different weights!
-
-
-### Part of standard error due to design:
-
-```{r}
-covUnscaledRobust <- solve(
-  t(X) %*%
-  diag(
-    getModel(rowData(pe[["proteinRobust"]])$msqrobModels[[2]])$w) %*% X)
-
-varContrastsRobust <- t(L)%*%covUnscaledRobust%*%L %>%
-  diag
-varContrastsRobust
-sqrt(varContrastsRobust)
-```
-
-### Standard errors Contrasts
-
-```{r}
-sqrt(varContrastsRobust) * getSigmaPosterior(rowData(pe[["proteinRobust"]])$msqrobModels[[2]])
-```
-
-```{r}
-rowData(pe[["proteinRobust"]])$"tissueV"[2,]
-rowData(pe[["proteinRobust"]])$"tissueV + locationR:tissueV"[2,]
-rowData(pe[["proteinRobust"]])$"tissueV + 0.5 * locationR:tissueV"[2,]
-rowData(pe[["proteinRobust"]])$"locationR:tissueV"[2,]
-```
 
