@@ -1070,9 +1070,9 @@ sumRlmPlot <- sumPlot + geom_hline(
 - Instead of summarising the data we can also directly model the data at the peptide-level. 
 - But, we will have to address the pseudo-replication.
 
-$$
-y_{iclp}= \beta_0 + \beta_c^\text{condition} + \beta_l^\text{lab} + \beta_p^\text{peptide} + u_s^\text{sample} + \epsilon_{iclp}
-$$
+
+$y_{iclp}= \beta_0 + \beta_c^\text{condition} + \beta_l^\text{lab} + \beta_p^\text{peptide} + u_s^\text{sample} + \epsilon_{iclp}$
+
 
 - protein-level
 
@@ -1086,12 +1086,11 @@ $$
 
 
 - DA estimates: 
-$$
-\log_2FC_{B-A}=\beta^\text{condition}_B  
-$$
-$$
-\log_2FC_{C-B}=\beta^\text{condition}_C - \beta^\text{condition}_B 
-$$
+
+$\log_2FC_{B-A}=\beta^\text{condition}_B$
+
+$\log_2FC_{C-B}=\beta^\text{condition}_C - \beta^\text{condition}_B$
+
 - Mixed peptide-level models are implemented in msqrob2
 
 - It has the advantages that
