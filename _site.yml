@@ -9,7 +9,7 @@ navbar:
     - text: "demos"
       icon: fa-chalkboard-teacher
       menu:
-        - text: "CPTAC Analysis"
+        - text: "CPTAC"
           href: cptac_analysis.html
         - text: "Heart Study"
           href: heart.html

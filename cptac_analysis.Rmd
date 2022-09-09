@@ -5,7 +5,7 @@ date: "statOmics, Ghent University (https://statomics.github.io)"
 output:
     html_document:
       code_download: true
-      theme: flatly
+      theme: cosmo
       toc: true
       toc_float: true
       highlight: tango
@@ -95,7 +95,7 @@ hierarchical relation:
   - themselves produced by spectra
   - relations between assays are tracked and recorded throughout data processing
 
-```{r featuresplot, fig.cap = "Conceptual representation of a `QFeatures` object and the aggregative relation between different assays.", echo = FALSE}
+```{r featuresplot, fig.cap = "Conceptual representation of a `QFeatures` object and the aggregative relation between different assays.", echo = FALSE  }
 par(mar = c(0, 0, 0, 0))
 plot(NA, xlim = c(0, 12), ylim = c(0, 20),
      xaxt = "n", yaxt = "n",
@@ -138,8 +138,6 @@ segments(8, 14, 9, 11, lty = "dashed")
 segments(8, 15, 9, 12, lty = "dashed")
 ```
 
-</p></details>
-
 
 # Background of the CPTAC Spike-In Study
 This case-study is a subset of the data of the 6th study of the Clinical
@@ -150,7 +148,7 @@ of 60 ng/$\mu$L Saccharomyces cerevisiae strain BY4741.
 
 
 Five different spike-in concentrations were used:
-(6A: 0.25 fmol UPS1 proteins/μl; 6B: 0.74 fmol UPS1 proteins/μl; 6C: 2.22 fmol UPS1 proteins/μl; 6D: 6.67 fmol UPS1 proteins/μl; and 6E: 20 fmol UPS1 proteins/μl) [5].
+(6A: 0.25 fmol UPS1 proteins/$\mu L$; 6B: 0.74 fmol UPS1 proteins/$\mu L$; 6C: 2.22 fmol UPS1 proteins/$\mu L$; 6D: 6.67 fmol UPS1 proteins/$\mu L$; and 6E: 20 fmol UPS1 proteins/$\mu L$) [5].
 
 
 We limited ourselves to the data of LTQ-Orbitrap W at site 56.
@@ -1116,3 +1114,4 @@ With respect to reproducibility, it is highly recommended to include a session i
 ```{r}
 sessionInfo()
 ```
+
