@@ -282,7 +282,6 @@ pe_all$spikeConcentration <- rep(c(A = 0.25, B = 0.74, C = 2.22, D = 6.67, E = 2
 colData(pe_all)
 ```
 
-
 # Subset of the CPTAC study
 
 We are going to focus on a subset of the data, specifically on
@@ -350,16 +349,18 @@ pe <- filterFeatures(pe, ~ Proteins %in% smallestUniqueGroups(rowData(pe[["pepti
 We now remove the contaminants and peptides that map to decoy sequences.
 
 ```{r}
-pe <- filterFeatures(pe,~ Reverse != "+")
-pe <- filterFeatures(pe,~ Potential.contaminant != "+")
+pe <- pe |>
+  filterFeatures(~ Reverse != "+") |>
+  filterFeatures(~ Potential.contaminant != "+")
 ```
 
 3. Drop peptides that were only identified in one sample
 
-We keep peptides that were observed at last twice.
+We keep peptides that were observed at last twice, i.e. those that
+have no more that 4 missing values
 
 ```{r}
-pe <- filterFeatures(pe,~ nNonZero >=2)
+pe <- filterFeatures(pe, ~ pe_na$nNArows$nNA <= 4)
 nrow(pe[["peptideLog"]])
 ```
 
@@ -368,11 +369,13 @@ We keep `r nrow(pe[["peptideLog"]])` peptides upon filtering.
 
 ## Normalize the data using median centering
 
-We normalize the data by substracting the sample median from every intensity for peptide $p$  in a sample $i$:
+We normalize the data by substracting the sample median from every
+intensity for peptide $p$ in a sample $i$:
 
 $$y_{ip}^\text{norm} = y_{ip} - \hat\mu_i$$
 
-with $\hat\mu_i$ the median intensity over all observed peptides in sample $i$.
+with $\hat\mu_i$ the median intensity over all observed peptides in
+sample $i$.
 
 ```{r}
 pe <- normalize(pe,
@@ -387,27 +390,11 @@ pe <- normalize(pe,
 Upon the normalisation the density curves follow a similar distribution.
 
 ```{r}
-pe[["peptideLog"]] %>%
-  assay %>%
-  as.data.frame() %>%
-  gather(sample, intensity) %>%
-  mutate(condition = colData(pe)[sample,"condition"]) %>%
-  ggplot(aes(x = intensity,group = sample,color = condition)) +
-    geom_density()+
-  theme_bw() +
-  ggtitle("Before median centering")
-
-pe[["peptideNorm"]] %>%
-  assay %>%
-  as.data.frame() %>%
-  gather(sample, intensity) %>%
-  mutate(condition = colData(pe)[sample,"condition"]) %>%
-  ggplot(aes(x = intensity,group = sample,color = condition)) +
+as_tibble(longFormat(pe[, , 2:3], colvars = "condition")) %>%
+    ggplot(aes(x = value, group = primary, colour = condition)) +
     geom_density() +
-  theme_bw()+
-  ggtitle("After median centering")
-
-
+    facet_grid(assay ~ .) +
+    theme_bw()
 ```
 
 We can visualize our data using a Multi Dimensional Scaling plot,
