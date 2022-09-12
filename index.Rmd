@@ -2,7 +2,7 @@
 title:  Experimental Design and Data-Analysis in Label-Free Quantitative LC/MS Proteomics - A Tutorial with msqrob2 (EuroBioc22)
 output:
     html_document:
-      theme: cosmo      
+      theme: cosmo
       code_download: false
       toc: false
       toc_float: false
@@ -25,30 +25,30 @@ knitr::include_graphics("./figures/IntroFig.png")
 
 - This course is oriented towards biologists and bioinformaticians with a particular interest in differential analysis for quantitative proteomics.
 
-- We assume that the participants already know the basics on preprocessing and statistical testing in proteomics data analysis. 
+- We assume that the participants already know the basics on preprocessing and statistical testing in proteomics data analysis.
 
 - These prerequisites can be revisited in our two hour introductory course on proteomics data analysis: [https://statomics.github.io/PDA/](https://statomics.github.io/PDA/)
 
-### Software & Data 
+### Software & Data
 
-Many software tools exist for differential proteomics data analysis, e.g. 
+Many software tools exist for differential proteomics data analysis, e.g.
 
 - MaxQuant - Perseus
 - MSstats
 - DEqMS
 - msqrob2
 
-Here, we will illustrate all concepts using the msqrob2 software. 
+Here, we will illustrate all concepts using the msqrob2 software.
 The software can be used with R/Rmarkdown scripting or with a Graphical User Interface (GUI).
 
 - [Install msqrob2 software](./software.html)
 - [Download data](https://github.com/statOmics/PDA21/archive/refs/heads/data.zip)
 
-Note, that users who develop R/markdown scripts can access data both from the web or from disk within their scripts. So they do not need to download the data first. The msqrob2gui Shiny App only works with data that is available on disk.  
+Note, that users who develop R/markdown scripts can access data both from the web or from disk within their scripts. So they do not need to download the data first. The msqrob2gui Shiny App only works with data that is available on disk.
 
-- More information on our tools can be found in our papers (L. J. Goeminne, Gevaert, and Clement 2016), (L. J. E. Goeminne et al. 2020) and (Sticker et al. 2020). Please refer to our work when using our tools. 
+- More information on our tools can be found in our papers (L. J. Goeminne, Gevaert, and Clement 2016), (L. J. E. Goeminne et al. 2020) and (Sticker et al. 2020). Please refer to our work when using our tools.
 
-### Demos 
+### Demos
 
 - [Impact of Preprocessing](cptac_analysis.html)
 - [RCB design](heart.html)
@@ -56,7 +56,7 @@ Note, that users who develop R/markdown scripts can access data both from the we
 ### Instructor
 
 - [Lieven Clement](https://statomics.github.io/pages/about.html), Associate Professor of Statistical Genomics, [statOmics](https://statomics.github.io/), [Ghent University](https://www.ugent.be/), Belgium
-- Laurent Gatto
+- [Laurent Gatto](https://lgatto.github.io/about/), UCLouvain, Belgium
 - Stijn Vandenbulcke
 - Nina Demeulemeester
 
@@ -72,10 +72,12 @@ This project is licensed under the [Creative Commons Attribution-ShareAlike 4.0 
 
 ---
 
-### References 
+### References
 
 Goeminne, L. J. E., A. Sticker, L. Martens, K. Gevaert, and L. Clement. 2020. “MSqRob Takes the Missing Hurdle: Uniting Intensity- and Count-Based Proteomics.” Anal Chem 92 (9): 6278–87.
 
 Goeminne, L. J., K. Gevaert, and L. Clement. 2016. “Peptide-level Robust Ridge Regression Improves Estimation, Sensitivity, and Specificity in Data-dependent Quantitative Label-free Shotgun Proteomics.” Mol Cell Proteomics 15 (2): 657–68.
 
 Sticker, A., L. Goeminne, L. Martens, and L. Clement. 2020. “Robust Summarization and Inference in Proteome-wide Label-free Quantification.” Mol Cell Proteomics 19 (7): 1209–19.
+
+Gatto L, Vanderaa C (2022). "QFeatures: Quantitative features for mass spectrometry data". R package version 1.7.2,  <https://github.com/RforMassSpectrometry/QFeatures>.

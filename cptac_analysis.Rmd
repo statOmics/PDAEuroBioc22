@@ -1,6 +1,6 @@
 ---
 title: "Analysis of the CPTAC Spike-in Study"
-author: "Lieven Clement"
+author: "Lieven Clement and Laurent Gattp"
 date: "statOmics, Ghent University (https://statomics.github.io)"
 output:
     html_document:
@@ -30,9 +30,9 @@ This is part of the online course [Proteomics Data Analysis (PDA)](https://stato
 ```{r echo=FALSE}
 knitr::include_graphics("./figures/ProteomicsWorkflow.png")
 ```
-  
+
 - Peptide Characteristics
-  
+
   - Modifications
   - Ionisation Efficiency: huge variability
   - Identification
@@ -75,27 +75,27 @@ knitr::include_graphics("./figures/proteomicsDataAnalysis.png")
 ## Data infrastructure
 
 - We use the `QFeatures` package that provides the infrastructure to
-  - store,  
-  - process, 
-  - manipulate and 
+  - store,
+  - process,
+  - manipulate and
   - analyse quantitative data/features from mass spectrometry
-experiments. 
+experiments.
 
 - It is based on the `SummarizedExperiment` and
-`MultiAssayExperiment` classes. 
+`MultiAssayExperiment` classes.
 
 ```{r fig.cap = "Conceptual representation of a `SummarizedExperiment` object.  Assays contain information on the measured omics features (rows) for different samples (columns). The `rowData` contains information on the omics features, the `colData` contains information on the samples, i.e. experimental design etc.", echo=FALSE, out.width="80%"}
 knitr::include_graphics("./figures/SE.png")
 ```
 
 - Assays in a QFeatures object have a
-hierarchical relation: 
-  
-  - proteins are composed of peptides, 
-  - themselves produced by spectra
+hierarchical relation:
+
+  - proteins are composed of peptides,
+  - themselves produced by peptide spectrum matches
   - relations between assays are tracked and recorded throughout data processing
 
-```{r featuresplot, fig.cap = "Conceptual representation of a `QFeatures` object and the aggregative relation between different assays.", echo = FALSE  }
+```{r featuresplot, fig.cap = "Conceptual representation of a `QFeatures` object and the aggregative relation between different assays. Image from the [QFeatures vignette](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html)", echo = FALSE  }
 par(mar = c(0, 0, 0, 0))
 plot(NA, xlim = c(0, 12), ylim = c(0, 20),
      xaxt = "n", yaxt = "n",
@@ -140,21 +140,27 @@ segments(8, 15, 9, 12, lty = "dashed")
 
 
 # Background of the CPTAC Spike-In Study
-This case-study is a subset of the data of the 6th study of the Clinical
-Proteomic Technology Assessment for Cancer (CPTAC).
-In this experiment, the authors spiked the Sigma Universal Protein Standard
-mixture 1 (UPS1) containing 48 different human proteins in a protein background
-of 60 ng/$\mu$L Saccharomyces cerevisiae strain BY4741.
 
+This case-study is a subset of the data of the 6th study of the
+Clinical Proteomic Technology Assessment for Cancer (CPTAC) [5].  In
+this experiment, the authors spiked the Sigma Universal Protein
+Standard mixture 1 (UPS1) containing 48 different human proteins in a
+protein background of 60 ng/$\mu$L Saccharomyces cerevisiae strain
+BY4741.
 
 Five different spike-in concentrations were used:
-(6A: 0.25 fmol UPS1 proteins/$\mu L$; 6B: 0.74 fmol UPS1 proteins/$\mu L$; 6C: 2.22 fmol UPS1 proteins/$\mu L$; 6D: 6.67 fmol UPS1 proteins/$\mu L$; and 6E: 20 fmol UPS1 proteins/$\mu L$) [5].
+- 6A: 0.25 fmol UPS1 proteins/$\mu L$,
+- 6B: 0.74 fmol UPS1 proteins/$\mu L$,
+- 6C: 2.22 fmol UPS1 proteins/$\mu L$,
+- 6D: 6.67 fmol UPS1 proteins/$\mu L$ and
+- 6E: 20 fmol UPS1 proteins/$\mu L$).
 
 
-We limited ourselves to the data of LTQ-Orbitrap W at site 56.
-The data were searched with MaxQuant version 1.5.2.8, and
-detailed search settings were described in Goeminne et al. (2016) [1].
-Three replicates are available for each concentration.
+We limited ourselves to the data of LTQ-Orbitrap W at site 56.  The
+data were searched with MaxQuant version 1.5.2.8, and detailed search
+settings were described in Goeminne et al. (2016) [1].  Three
+replicates are available for each concentration.
+
 
 ```{r echo=FALSE, out.width="50%"}
 knitr::include_graphics("./figures/cptacLayoutLudger.png")
@@ -166,11 +172,10 @@ knitr::include_graphics("./figures/cptacLayoutLudger.png")
 
 $\rightarrow$ vast amount of missingness
 
-
 ## Import data in R
 
 
-### Load libraries 
+### Load packages
 
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -185,148 +190,142 @@ library(gridExtra)
 </p></details>
 
 ### Import data from the CPTAC study
-1. We use a peptides.txt file from MS-data quantified with maxquant that 
-contains MS1 intensities summarized at the peptide level. 
+
+1. We use a `peptides.txt` file from MS-data quantified with maxquant
+   that contains MS1 intensities summarized at the peptide level.
+
 ```{r}
 peptidesFile <- "https://raw.githubusercontent.com/statOmics/PDA/data/quantification/fullCptacDatasSetNotForTutorial/peptides.txt"
+download.file(url = peptidesFile, destfile = "peptides.txt")
 ```
 
-2. Maxquant stores the intensity data for the different samples in columnns that start with Intensity. We can retreive the column names with the intensity data with the code below: 
+2. Maxquant stores the intensity data for the different samples in
+   columnns that start with "Intensity". We can retreive the column
+   names with the intensity data with the code below:
 
 ```{r}
-ecols <- grep("Intensity\\.", names(read.delim(peptidesFile)))
+grep("Intensity\\.", names(read.delim("peptides.txt")), value = TRUE)
+(ecols <- grep("Intensity\\.", names(read.delim("peptides.txt"))))
 ```
 
-3. Read the data and store it in  QFeatures object 
+3. Read the data and store it in  QFeatures object
 
 ```{r}
-pe <- readQFeatures(
-  table = peptidesFile,
-  fnames = 1,
-  ecol = ecols,
-  name = "peptideRaw", sep="\t")
+pe_all <- readQFeatures(
+   "peptides.txt",
+   fnames = 1,
+   ecol = ecols,
+   name = "peptideRaw",
+   sep = "\t")
+```
+
+The QFeatures object stored in `pe` currently contains a single assay,
+names `peptideRaw`, composed of 11466 peptides measured in 45 samples.
+
+
+```{r}
+pe_all
+```
+
+We can access the unique assay by index (i.e. 1) or by name (i.e
+"peptideRaw") using the `[[]]` operator, which returns an instance of
+class `SummarizedExperiment`:
+
+
+```{r}
+pe_all[[1]]
+pe_all[["peptideRaw"]]
 ```
 
 
 ### Explore object
 
-- The rowData contains information on the features (peptides) in the assay. E.g. Sequence, protein, ...
+- The `rowData` contains information on the features (peptides) in the
+  assay. E.g. Sequence, protein, ...
 
 ```{r}
-head(rowData(pe[["peptideRaw"]])[,c("Proteins","Sequence","Charges","Intensity",
-                                    "Experiment.6A_7","Experiment.6A_8","Experiment.6A_9" )])
+rowData(pe_all[["peptideRaw"]])[, c("Proteins","Sequence","Charges","Intensity",
+                                    "Experiment.6A_7","Experiment.6A_8","Experiment.6A_9" )]
 ```
 
-- The colData contains information on the samples
-
-```{r} 
-colData(pe)
-```
-
-- No information is stored yet on the design. 
-
-
-```{r} 
-pe %>% colnames
-```
-
-- Note, that the sample names include the spike-in condition. 
-- They also end on a number. 
-  
-  - 1-3 is from lab 1, 
-  - 4-6 from lab 2 and 
-  - 7-9 from lab 3. 
-
-- We update the colData with information on the design
+- The `colData` contains information on the samples, but is currently
+  empty:
 
 ```{r}
-colData(pe)$lab <- rep(rep(paste0("lab",1:3),each=3),5) %>% as.factor
-colData(pe)$condition <- pe[["peptideRaw"]] %>% colnames %>% substr(12,12) %>% as.factor
-colData(pe)$spikeConcentration <- rep(c(A = 0.25, B = 0.74, C = 2.22, D = 6.67, E = 20),each = 9)
+colData(pe_all)
 ```
 
-- We explore the colData again
 
 ```{r}
-colData(pe)
+pe_all[[1]] %>% colnames
 ```
 
+- Note, that the sample names include the spike-in condition (A and
+  B). They also end on a number:
 
+  - 1-3 is from lab 1,
+  - 4-6 from lab 2 and
+  - 7-9 from lab 3.
 
-# Import subset of the CPTAC study
-
-We first import the data from peptideRaws.txt file. This is the file containing
-your peptideRaw-level intensities. For a MaxQuant search [6],
-this peptideRaws.txt file can be found by default in the
-"path_to_raw_files/combined/txt/" folder from the MaxQuant output,
-with "path_to_raw_files" the folder where the raw files were saved.
-In this vignette, we use a MaxQuant peptideRaws file which is a subset
-of the cptac study. This data is available in the `msdata` package.
-To import the data we use the `QFeatures` package.
-
-We generate the object peptideRawFile with the path to the peptideRaws.txt file.
-Using the `grepEcols` function, we find the columns that contain the expression
-data of the peptideRaws in the peptideRaws.txt file.
-
-
-```{r, warning=FALSE, message=FALSE}
-peptidesFile <- "https://raw.githubusercontent.com/statOmics/SGA2020/data/quantification/cptacAvsB_lab3/peptides.txt"
-
-ecols <- grep(
-  "Intensity\\.", 
-  names(read.delim(peptidesFile))
-  )
-
-pe <- readQFeatures(
-  table = peptidesFile,
-  fnames = 1,
-  ecol = ecols,
-  name = "peptideRaw", sep="\t")
-
-colnames(pe)
-```
-
-In the following code chunk, we can extract the spikein condition from the raw file name.
+- We can update the `colData` with information on the design
 
 ```{r}
-cond <- which(
-  strsplit(colnames(pe)[[1]][1], split = "")[[1]] == "A") # find where condition is stored
-
-colData(pe)$condition <- substr(colnames(pe), cond, cond) %>%
-  unlist %>%  
-  as.factor
+pe_all$lab <- rep(rep(paste0("lab", 1:3),each = 3), 5)
+pe_all$condition <- pe_all[["peptideRaw"]] %>% colnames %>% substr(12, 12)
+pe_all$spikeConcentration <- rep(c(A = 0.25, B = 0.74, C = 2.22, D = 6.67, E = 20),
+                                 each = 9)
 ```
 
-
-We calculate how many non zero intensities we have per peptide and this
-will be useful for filtering.
+- We explore the `colData` again
 
 ```{r}
-rowData(pe[["peptideRaw"]])$nNonZero <- rowSums(assay(pe[["peptideRaw"]]) > 0)
+colData(pe_all)
 ```
 
 
-Peptides with zero intensities are missing peptides and should be represent
-with a `NA` value rather than `0`.
+# Subset of the CPTAC study
+
+We are going to focus on a subset of the data, specifically on
+conditions A and B produced by lab3:
+
 ```{r}
-pe <- zeroIsNA(pe, "peptideRaw") # convert 0 to NA
+subsetCPTAC <- pe_all$condition %in% c("A", "B") & pe_all$lab == "lab3"
+pe <- pe_all[, subsetCPTAC]
+pe
 ```
-
+Note that a file containing this same subset is also available from the
+`msdata` package using the `quant()` function.
 
 ## Missingness
 
-`r format(mean(is.na(assay(pe[["peptideRaw"]])))*100,digits=2)`% of all peptide
-intensities are missing and for some peptides we do not even measure a signal
-in any sample.
+Peptides with zero intensities are missing peptides and should be
+represent with a `NA` value rather than `0`. This can be done with the
+`zeroIsNA()` function. We can then use `nNA()` on the individual assay
+to compute missingness summaries:
 
+```{r}
+pe <- zeroIsNA(pe, "peptideRaw")
+pe_na <- nNA(pe[[1]])
+pe_na
+```
+
+- 31130 peptides intensities, corresponding to 45%, are missing and
+  for some peptides we do not even measure a signal in any sample.
+- For each sample, the proportion fluctuates between 41.4 and 48.5%.
+- The table below shows the number of peptides that have 0, 1, ... and
+  up to 6 missing values.
+
+```{r}
+table(pe_na$nNArows$nNA)
+```
 
 # Preprocessing
 
-This section preforms preprocessing for the peptide data. 
-This include 
+This section preforms preprocessing for the peptide data.  This
+include
 
-- log transformation, 
-- filtering and 
+- log transformation,
+- filtering and
 - summarisation of the data.
 
 ## Log transform the data
@@ -367,18 +366,18 @@ nrow(pe[["peptideLog"]])
 We keep `r nrow(pe[["peptideLog"]])` peptides upon filtering.
 
 
-## Normalize the data using median centering 
+## Normalize the data using median centering
 
-We normalize the data by substracting the sample median from every intensity for peptide $p$  in a sample $i$: 
+We normalize the data by substracting the sample median from every intensity for peptide $p$  in a sample $i$:
 
-$$y_{ip}^\text{norm} = y_{ip} - \hat\mu_i$$ 
+$$y_{ip}^\text{norm} = y_{ip} - \hat\mu_i$$
 
 with $\hat\mu_i$ the median intensity over all observed peptides in sample $i$.
 
 ```{r}
-pe <- normalize(pe, 
-                i = "peptideLog", 
-                name = "peptideNorm", 
+pe <- normalize(pe,
+                i = "peptideLog",
+                name = "peptideNorm",
                 method = "center.median")
 ```
 
@@ -388,22 +387,22 @@ pe <- normalize(pe,
 Upon the normalisation the density curves follow a similar distribution.
 
 ```{r}
-pe[["peptideLog"]] %>% 
+pe[["peptideLog"]] %>%
   assay %>%
   as.data.frame() %>%
-  gather(sample, intensity) %>% 
+  gather(sample, intensity) %>%
   mutate(condition = colData(pe)[sample,"condition"]) %>%
-  ggplot(aes(x = intensity,group = sample,color = condition)) + 
+  ggplot(aes(x = intensity,group = sample,color = condition)) +
     geom_density()+
   theme_bw() +
   ggtitle("Before median centering")
 
-pe[["peptideNorm"]] %>% 
+pe[["peptideNorm"]] %>%
   assay %>%
   as.data.frame() %>%
-  gather(sample, intensity) %>% 
+  gather(sample, intensity) %>%
   mutate(condition = colData(pe)[sample,"condition"]) %>%
-  ggplot(aes(x = intensity,group = sample,color = condition)) + 
+  ggplot(aes(x = intensity,group = sample,color = condition)) +
     geom_density() +
   theme_bw()+
   ggtitle("After median centering")
@@ -434,7 +433,7 @@ to the spike-in condition.
 
 ## Preprocessing
 - We use median summarization in aggregateFeatures.
-- Note, that this is a suboptimal normalisation procedure! 
+- Note, that this is a suboptimal normalisation procedure!
 - By default robust summarization is used:  `fun = MsCoreUtils::robustSummary()`
 
 ```{r,warning=FALSE}
@@ -464,9 +463,9 @@ tmp %>%
 We model the protein level expression values using `msqrob`.
 By default `msqrob2` estimates the model parameters using robust regression.
 
-We will model the data with a different group mean. 
-The group is incoded in the variable `condition` of the colData. 
-We can specify this model by using a formula with the factor condition as its predictor: 
+We will model the data with a different group mean.
+The group is incoded in the variable `condition` of the colData.
+We can specify this model by using a formula with the factor condition as its predictor:
 `formula = ~condition`.
 
 Note, that a formula always starts with a symbol '~'.
@@ -482,14 +481,14 @@ rowData(pe[["protein_median"]])[,c("Proteins",".n","msqrobModels")]
 
 ### Inference
 
-First, we extract the parameter names of the model by looking at the first model. 
-The models are stored in the row data of the assay under the default name msqrobModels. 
+First, we extract the parameter names of the model by looking at the first model.
+The models are stored in the row data of the assay under the default name msqrobModels.
 
 ```{r}
 getCoef(rowData(pe[["protein_median"]])$msqrobModels[[1]])
 ```
 
-We can also explore the design of the model that we specified using the the package `ExploreModelMatrix` 
+We can also explore the design of the model that we specified using the the package `ExploreModelMatrix`
 
 ```{r}
 library(ExploreModelMatrix)
@@ -522,9 +521,9 @@ volcanoMedian<- ggplot(tmp,
                   aes(x = logFC, y = -log10(pval), color = adjPval < 0.05)) +
   geom_point(cex = 2.5, shape = tmp$shapes) +
   #geom_point(x =FP$logFC, y = -log10(FP$pval), shape = 8, size = 4 )+
-  scale_color_manual(values = alpha(c("black", "red"), 0.5)) + 
+  scale_color_manual(values = alpha(c("black", "red"), 0.5)) +
   theme_bw() +
-  ggtitle(paste0("Median: TP = ",sum(tmp$adjPval<0.05&grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE), " FP = ", sum(tmp$adjPval<0.05&!grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE))) 
+  ggtitle(paste0("Median: TP = ",sum(tmp$adjPval<0.05&grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE), " FP = ", sum(tmp$adjPval<0.05&!grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE)))
 volcanoMedian
 
 ```
@@ -541,19 +540,19 @@ sigNames <- rowData(pe[["protein_median"]])$conditionB %>%
   filter(adjPval<0.05) %>%
   pull(protein_median)
  heatmap(assay(pe[["protein_median"]])[sigNames, ],cexRow = 1, cexCol = 1)
- 
+
  sigProteins <- rowData(pe[["protein_median"]])$conditionB %>%
   rownames_to_column("protein_median") %>%
    filter(grepl("UPS",protein_median)) %>%
   pull(protein_median)
  heatmap(assay(pe[["protein_median"]])[sigProteins, ], cexCol = 1)
- 
- 
+
+
 ```
 
-The majority of the proteins are indeed UPS proteins. 
-1 yeast protein is returned. 
-Note, that the yeast protein indeed shows evidence for differential abundance. 
+The majority of the proteins are indeed UPS proteins.
+1 yeast protein is returned.
+Note, that the yeast protein indeed shows evidence for differential abundance.
 
 #### Boxplots
 
@@ -564,8 +563,8 @@ rowData(pe[["protein_median"]])$conditionB %>%
   rownames_to_column(var = "protein") %>%
   mutate(ups=grepl("UPS",protein)) %>%
   ggplot(aes(x=ups, y =logFC, fill = ups)) +
-  geom_boxplot() + 
-  theme_bw() + 
+  geom_boxplot() +
+  theme_bw() +
   geom_hline(yintercept = log2(0.74 / .25), color = "#00BFC4") +
     geom_hline(yintercept = 0, color = "#F8766D")
 
@@ -608,9 +607,9 @@ Note that the samples upon robust summarisation show a clear separation accordin
 We model the protein level expression values using `msqrob`.
 By default `msqrob2` estimates the model parameters using robust regression.
 
-We will model the data with a different group mean. 
-The group is incoded in the variable `condition` of the colData. 
-We can specify this model by using a formula with the factor condition as its predictor: 
+We will model the data with a different group mean.
+The group is incoded in the variable `condition` of the colData.
+We can specify this model by using a formula with the factor condition as its predictor:
 `formula = ~condition`.
 
 Note, that a formula always starts with a symbol '~'.
@@ -621,14 +620,14 @@ pe <- msqrob(object = pe, i = "protein_robust", formula = ~condition)
 
 ### Inference
 
-First, we extract the parameter names of the model by looking at the first model. 
-The models are stored in the row data of the assay under the default name msqrobModels. 
+First, we extract the parameter names of the model by looking at the first model.
+The models are stored in the row data of the assay under the default name msqrobModels.
 
 ```{r}
 getCoef(rowData(pe[["protein_robust"]])$msqrobModels[[1]])
 ```
 
-We can also explore the design of the model that we specified using the the package `ExploreModelMatrix` 
+We can also explore the design of the model that we specified using the the package `ExploreModelMatrix`
 
 ```{r}
 library(ExploreModelMatrix)
@@ -663,9 +662,9 @@ volcanoRobust<- ggplot(tmp,
                   aes(x = logFC, y = -log10(pval), color = adjPval < 0.05)) +
   geom_point(cex = 2.5, shape = tmp$shapes) +
   #geom_point(x =FP$logFC, y = -log10(FP$pval), shape = 8, size = 4 )+
-  scale_color_manual(values = alpha(c("black", "red"), 0.5)) + 
+  scale_color_manual(values = alpha(c("black", "red"), 0.5)) +
   theme_bw() +
-  ggtitle(paste0("Robust: TP = ",sum(tmp$adjPval<0.05&grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE), " FP = ", sum(tmp$adjPval<0.05&!grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE))) 
+  ggtitle(paste0("Robust: TP = ",sum(tmp$adjPval<0.05&grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE), " FP = ", sum(tmp$adjPval<0.05&!grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE)))
 
 
 plot_grid(plot_grid(volcanoMedian+theme(legend.position = "none"),
@@ -687,13 +686,13 @@ sigNames <- rowData(pe[["protein_robust"]])$conditionB %>%
 heatmap(assay(pe[["protein_robust"]])[sigNames, ],cexCol = 1)
 
 ```
-The majority of the proteins are indeed UPS proteins. 
-1 yeast protein is returned. 
-Note, that the yeast protein indeed shows evidence for differential abundance. 
+The majority of the proteins are indeed UPS proteins.
+1 yeast protein is returned.
+Note, that the yeast protein indeed shows evidence for differential abundance.
 
 heatmaps also show difference between median and robust summarization
 ```{r}
-par(cex.main=.8)  
+par(cex.main=.8)
 sigProteins <- rowData(pe[["protein_robust"]])$conditionB %>%
   rownames_to_column("protein_robust") %>%
    filter(grepl("UPS",protein_robust)) %>%
@@ -713,8 +712,8 @@ rbind(rowData(pe[["protein_robust"]])$conditionB %>%
   rownames_to_column(var = "protein") %>% mutate(method = "median"))%>%
   mutate(ups=grepl("UPS",protein)) %>%
   ggplot(aes(x=method, y =logFC, fill = ups)) +
-  geom_boxplot() + 
-  theme_bw() + 
+  geom_boxplot() +
+  theme_bw() +
   geom_hline(yintercept = log2(0.74 / .25), color = "#00BFC4") +
     geom_hline(yintercept = 0, color = "#F8766D")
 
@@ -722,23 +721,23 @@ rbind(rowData(pe[["protein_robust"]])$conditionB %>%
 
 # Where the difference comes from
 
-## Import data from the full CPTAC study 
+## Import data from the full CPTAC study
 
 <details><summary> Click to see background and code </summary><p>
-1. We use a peptides.txt file from MS-data quantified with maxquant that 
-contains MS1 intensities summarized at the peptide level. 
+1. We use a peptides.txt file from MS-data quantified with maxquant that
+contains MS1 intensities summarized at the peptide level.
 ```{r}
 peptidesFile <- "https://raw.githubusercontent.com/statOmics/PDA/data/quantification/fullCptacDatasSetNotForTutorial/peptides.txt"
 
 ```
 
-2. Maxquant stores the intensity data for the different samples in columnns that start with Intensity. We can retreive the column names with the intensity data with the code below: 
+2. Maxquant stores the intensity data for the different samples in columnns that start with Intensity. We can retreive the column names with the intensity data with the code below:
 
 ```{r}
 ecols <- grep("Intensity\\.", names(read.delim(peptidesFile)))
 ```
 
-3. Read the data and store it in  QFeatures object 
+3. Read the data and store it in  QFeatures object
 
 ```{r}
 pe <- readQFeatures(
@@ -753,16 +752,16 @@ pe <- readQFeatures(
 
 <details><summary> Click to see background and code </summary><p>
 
-```{r} 
+```{r}
 pe %>% colnames
 ```
 
-- Note, that the sample names include the spike-in condition. 
-- They also end on a number. 
-  
-  - 1-3 is from lab 1, 
-  - 4-6 from lab 2 and 
-  - 7-9 from lab 3. 
+- Note, that the sample names include the spike-in condition.
+- They also end on a number.
+
+  - 1-3 is from lab 1,
+  - 4-6 from lab 2 and
+  - 7-9 from lab 3.
 
 - We update the colData with information on the design
 
@@ -837,13 +836,13 @@ nrow(pe[["peptideLog"]])
 We keep `r nrow(pe[["peptideLog"]])` peptides upon filtering.
 </p></details>
 
-### Normalization 
+### Normalization
 
 <details><summary> Click to see R-code to normalize the data </summary><p>
 ```{r}
-pe <- normalize(pe, 
-                i = "peptideLog", 
-                name = "peptideNorm", 
+pe <- normalize(pe,
+                i = "peptideLog",
+                name = "peptideNorm",
                 method = "center.median")
 ```
 </p></details>
@@ -852,7 +851,7 @@ pe <- normalize(pe,
 
 ## Peptide-Level view
 
-### Summarization 
+### Summarization
 
 
 <details><summary> Click to see code to make plot </summary><p>
@@ -865,7 +864,7 @@ data <- pe[["peptideNorm"]][
   assay %>%
   as.data.frame %>%
   rownames_to_column(var = "peptide") %>%
-  gather(sample, intensity, -peptide) %>% 
+  gather(sample, intensity, -peptide) %>%
   mutate(condition = colData(pe)[sample,"condition"]) %>%
   na.exclude
 sumPlot <- data %>%
@@ -873,7 +872,7 @@ sumPlot <- data %>%
   geom_text(show.legend = FALSE) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
-  xlab("Peptide") + 
+  xlab("Peptide") +
   ylab("Intensity (log2)") +
   ggtitle(paste0("protein: ",prot))
 ```
@@ -895,7 +894,7 @@ We first evaluate median summarization for protein `r prot`.
 ```{r}
 dataHlp <- pe[["peptideNorm"]][
     rowData(pe[["peptideNorm"]])$Proteins == prot,
-    colData(pe)$lab=="lab3"] %>% assay 
+    colData(pe)$lab=="lab3"] %>% assay
 
 sumMedian <- data.frame(
   intensity= dataHlp
@@ -903,10 +902,10 @@ sumMedian <- data.frame(
   ,
   condition= colnames(dataHlp) %>% substr(12,12) %>% as.factor )
 
-sumMedianPlot <- sumPlot + 
+sumMedianPlot <- sumPlot +
   geom_hline(
     data = sumMedian,
-    mapping = aes(yintercept=intensity,color=condition)) + 
+    mapping = aes(yintercept=intensity,color=condition)) +
   ggtitle("Median summarization")
 ```
 </p></details>
@@ -916,17 +915,17 @@ sumMedianPlot
 ```
 
 
-- The sample medians are not a good estimate for the protein expression value. 
+- The sample medians are not a good estimate for the protein expression value.
 - Indeed, they do not account for differences in peptide effects
 - Peptides that ionize poorly are also picked up in samples with high spike-in concencentration and not in samples with low spike-in concentration
-- This introduces a bias. 
+- This introduces a bias.
 
 
 #### Linear Model based summarization
 
-We can use a linear peptide-level model to estimate the protein expression value while correcting for the peptide effect, i.e. 
+We can use a linear peptide-level model to estimate the protein expression value while correcting for the peptide effect, i.e.
 
-$$ 
+$$
 y_{ip} = \beta_i^\text{sample}+\beta^{peptide}_{p} + \epsilon_{ip}
 $$
 
@@ -953,27 +952,27 @@ sumLmPlot <- sumPlot + geom_hline(
 
 ```{r}
 plot_grid(plot_grid(sumMedianPlot+theme(legend.position = "none"),
-          sumLmPlot+theme(legend.position = "none") + ylab("")), 
+          sumLmPlot+theme(legend.position = "none") + ylab("")),
           get_legend(sumLmPlot), ncol = 2, rel_widths  = c(1,0.15))
 ```
 
-- By correcting for the peptide species the protein expression values are much better separated an better reflect differences in abundance induced by the spike-in condition. 
+- By correcting for the peptide species the protein expression values are much better separated an better reflect differences in abundance induced by the spike-in condition.
 
 - Indeed, it shows that median and mean summarization that do not account for the peptide effect indeed overestimate the protein expression value in the small spike-in conditions and underestimate that in the large spike-in conditions.
 
-- Still there seem to be some issues with samples that for which the expression values are not well separated according to the spike-in condition. 
+- Still there seem to be some issues with samples that for which the expression values are not well separated according to the spike-in condition.
 
 A residual analysis clearly indicates potential issues:
 
 <details><summary> Click to see code to make plot </summary><p>
 ```{r}
-resPlot <- data %>% 
+resPlot <- data %>%
   mutate(res=sumMeanPepMod$residuals) %>%
   ggplot(aes(x = peptide, y = res, color = condition, label = condition), show.legend = FALSE) +
   geom_point(shape=21) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
-  xlab("Peptide") + 
+  xlab("Peptide") +
   ylab("residual") +
   ggtitle("residuals: ~ sample + peptide")
 ```
@@ -983,19 +982,19 @@ resPlot <- data %>%
 grid.arrange(fitLmPlot+theme(legend.position = "none"), resPlot, nrow = 1)
 
 plot_grid(plot_grid(fitLmPlot+theme(legend.position = "none"),
-          sumLmPlot+theme(legend.position = "none") + ylab("")), 
+          sumLmPlot+theme(legend.position = "none") + ylab("")),
           get_legend(sumLmPlot), ncol = 2, rel_widths  = c(1,0.15))
 
 
 ```
 
-- The residual plot shows some large outliers for peptide KIEEIAAK. 
-- Indeed, in the original plot the intensities for this peptide do not seem to line up very well with the concentration. 
+- The residual plot shows some large outliers for peptide KIEEIAAK.
+- Indeed, in the original plot the intensities for this peptide do not seem to line up very well with the concentration.
 - This induces a bias in the summarization for some of the samples (e.g. for D and E)
 
-#### Robust summarization using a peptide-level linear model 
+#### Robust summarization using a peptide-level linear model
 
-$$ 
+$$
 y_{ip} = \beta_i^\text{sample}+\beta^{peptide}_{p} + \epsilon_{ip}
 $$
 
@@ -1024,11 +1023,11 @@ resRobPlot <- data %>%
   geom_point(shape=21) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
-  xlab("Peptide") + 
-  ylab("residual") + 
+  xlab("Peptide") +
+  ylab("residual") +
   ylim(c(-1,1)*max(abs(sumMeanPepRobMod$residuals)))
 weightPlot <- qplot(
-  seq(-5,5,.01), 
+  seq(-5,5,.01),
   MASS::psi.huber(seq(-5,5,.01)),
   geom="path") +
   xlab("standardized residual") +
@@ -1051,7 +1050,7 @@ sumMeanPepRob <- data.frame(
 
 sumRlmPlot <- sumPlot + geom_hline(
     data=sumMeanPepRob,
-    mapping=aes(yintercept=intensity,color=condition)) + 
+    mapping=aes(yintercept=intensity,color=condition)) +
     ggtitle("Robust")
 ```
 </p></details>
@@ -1060,12 +1059,12 @@ sumRlmPlot <- sumPlot + geom_hline(
  grid.arrange(sumLmPlot + ggtitle("OLS"), sumRlmPlot, nrow = 1)
 ```
 
-- Robust regresion results in a better separation between the protein expression values for the different samples according to their spike-in concentration. 
+- Robust regresion results in a better separation between the protein expression values for the different samples according to their spike-in concentration.
 
 
 # Estimation of differential abundance using peptide level model
 
-- Instead of summarising the data we can also directly model the data at the peptide-level. 
+- Instead of summarising the data we can also directly model the data at the peptide-level.
 - But, we will have to address the pseudo-replication.
 
 
@@ -1078,12 +1077,12 @@ $y_{iclp}= \beta_0 + \beta_c^\text{condition} + \beta_l^\text{lab} + \beta_p^\te
   - $\beta^\text{lab}_l$: lab effect $l=l_2\ldots l_3$
   - $u_{r}^\text{run}\sim N\left(0,\sigma^2_\text{run}\right) \rightarrow$ random effect addresses pseudo-replication
 
-- peptide-level 
+- peptide-level
   - $\beta_{p}^\text{peptide}$: peptide effect
-  - $\epsilon_{rp} \sim N\left(0,\sigma^2_{\epsilon}\right)$ within sample (run) error 
+  - $\epsilon_{rp} \sim N\left(0,\sigma^2_{\epsilon}\right)$ within sample (run) error
 
 
-- DA estimates: 
+- DA estimates:
 
 $\log_2FC_{B-A}=\beta^\text{condition}_B$
 
@@ -1099,19 +1098,18 @@ $\log_2FC_{C-B}=\beta^\text{condition}_C - \beta^\text{condition}_B$
 
 - It has the disadvantage that
 
-  
+
   1. protein summaries are no longer available for plotting
   2. it is difficult to correctly specify the degrees of freedom for the test-statistic leading to inference that is too liberal in experiments with small sample size
   3. sometimes sample level random effect variance are estimated to be zero, then the pseudo-replication is not addressed leading to inference that is too liberal for these specific proteins
   4. they are much more difficult to disseminate to users with limited background in statistics
 
-Hence, for this course we opted to use peptide-level models for summarization, but not for directly inferring on the differential expression at the protein-level. 
+Hence, for this course we opted to use peptide-level models for summarization, but not for directly inferring on the differential expression at the protein-level.
 
 # Session Info
 
-With respect to reproducibility, it is highly recommended to include a session info in your script so that readers of your output can see your particular setup of R. 
+With respect to reproducibility, it is highly recommended to include a session info in your script so that readers of your output can see your particular setup of R.
 
 ```{r}
 sessionInfo()
 ```
-
