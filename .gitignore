@@ -3,6 +3,8 @@
 .RData
 .Ruserdata
 
+peptides.txt
+
 # Rmd output
 *.html
 *_files/

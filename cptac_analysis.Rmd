@@ -304,8 +304,8 @@ to compute missingness summaries:
 
 ```{r}
 pe <- zeroIsNA(pe, "peptideRaw")
-pe_na <- nNA(pe[[1]])
-pe_na
+na <- nNA(pe[[1]])
+na
 ```
 
 - 31130 peptides intensities, corresponding to 45%, are missing and
@@ -315,7 +315,7 @@ pe_na
   up to 6 missing values.
 
 ```{r}
-table(pe_na$nNArows$nNA)
+table(na$nNArows$nNA)
 ```
 
 # Preprocessing
@@ -329,7 +329,7 @@ include
 
 ## Log transform the data
 
-```{r}
+```{r logTransg}
 pe <- logTransform(pe, base = 2, i = "peptideRaw", name = "peptideLog")
 ```
 
@@ -340,7 +340,7 @@ pe <- logTransform(pe, base = 2, i = "peptideRaw", name = "peptideLog")
 In our approach a peptide can map to multiple proteins, as long as there is
 none of these proteins present in a smaller subgroup.
 
-```{r}
+```{r filterSmallestUnique}
 pe <- filterFeatures(pe, ~ Proteins %in% smallestUniqueGroups(rowData(pe[["peptideLog"]])$Proteins))
 ```
 
@@ -348,7 +348,7 @@ pe <- filterFeatures(pe, ~ Proteins %in% smallestUniqueGroups(rowData(pe[["pepti
 
 We now remove the contaminants and peptides that map to decoy sequences.
 
-```{r}
+```{r filterRevCont}
 pe <- pe |>
   filterFeatures(~ Reverse != "+") |>
   filterFeatures(~ Potential.contaminant != "+")
@@ -359,8 +359,8 @@ pe <- pe |>
 We keep peptides that were observed at last twice, i.e. those that
 have no more that 4 missing values
 
-```{r}
-pe <- filterFeatures(pe, ~ pe_na$nNArows$nNA <= 4)
+```{r filterNA}
+pe <- filterFeatures(pe, ~ nNA(pe[[1]])$nNArows$nNA <= 4)
 nrow(pe[["peptideLog"]])
 ```
 
@@ -377,7 +377,7 @@ $$y_{ip}^\text{norm} = y_{ip} - \hat\mu_i$$
 with $\hat\mu_i$ the median intensity over all observed peptides in
 sample $i$.
 
-```{r}
+```{r normalise}
 pe <- normalize(pe,
                 i = "peptideLog",
                 name = "peptideNorm",
@@ -389,7 +389,7 @@ pe <- normalize(pe,
 
 Upon the normalisation the density curves follow a similar distribution.
 
-```{r}
+```{r densityplot}
 as_tibble(longFormat(pe[, , 2:3], colvars = "condition")) %>%
     ggplot(aes(x = value, group = primary, colour = condition)) +
     geom_density() +
@@ -400,7 +400,7 @@ as_tibble(longFormat(pe[, , 2:3], colvars = "condition")) %>%
 We can visualize our data using a Multi Dimensional Scaling plot,
 eg. as provided by the `limma` package.
 
-```{r}
+```{r mdsplot}
 tmp <- assay(pe[["peptideNorm"]] )
 colnames(tmp) <- str_replace_all(colnames(tmp), "Intensity.6","")
 tmp %>%
@@ -440,8 +440,6 @@ colnames(tmp) <- str_replace_all(colnames(tmp), "Intensity.6","")
 tmp %>%
   limma::plotMDS(col = as.numeric(colData(pe)$condition))
 ```
-
-
 
 ## Data Analysis
 
@@ -1095,7 +1093,9 @@ Hence, for this course we opted to use peptide-level models for summarization, b
 
 # Session Info
 
-With respect to reproducibility, it is highly recommended to include a session info in your script so that readers of your output can see your particular setup of R.
+With respect to reproducibility, it is highly recommended to include a
+session info in your script so that readers of your output can see
+your particular setup of R.
 
 ```{r}
 sessionInfo()
