@@ -1,6 +1,6 @@
 ---
 title: "EuroBioc demo: Analysis of the CPTAC Spike-in Study"
-author: "Lieven Clement and Laurent Gattp"
+author: "Lieven Clement and Laurent Gatto"
 output:
     html_document:
       code_download: true
@@ -19,25 +19,46 @@ citecolor: blue
 
 <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
 
-This is part of the online course [Proteomics Data Analysis (PDA)](https://statomics.github.io/PDA/)
+
+# The CPTAC Spike-In Study
+
+This case-study is a subset of the data of the 6th study of the
+Clinical Proteomic Technology Assessment for Cancer (CPTAC) [5].  In
+this experiment, the authors spiked the Sigma Universal Protein
+Standard mixture 1 (UPS1) containing 48 different human proteins in a
+protein background of 60 ng/$\mu$L Saccharomyces cerevisiae strain
+BY4741.
+
+Five different spike-in concentrations were used:
+
+- 6A: 0.25 fmol UPS1 proteins/$\mu L$,
+- 6B: 0.74 fmol UPS1 proteins/$\mu L$,
+- 6C: 2.22 fmol UPS1 proteins/$\mu L$,
+- 6D: 6.67 fmol UPS1 proteins/$\mu L$ and
+- 6E: 20 fmol UPS1 proteins/$\mu L$).
 
 
+The data were searched with MaxQuant version 1.5.2.8, and detailed
+search settings were described in Goeminne et al. (2016) [1].  Three
+replicates are available for each concentration.
+
+```{r echo=FALSE, out.width="50%"}
+knitr::include_graphics("./figures/cptacLayoutLudger.png")
+```
 
 # QFeatures: data infrastructure
 
 We will use the `QFeatures` package that provides the infrastructure
 to store, process, manipulate and analyse quantitative data/features
-from mass spectrometry experiments.
-
-
-- It is based on the `SummarizedExperiment` and `MultiAssayExperiment`
-  classes.
+from mass spectrometry experiments. It is based on the
+`SummarizedExperiment` and `MultiAssayExperiment` classes.
 
 ```{r fig.cap = "Conceptual representation of a `SummarizedExperiment` object.  Assays contain information on the measured omics features (rows) for different samples (columns). The `rowData` contains information on the omics features, the `colData` contains information on the samples, i.e. experimental design etc.", echo=FALSE, out.width="80%"}
 knitr::include_graphics("./figures/SE.png")
 ```
 
 Assays in a QFeatures object have a hierarchical relation:
+
 - proteins are composed of peptides,
 - themselves produced by peptide spectrum matches
 - relations between assays are tracked and recorded throughout data
@@ -86,35 +107,7 @@ segments(8, 14, 9, 11, lty = "dashed")
 segments(8, 15, 9, 12, lty = "dashed")
 ```
 
-
-# Background of the CPTAC Spike-In Study
-
-This case-study is a subset of the data of the 6th study of the
-Clinical Proteomic Technology Assessment for Cancer (CPTAC) [5].  In
-this experiment, the authors spiked the Sigma Universal Protein
-Standard mixture 1 (UPS1) containing 48 different human proteins in a
-protein background of 60 ng/$\mu$L Saccharomyces cerevisiae strain
-BY4741.
-
-Five different spike-in concentrations were used:
-- 6A: 0.25 fmol UPS1 proteins/$\mu L$,
-- 6B: 0.74 fmol UPS1 proteins/$\mu L$,
-- 6C: 2.22 fmol UPS1 proteins/$\mu L$,
-- 6D: 6.67 fmol UPS1 proteins/$\mu L$ and
-- 6E: 20 fmol UPS1 proteins/$\mu L$).
-
-
-We limited ourselves to the data of LTQ-Orbitrap W at site 56.  The
-data were searched with MaxQuant version 1.5.2.8, and detailed search
-settings were described in Goeminne et al. (2016) [1].  Three
-replicates are available for each concentration.
-
-
-```{r echo=FALSE, out.width="50%"}
-knitr::include_graphics("./figures/cptacLayoutLudger.png")
-```
-
-## Import data in R
+# Data preparation
 
 Let's start by loading the packages that we will need
 
@@ -123,18 +116,13 @@ library(tidyverse)
 library(limma)
 library(QFeatures)
 library(msqrob2)
-library(plotly)
-library(ggplot2)
-library(cowplot)
-library(gridExtra)
 ```
 
-### Import data from the CPTAC study
+## Import data from the CPTAC study
 
-1. We use a `peptides.txt` file from MS-data quantified with maxquant
-   that contains MS1 intensities summarized at the peptide level. The
-   file contains a subset of the data and is available in the `msdata`
-   package.
+1. We use MS-data quantified with MaxQuant that contains MS1
+   intensities summarized at the peptide level. This file contains a
+   subset of the data and is available in the `msdata` package.
 
 ```{r}
 (basename(f <- msdata::quant(full.names = TRUE)))
@@ -158,7 +146,7 @@ qf <- readQFeatures(
 ```
 
 The QFeatures object `qf` currently contains a single assay, named
-`peptideRaw`, composed of 11466 peptides measured in 45 samples.
+`peptideRaw`, composed of 11466 peptides measured in 6 samples.
 
 ```{r}
 qf
@@ -174,12 +162,18 @@ qf[[1]]
 qf[["peptideRaw"]]
 ```
 
-### Explore object
+The quantitative data can be accessed with the `assay()` function
+
+```{r assay}
+assay(qf[[1]])[1:10, 1:3]
+```
+
+## Explore object
 
 - The `rowData` contains information on the features (peptides) in the
   assay. E.g. Sequence, protein, ...
 
-```{r}
+```{r rowdata}
 rowData(qf[["peptideRaw"]])[, c("Proteins", "Sequence", "Charges")]
 ```
 
@@ -190,17 +184,22 @@ rowData(qf[["peptideRaw"]])[, c("Proteins", "Sequence", "Charges")]
 colData(qf)
 ```
 
+- We can rename the primary sample names and assay column names
 
-```{r}
-qf[[1]] %>% colnames
+```{r colnames}
+colnames(qf)[[1]]
+(new_names <- sub("Intensity\\.", "", colnames(qf)[[1]]))
+
+qf <- renameColname(qf, i = 1, new_names) |>
+  renamePrimary(new_names)
 ```
-- We can update the `colData` with information on the design
+- We should also update the `colData` with information on the design
 
-```{r}
+```{r coldata}
 qf$lab <- rep("lab3", 6)
 qf$condition <- qf[["peptideRaw"]] %>%
    colnames %>%
-   substr(12, 12) %>%
+   substr(2, 2) %>%
    as.factor()
 qf$spikeConcentration <- rep(c(A = 0.25, B = 0.74),
                              each = 3)
@@ -217,7 +216,7 @@ represent with a `NA` value rather than `0`. This can be done with the
 `zeroIsNA()` function. We can then use `nNA()` on the individual assay
 to compute missingness summaries:
 
-```{r}
+```{r nNA}
 qf <- zeroIsNA(qf, "peptideRaw")
 na <- nNA(qf[[1]])
 na
@@ -233,6 +232,13 @@ na
 table(na$nNArows$nNA)
 ```
 
+We will want to keep features that are missing in no more than 2
+samples.
+
+```{r}
+rowData(qf[[1]])$keepNA <- na$nNArows$nNA <= 4
+```
+
 # Preprocessing
 
 This section preforms preprocessing for the peptide data.  This
@@ -245,47 +251,55 @@ include
 ## Log transform the data
 
 ```{r logTransg}
-qf <- logTransform(qf, base = 2, i = "peptideRaw", name = "peptideLog")
+qf <- logTransform(qf, base = 2,
+                   i = "peptideRaw",
+                   name = "peptideLog")
+qf
 ```
 
 ## Filtering
 
-1. Handling overlapping protein groups
-
-In our approach a peptide can map to multiple proteins, as long as there is
-none of these proteins present in a smaller subgroup.
+**Handling overlapping protein groups**: in our approach a peptide can
+map to multiple proteins, as long as there is none of these proteins
+present in a smaller subgroup.
 
 ```{r filterSmallestUnique}
-qf <- filterFeatures(qf, ~ Proteins %in% smallestUniqueGroups(rowData(qf[["peptideLog"]])$Proteins))
+sug <- smallestUniqueGroups(rowData(qf[["peptideRaw"]])$Proteins)
+filterFeatures(qf, ~ Proteins %in% sug)
 ```
 
-2. Remove reverse sequences (decoys) and contaminants
-
-We now remove the contaminants and peptides that map to decoy sequences.
+**Remove reverse sequences (decoys) and contaminants**: we now remove
+the contaminants and peptides that map to decoy sequences.
 
 ```{r filterRevCont}
-qf <- qf |>
-  filterFeatures(~ Reverse != "+") |>
-  filterFeatures(~ Potential.contaminant != "+")
-qf
+filterFeatures(qf, ~ Reverse != "+")
+filterFeatures(qf, ~ Potential.contaminant != "+")
 ```
 
-3. Drop peptides that were only identified in one sample
-
-We keep peptides that were observed at last twice, i.e. those that
-have no more that 4 missing values
+**Drop peptides that were only identified in one sample**: we keep
+peptides that were observed at last twice, i.e. those that have no
+more that 4 missing values
 
 ```{r filterNA}
-qf <- filterFeatures(qf, ~ nNA(qf[[1]])$nNArows$nNA <= 4)
+filterFeatures(qf, ~ keepNA)
+```
+
+Putting it all together:
+
+```{r filtering}
+qf <- qf |>
+    filterFeatures(~ Proteins %in% sug) |>
+    filterFeatures(~ Reverse != "+") |>
+    filterFeatures(~ Potential.contaminant != "+") |>
+    filterFeatures(~ keepNA)
 qf
 ```
 
 We keep `r nrow(qf[["peptideLog"]])` peptides upon filtering.
 
+## Normalisation
 
-## Normalize the data using median centering
-
-We normalize the data by substracting the sample median from every
+We normalise the data by substracting the sample median from every
 intensity for peptide $p$ in a sample $i$:
 
 $$y_{ip}^\text{norm} = y_{ip} - \hat\mu_i$$
@@ -300,7 +314,6 @@ qf <- normalize(qf,
                 method = "center.median")
 qf
 ```
-
 
 ## Explore normalized data
 
@@ -318,24 +331,19 @@ We can visualize our data using a Multi Dimensional Scaling plot,
 eg. as provided by the `limma` package.
 
 ```{r mdsplot}
-tmp <- assay(qf[["peptideNorm"]])
-colnames(tmp) <- str_replace_all(colnames(tmp), "Intensity.6","")
-tmp %>%
-  limma::plotMDS(col = as.numeric(colData(qf)$condition))
+assay(qf[["peptideNorm"]]) |>
+    limma::plotMDS(col = as.numeric(qf$condition))
 ```
 
 The first axis in the plot is showing the leading log fold changes
-(differences on the log scale) between the samples.
-
-We notice that the leading differences (log FC)
-in the peptide data seems to be driven by technical variability.
-Indeed, the samples do not seem to be clearly separated according
-to the spike-in condition.
+(differences on the log scale) between the samples. We notice that the
+leading differences in the peptide data seems to be driven by
+technical variability.  Indeed, the samples do not seem to be clearly
+separated according to the spike-in condition.
 
 
-# Median summarization
+## Protein aggregation
 
-## Preprocessing
 - We use median summarization in aggregateFeatures.
 - Note, that this is a suboptimal normalisation procedure!
 - By default robust summarization is used:  `fun = MsCoreUtils::robustSummary()`
@@ -351,15 +359,13 @@ qf
 ```
 
 ```{r}
-tmp <- assay(qf[["proteinMedian"]])
-colnames(tmp) <- str_replace_all(colnames(tmp), "Intensity.6","")
-tmp %>%
-  limma::plotMDS(col = as.numeric(colData(qf)$condition))
+assay(qf[["proteinMedian"]]) %>%
+  limma::plotMDS(col = as.numeric(qf$condition))
 ```
 
-## Data Analysis
+# Data Analysis
 
-### Estimation
+## Estimation
 
 We model the protein level expression values using `msqrob`.  By
 default `msqrob2` estimates the model parameters using robust
@@ -384,7 +390,7 @@ rowData(qf[["proteinMedian"]])[, c("Proteins", ".n", "msqrobModels")]
 ```
 
 
-### Inference
+## Inference
 
 First, we extract the parameter names of the model by looking at the
 first model.  The models are stored in the row data of the assay under
@@ -394,7 +400,8 @@ the default name msqrobModels.
 getCoef(rowData(qf[["proteinMedian"]])$msqrobModels[[1]])
 ```
 
-We can also explore the design of the model that we specified using the the package `ExploreModelMatrix`
+We can also explore the design of the model that we specified using
+the the package `ExploreModelMatrix`
 
 ```{r}
 library(ExploreModelMatrix)
@@ -417,9 +424,7 @@ qf <- hypothesisTest(object = qf, i = "proteinMedian", contrast = L)
 ```
 
 
-### Plots
-
-#### Volcano-plot
+## Volcano plot
 
 
 ```{r,warning=FALSE}
@@ -439,31 +444,31 @@ volcanoMedian
 
 Note, that only `r sum(rowData(qf[["proteinMedian"]])$conditionB$adjPval < 0.05, na.rm = TRUE)` proteins are found to be differentially abundant.
 
-#### Heatmap
+## Heatmap
 
 We first select the names of the proteins that were declared significant
 
 ```{r}
 sigNames <- rowData(qf[["proteinMedian"]])$conditionB %>%
   rownames_to_column("proteinMedian") %>%
-  filter(adjPval<0.05) %>%
+  filter(adjPval < 0.05) %>%
   pull(proteinMedian)
- heatmap(assay(qf[["proteinMedian"]])[sigNames, ],cexRow = 1, cexCol = 1)
 
- sigProteins <- rowData(qf[["proteinMedian"]])$conditionB %>%
+heatmap(assay(qf[["proteinMedian"]][sigNames, ]),cexRow = 1, cexCol = 1)
+
+sigProteins <- rowData(qf[["proteinMedian"]])$conditionB %>%
   rownames_to_column("proteinMedian") %>%
    filter(grepl("UPS",proteinMedian)) %>%
   pull(proteinMedian)
- heatmap(assay(qf[["proteinMedian"]])[sigProteins, ], cexCol = 1)
 
-
+heatmap(assay(qf[["proteinMedian"]])[sigProteins, ], cexCol = 1)
 ```
 
-The majority of the proteins are indeed UPS proteins.
-1 yeast protein is returned.
-Note, that the yeast protein indeed shows evidence for differential abundance.
+The majority of the proteins are indeed UPS proteins.  1 yeast protein
+is returned.  Note, that the yeast protein indeed shows evidence for
+differential abundance.
 
-#### Boxplots
+## Boxplots
 
 We create a boxplot of the log2 FC and group according to the whether a protein is spiked or not.
 
