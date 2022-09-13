@@ -206,10 +206,8 @@ qf$spikeConcentration <- rep(c(A = 0.25, B = 0.74),
                              each = 3)
 ```
 
-- We explore the `colData` again
-
 ```{r}
-colData(pe_all)
+colData(qf)
 ```
 
 ## Missingness

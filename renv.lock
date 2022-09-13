@@ -1340,9 +1340,13 @@
     },
     "msqrob2": {
       "Package": "msqrob2",
-      "Version": "1.5.0",
+      "Version": "1.4.0",
       "Source": "Bioconductor",
-      "Hash": "c6f7dfce4373c368f31e9b1309997d41",
+      "git_url": "https://git.bioconductor.org/packages/msqrob2",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "042dbaf",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "ee6de34be75f83c1693c9ac0a84177f3",
       "Requirements": [
         "BiocParallel",
         "MASS",
