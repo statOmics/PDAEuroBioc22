@@ -273,8 +273,7 @@ pe_all[[1]] %>% colnames
 pe_all$lab <- rep(rep(paste0("lab", 1:3),each = 3), 5)
 pe_all$condition <- pe_all[["peptideRaw"]] %>%
    colnames %>%
-   substr(12, 12) %>%
-   as.factor()
+   substr(12, 12)
 pe_all$spikeConcentration <- rep(c(A = 0.25, B = 0.74, C = 2.22,
                                    D = 6.67, E = 20),
                                  each = 9)
@@ -294,6 +293,7 @@ conditions A and B produced by lab3:
 ```{r}
 subsetCPTAC <- pe_all$condition %in% c("A", "B") & pe_all$lab == "lab3"
 pe <- pe_all[, subsetCPTAC]
+pe$condition <- factor(pe$condition)
 pe
 ```
 Note that a file containing this same subset is also available from the
@@ -461,7 +461,7 @@ predictor: `formula = ~condition`.
 
 Note, that a formula always starts with a symbol '~'.
 
-```{r, warning=FALSE}
+```{r msqrob, warning=FALSE}
 pe <- msqrob(object = pe,
              i = "proteinMedian",
              formula = ~condition,
@@ -469,7 +469,7 @@ pe <- msqrob(object = pe,
 ```
 
 ```{r}
-rowData(pe[["protein_median"]])[, c("Proteins", ".n", "msqrobModels")]
+rowData(pe[["proteinMedian"]])[, c("Proteins", ".n", "msqrobModels")]
 ```
 
 
@@ -480,7 +480,7 @@ first model.  The models are stored in the row data of the assay under
 the default name msqrobModels.
 
 ```{r}
-getCoef(rowData(pe[["protein_median"]])$msqrobModels[[1]])
+getCoef(rowData(pe[["proteinMedian"]])$msqrobModels[[1]])
 ```
 
 We can also explore the design of the model that we specified using the the package `ExploreModelMatrix`
@@ -502,7 +502,7 @@ contrast 'conditionB = 0' with our statistical test.
 
 ```{r}
 L <- makeContrast("conditionB=0", parameterNames = c("conditionB"))
-pe <- hypothesisTest(object = pe, i = "protein_median", contrast = L)
+pe <- hypothesisTest(object = pe, i = "proteinMedian", contrast = L)
 ```
 
 
@@ -512,7 +512,7 @@ pe <- hypothesisTest(object = pe, i = "protein_median", contrast = L)
 
 
 ```{r,warning=FALSE}
-tmp <- rowData(pe[["protein_median"]])$conditionB[complete.cases(rowData(pe[["protein_median"]])$conditionB),]
+tmp <- rowData(pe[["proteinMedian"]])$conditionB[complete.cases(rowData(pe[["proteinMedian"]])$conditionB),]
 tmp$shapes <- 16
 
 volcanoMedian<- ggplot(tmp,
@@ -526,24 +526,24 @@ volcanoMedian
 
 ```
 
-Note, that only `r sum(rowData(pe[["protein_median"]])$conditionB$adjPval < 0.05, na.rm = TRUE)` proteins are found to be differentially abundant.
+Note, that only `r sum(rowData(pe[["proteinMedian"]])$conditionB$adjPval < 0.05, na.rm = TRUE)` proteins are found to be differentially abundant.
 
 #### Heatmap
 
 We first select the names of the proteins that were declared significant
 
 ```{r}
-sigNames <- rowData(pe[["protein_median"]])$conditionB %>%
-  rownames_to_column("protein_median") %>%
+sigNames <- rowData(pe[["proteinMedian"]])$conditionB %>%
+  rownames_to_column("proteinMedian") %>%
   filter(adjPval<0.05) %>%
-  pull(protein_median)
- heatmap(assay(pe[["protein_median"]])[sigNames, ],cexRow = 1, cexCol = 1)
+  pull(proteinMedian)
+ heatmap(assay(pe[["proteinMedian"]])[sigNames, ],cexRow = 1, cexCol = 1)
 
- sigProteins <- rowData(pe[["protein_median"]])$conditionB %>%
-  rownames_to_column("protein_median") %>%
-   filter(grepl("UPS",protein_median)) %>%
-  pull(protein_median)
- heatmap(assay(pe[["protein_median"]])[sigProteins, ], cexCol = 1)
+ sigProteins <- rowData(pe[["proteinMedian"]])$conditionB %>%
+  rownames_to_column("proteinMedian") %>%
+   filter(grepl("UPS",proteinMedian)) %>%
+  pull(proteinMedian)
+ heatmap(assay(pe[["proteinMedian"]])[sigProteins, ], cexCol = 1)
 
 
 ```
@@ -557,7 +557,7 @@ Note, that the yeast protein indeed shows evidence for differential abundance.
 We create a boxplot of the log2 FC and group according to the whether a protein is spiked or not.
 
 ```{r}
-rowData(pe[["protein_median"]])$conditionB %>%
+rowData(pe[["proteinMedian"]])$conditionB %>%
   rownames_to_column(var = "protein") %>%
   mutate(ups=grepl("UPS",protein)) %>%
   ggplot(aes(x=ups, y =logFC, fill = ups)) +
@@ -583,7 +583,7 @@ pe <- aggregateFeatures(pe,
   fun = MsCoreUtils::robustSummary)
 ```
 
-Now we have both the protein_median and protein_robust in one QFeatures object.
+Now we have both the proteinMedian and protein_robust in one QFeatures object.
 ```{r}
 pe
 ```
@@ -706,7 +706,7 @@ We make boxplot of the log2 FC and stratify according to the whether a protein i
 ```{r}
 rbind(rowData(pe[["protein_robust"]])$conditionB %>%
   rownames_to_column(var = "protein") %>% mutate(method = "robust"),
-  rowData(pe[["protein_median"]])$conditionB %>%
+  rowData(pe[["proteinMedian"]])$conditionB %>%
   rownames_to_column(var = "protein") %>% mutate(method = "median"))%>%
   mutate(ups=grepl("UPS",protein)) %>%
   ggplot(aes(x=method, y =logFC, fill = ups)) +
