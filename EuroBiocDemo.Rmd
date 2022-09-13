@@ -64,7 +64,7 @@ Assays in a QFeatures object have a hierarchical relation:
 - relations between assays are tracked and recorded throughout data
   processing
 
-```{r featuresplot, fig.cap = "Conceptual representation of a `QFeatures` object and the aggregative relation between different assays. Image from the [QFeatures vignette](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html)", echo = FALSE  }
+```{r featuresplot, fig.cap = "Conceptual representation of a `QFeatures` object and the aggregative relation between different assays. Image from the [QFeatures vignette](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html).", echo = FALSE}
 par(mar = c(0, 0, 0, 0))
 plot(NA, xlim = c(0, 12), ylim = c(0, 20),
      xaxt = "n", yaxt = "n",

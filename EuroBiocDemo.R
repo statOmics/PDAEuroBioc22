@@ -87,8 +87,7 @@ qf
 as_tibble(longFormat(qf[, , 2:3], colvars = "condition")) %>%
     ggplot(aes(x = value, group = primary, colour = condition)) +
     geom_density() +
-    facet_grid(assay ~ .) +
-    theme_bw()
+    facet_grid(assay ~ .)
 
 
 ## ----mdsplot------------------------------------------------------------------
@@ -136,7 +135,6 @@ tmp$shapes <- 16
 volcanoMedian<- ggplot(tmp,
                   aes(x = logFC, y = -log10(pval), color = adjPval < 0.05)) +
   geom_point(cex = 2.5, shape = tmp$shapes) +
-  #geom_point(x =FP$logFC, y = -log10(FP$pval), shape = 8, size = 4 )+
   scale_color_manual(values = alpha(c("black", "red"), 0.5)) +
   theme_bw() +
     ggtitle(paste0("Median: TP = ",sum(tmp$adjPval<0.05&grepl(rownames(tmp),pattern ="UPS"),na.rm=TRUE),
