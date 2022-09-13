@@ -1327,15 +1327,22 @@
         "vctrs"
       ]
     },
+    "msdata": {
+      "Package": "msdata",
+      "Version": "0.36.0",
+      "Source": "Bioconductor",
+      "git_url": "https://git.bioconductor.org/packages/msdata",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "1b9e568",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "d1b0bd44f42d514fe1c8383be41e929a",
+      "Requirements": []
+    },
     "msqrob2": {
       "Package": "msqrob2",
-      "Version": "1.4.0",
+      "Version": "1.5.0",
       "Source": "Bioconductor",
-      "git_url": "https://git.bioconductor.org/packages/msqrob2",
-      "git_branch": "RELEASE_3_15",
-      "git_last_commit": "042dbaf",
-      "git_last_commit_date": "2022-04-26",
-      "Hash": "ee6de34be75f83c1693c9ac0a84177f3",
+      "Hash": "c6f7dfce4373c368f31e9b1309997d41",
       "Requirements": [
         "BiocParallel",
         "MASS",
